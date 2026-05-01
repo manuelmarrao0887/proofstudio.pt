@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROOF. — Protótipos que o cliente assina.</title>
+<meta name="description" content="Estúdio de protótipos de alta fidelidade. Cada entrega é uma proof, não um esboço.">
+<meta property="og:title" content="PROOF. — Protótipos que o cliente assina.">
+<meta property="og:description" content="Estúdio de protótipos de alta fidelidade. Lisboa · PT">
+<meta property="og:image" content="https://proofstudio.pt/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:ital,wght@1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #111318;
+  --ink-2: #1A1D24;
+  --ink-3: #222530;
+  --paper: #E8EAF0;
+  --paper-2: #D8DAE0;
+  --grey: #2A2D36;
+  --grey-2: #8A8E99;
+  --grey-3: #5A5D66;
+  --signal: #FF3B30;
+  --signal-2: #E62E24;
+  --success: #4AE29B;
+  --font-display: 'Archivo', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-accent: 'Fraunces', serif;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  background: var(--ink);
+}
+
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── CURSOR ─── */
+* { cursor: none !important; }
+.cursor {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--signal);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 80ms var(--ease-out), width 200ms var(--ease-out), height 200ms var(--ease-out);
+}
+body:hover .cursor { opacity: 1; }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--grey); }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid transparent;
+  transition: border-color 300ms var(--ease-out), background 300ms var(--ease-out);
+}
+nav.scrolled {
+  background: rgba(17,19,24,0.95);
+  border-bottom-color: var(--grey);
+  backdrop-filter: blur(12px);
+}
+.nav-wordmark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+  text-decoration: none;
+}
+.nav-wordmark span { color: var(--signal); }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey-2);
+  text-decoration: none;
+  transition: color 120ms var(--ease-out);
+}
+.nav-links a:hover { color: var(--paper); }
+.nav-cta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: transparent;
+  border: 1px solid var(--grey);
+  padding: 10px 20px;
+  text-decoration: none;
+  transition: border-color 120ms var(--ease-out), background 120ms var(--ease-out), color 120ms var(--ease-out);
+}
+.nav-cta:hover { border-color: var(--paper); }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(200px, 30vw, 400px);
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--grey);
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1440px;
+}
+.hero-counter {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--grey-2);
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.hero-counter::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--grey-2);
+}
+.hero-wordmark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(72px, 14vw, 180px);
+  text-transform: uppercase;
+  letter-spacing: -0.055em;
+  line-height: 0.85;
+  color: var(--paper);
+  margin-bottom: 48px;
+}
+.hero-wordmark span { color: var(--signal); }
+.hero-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.hero-tagline {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(18px, 2.5vw, 26px);
+  color: var(--paper-2);
+  max-width: 520px;
+  line-height: 1.4;
+}
+.hero-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+.hero-meta span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--grey-2);
+  text-transform: uppercase;
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: var(--grey);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--signal);
+  animation: scrollDown 2s var(--ease-enter) infinite;
+}
+@keyframes scrollDown {
+  0% { top: -100%; }
+  100% { top: 100%; }
+}
+.scroll-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--grey-3);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+/* ─── SECTION HEADER ─── */
+.section {
+  padding: 120px 48px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--grey-2);
+  margin-bottom: 48px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--grey);
+  max-width: 120px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(40px, 7vw, 80px);
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+/* ─── PILLARS ─── */
+.pillars-section {
+  background: var(--ink-2);
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+}
+.pillars-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 80px 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+.pillar {
+  padding: 40px 48px;
+  border-right: 1px solid var(--grey);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms var(--ease-enter), transform 600ms var(--ease-enter);
+}
+.pillar:last-child { border-right: none; }
+.pillar.visible { opacity: 1; transform: translateY(0); }
+.pillar-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--signal);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.pillar-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 28px;
+  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+.pillar-desc {
+  font-size: 14px;
+  color: var(--grey-2);
+  line-height: 1.65;
+}
+
+/* ─── WORK / CASES ─── */
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 64px;
+}
+.case-card {
+  background: var(--ink-2);
+  border: 1px solid var(--grey);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 280px;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 500ms var(--ease-enter), transform 500ms var(--ease-enter), background 120ms var(--ease-out), border-color 120ms var(--ease-out);
+}
+.case-card.visible { opacity: 1; transform: translateY(0); }
+.case-card:hover {
+  background: var(--ink-3);
+  border-color: var(--grey-2);
+}
+.case-card:hover .case-arrow { transform: translate(4px, -4px); }
+.case-card.featured {
+  grid-column: span 2;
+  min-height: 320px;
+  flex-direction: row;
+  align-items: center;
+  gap: 80px;
+}
+.case-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.case-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--grey-3);
+  padding: 4px 10px;
+  border: 1px solid var(--grey);
+}
+.case-status {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--success);
+  display: inline-block;
+}
+.status-dot.draft { background: var(--grey-2); }
+.case-name {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 44px);
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+.case-name span { color: var(--signal); }
+.case-desc {
+  font-size: 14px;
+  color: var(--grey-2);
+  line-height: 1.6;
+  max-width: 420px;
+}
+.case-arrow {
+  margin-top: auto;
+  align-self: flex-end;
+  color: var(--grey-2);
+  font-size: 20px;
+  transition: transform 200ms var(--ease-out), color 120ms var(--ease-out);
+}
+.case-card:hover .case-arrow { color: var(--paper); }
+.case-card.featured .case-content { flex: 1; }
+.case-card.featured .case-side {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(80px, 10vw, 140px);
+  color: transparent;
+  -webkit-text-stroke: 1px var(--grey);
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.5;
+}
+
+/* ─── ABOUT ─── */
+.about-section {
+  padding: 120px 48px;
+}
+.about-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.about-left {}
+.about-body {
+  font-size: 18px;
+  color: var(--paper-2);
+  line-height: 1.65;
+  margin-top: 40px;
+}
+.about-body + .about-body { margin-top: 20px; }
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 80px;
+}
+.about-stat {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--grey);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.about-stat:first-child { border-top: 1px solid var(--grey); }
+.stat-value {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 56px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--paper);
+}
+.stat-value span { color: var(--signal); }
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--grey-2);
+}
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  background: var(--ink-2);
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+  padding: 120px 48px;
+}
+.cta-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.cta-text {}
+.cta-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(36px, 6vw, 72px);
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 20px;
+}
+.cta-sub {
+  font-size: 16px;
+  color: var(--grey-2);
+}
+.cta-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--signal);
+  color: var(--paper);
+  border: 1px solid var(--signal);
+  padding: 16px 32px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 120ms var(--ease-out), border-color 120ms var(--ease-out);
+}
+.btn-primary:hover { background: var(--signal-2); border-color: var(--signal-2); }
+.btn-secondary {
+  background: transparent;
+  color: var(--paper);
+  border: 1px solid var(--grey);
+  padding: 16px 32px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 120ms var(--ease-out), background 120ms var(--ease-out), color 120ms var(--ease-out);
+}
+.btn-secondary:hover { border-color: var(--paper); background: var(--paper); color: var(--ink); }
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 48px;
+  border-top: 1px solid var(--grey);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.footer-wordmark {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--paper);
+}
+.footer-wordmark span { color: var(--signal); }
+.footer-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--grey-2);
+  text-transform: uppercase;
+}
+.footer-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.footer-links a {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--grey-3);
+  text-decoration: none;
+  transition: color 120ms var(--ease-out);
+}
+.footer-links a:hover { color: var(--grey-2); }
+
+/* ─── DIVIDER ─── */
+.full-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--grey);
+}
+
+/* ─── MARQUEE ─── */
+.marquee-section {
+  overflow: hidden;
+  border-top: 1px solid var(--grey);
+  border-bottom: 1px solid var(--grey);
+  padding: 20px 0;
+  background: var(--ink-2);
+}
+.marquee-track {
+  display: flex;
+  gap: 64px;
+  animation: marquee 20s linear infinite;
+  width: max-content;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-item {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--grey-3);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+.marquee-item span { color: var(--signal); }
+
+/* ─── PAGE ENTRANCE ─── */
+.hero-content { opacity: 0; transform: translateY(40px); }
+.hero-content.loaded {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 800ms var(--ease-enter), transform 800ms var(--ease-enter);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  nav { padding: 20px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 0 24px 72px; }
+  .hero-bg-text { font-size: 160px; }
+  .section { padding: 80px 24px; }
+  .pillars-inner {
+    grid-template-columns: 1fr;
+    padding: 48px 24px;
+  }
+  .pillar { border-right: none; border-bottom: 1px solid var(--grey); padding: 32px 0; }
+  .pillar:last-child { border-bottom: none; }
+  .cases-grid { grid-template-columns: 1fr; }
+  .case-card.featured { grid-column: span 1; flex-direction: column; gap: 24px; }
+  .case-card.featured .case-side { display: none; }
+  .about-inner { grid-template-columns: 1fr; gap: 48px; }
+  .about-right { margin-top: 0; }
+  .cta-section { padding: 80px 24px; }
+  .cta-inner { flex-direction: column; align-items: flex-start; }
+  footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
+  .pillars-section { }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-wordmark">PROOF<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">Estúdio</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+  <a href="#work" class="nav-cta">Ver Apps</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text" aria-hidden="true">PROOF</div>
+  <div class="hero-content" id="heroContent">
+    <div class="hero-counter">Lisboa · Portugal · Estúdio</div>
+    <h1 class="hero-wordmark">PROOF<span>.</span></h1>
+    <div class="hero-bottom">
+      <p class="hero-tagline">Protótipos que o cliente assina —<br>não apenas aprova.</p>
+      <div class="hero-meta">
+        <span>v1.0 · 2026</span>
+        <span>proofstudio.pt</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span class="scroll-label">Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Alta Fidelidade <span>·</span> Precisão <span>·</span> Detalhe <span>·</span> Assinatura <span>·</span> Alta Fidelidade <span>·</span> Precisão <span>·</span> Detalhe <span>·</span> Assinatura <span>·</span></span>
+    <span class="marquee-item">Alta Fidelidade <span>·</span> Precisão <span>·</span> Detalhe <span>·</span> Assinatura <span>·</span> Alta Fidelidade <span>·</span> Precisão <span>·</span> Detalhe <span>·</span> Assinatura <span>·</span></span>
+  </div>
+</div>
+
+<!-- PILLARS -->
+<div class="pillars-section">
+  <div class="pillars-inner">
+    <div class="pillar" id="p1">
+      <div class="pillar-num">01 · Precisão</div>
+      <div class="pillar-title">Grelhas respeitadas.</div>
+      <p class="pillar-desc">Espaçamentos sistematizados, tipografia com escala real, componentes que passam para produção sem ajuste.</p>
+    </div>
+    <div class="pillar" id="p2">
+      <div class="pillar-num">02 · Detalhe</div>
+      <div class="pillar-title">Estados completos.</div>
+      <p class="pillar-desc">Erros, empty states, dados realistas, edge cases. Não entregamos o que parece bem. Entregamos o que funciona bem.</p>
+    </div>
+    <div class="pillar" id="p3">
+      <div class="pillar-num">03 · Assinatura</div>
+      <div class="pillar-title">Cada entrega fechada.</div>
+      <p class="pillar-desc">Versão, data, autor. Cada proof é uma peça com identidade — não um ficheiro sem nome numa pasta do Dropbox.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WORK -->
+<section class="section" id="work">
+  <div class="section-label">Work · Casos activos</div>
+  <h2 class="section-title">Proofs<br>Entregues.</h2>
+
+  <div class="cases-grid">
+
+    <div class="case-card featured" id="c0">
+      <div class="case-content">
+        <div class="case-label-row">
+          <span class="case-tag">Finanças · Pessoal</span>
+          <span class="case-status"><span class="status-dot"></span>Activo</span>
+        </div>
+        <div class="case-name">PROOF<span>.</span></div>
+        <p class="case-desc">Dashboard de finanças pessoais com tracking de contas bancárias portuguesas, investimentos, despesas, orçamentos e crédito habitação.</p>
+        <div class="case-arrow">↗</div>
+      </div>
+      <div class="case-side" aria-hidden="true">FIN.</div>
+    </div>
+
+    <div class="case-card" id="c1">
+      <div class="case-label-row">
+        <span class="case-tag">Jurídico · B2B</span>
+        <span class="case-status"><span class="status-dot"></span>Activo</span>
+      </div>
+      <div class="case-name">MINUTA<span style="color:var(--signal)">.</span></div>
+      <p class="case-desc">Gestão de escritórios de advogados. Timesheets, deadlines e controlo de processos.</p>
+      <div class="case-arrow">↗</div>
+    </div>
+
+    <div class="case-card" id="c2">
+      <div class="case-label-row">
+        <span class="case-tag">Crédito · Fintech</span>
+        <span class="case-status"><span class="status-dot"></span>Activo</span>
+      </div>
+      <div class="case-name">MATRIZ<span style="color:var(--signal)">.</span></div>
+      <p class="case-desc">Intermediação de crédito com comparação de FINs de bancos portugueses em tempo real.</p>
+      <div class="case-arrow">↗</div>
+    </div>
+
+    <div class="case-card" id="c3">
+      <div class="case-label-row">
+        <span class="case-tag">Educação · SaaS</span>
+        <span class="case-status"><span class="status-dot draft"></span>Beta</span>
+      </div>
+      <div class="case-name">PROOF<span style="color:var(--signal)">.</span> ROSTER<span style="color:var(--signal)">.</span></div>
+      <p class="case-desc">Plataforma de gestão escolar com CRUD completo, presenças e acompanhamento de alunos.</p>
+      <div class="case-arrow">↗</div>
+    </div>
+
+    <div class="case-card" id="c4">
+      <div class="case-label-row">
+        <span class="case-tag">Imobiliário · Portfolio</span>
+        <span class="case-status"><span class="status-dot"></span>Activo</span>
+      </div>
+      <div class="case-name">PROOF<span style="color:var(--signal)">.</span> YIELD</div>
+      <p class="case-desc">Portfolio de investimento imobiliário. Análise de activos, retorno e valorização de capital.</p>
+      <div class="case-arrow">↗</div>
+    </div>
+
+    <div class="case-card" id="c5">
+      <div class="case-label-row">
+        <span class="case-tag">Condomínio · Civic</span>
+        <span class="case-status"><span class="status-dot draft"></span>Beta</span>
+      </div>
+      <div class="case-name">QUORUM<span style="color:var(--signal)">.</span></div>
+      <p class="case-desc">Gestão de condomínio. Assembleias, quotas, ocorrências e comunicação entre condóminos.</p>
+      <div class="case-arrow">↗</div>
+    </div>
+
+    <div class="case-card" id="c6">
+      <div class="case-label-row">
+        <span class="case-tag">Eventos · Catering</span>
+        <span class="case-status"><span class="status-dot draft"></span>Beta</span>
+      </div>
+      <div class="case-name">FOOD EVENTS<span style="color:var(--signal)">.</span></div>
+      <p class="case-desc">Plataforma de gestão de eventos de catering VIP. Clientes, menus, logística e equipas.</p>
+      <div class="case-arrow">↗</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div style="max-width:1440px;margin:0 auto;">
+    <div class="section-label">Estúdio · Lisboa</div>
+  </div>
+  <div class="about-inner">
+    <div class="about-left">
+      <h2 class="section-title">Não fazemos<br>mockups.</h2>
+      <p class="about-body">A PROOF. existe para um tipo específico de cliente: aquele que já sabe o que quer construir e precisa de ver como ficaria se fosse feito a sério. Não uma maquete. Uma proof.</p>
+      <p class="about-body" style="color:var(--grey-2);">Cada entrega é um ficheiro fechado — com versão, data e assinatura. O cliente não aprova. Assina.</p>
+    </div>
+    <div class="about-right">
+      <div class="about-stat">
+        <div class="stat-value">7<span>.</span></div>
+        <div class="stat-label">Proofs activas</div>
+      </div>
+      <div class="about-stat">
+        <div class="stat-value">100<span>%</span></div>
+        <div class="stat-label">Alta fidelidade</div>
+      </div>
+      <div class="about-stat">
+        <div class="stat-value">01<span>.</span></div>
+        <div class="stat-label">Estúdio · Lisboa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section" id="contact">
+  <div class="cta-inner">
+    <div class="cta-text">
+      <div class="cta-title">Pronto para<br>assinar<span style="color:var(--signal)">?</span></div>
+      <p class="cta-sub">Briefing em 30 minutos. Proof em 72 horas.</p>
+    </div>
+    <div class="cta-actions">
+      <a href="mailto:studio@proofstudio.pt" class="btn-primary">Iniciar Projecto</a>
+      <a href="#work" class="btn-secondary">Ver Work</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-wordmark">PROOF<span>.</span></div>
+  <span class="footer-meta">PROOF. · SITE · v1.0 · 2026.05.01 · BY PROOF.</span>
+  <ul class="footer-links">
+    <li><a href="mailto:studio@proofstudio.pt">studio@proofstudio.pt</a></li>
+    <li><a href="#">Lisboa · PT</a></li>
+  </ul>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '24px';
+    cursor.style.height = '24px';
+    cursor.style.background = 'transparent';
+    cursor.style.border = '1px solid var(--signal)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '8px';
+    cursor.style.height = '8px';
+    cursor.style.background = 'var(--signal)';
+    cursor.style.border = 'none';
+  });
+});
+
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// Hero entrance
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('heroContent').classList.add('loaded');
+  }, 100);
+});
+
+// Intersection observer for pillars & cards
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const delay = entry.target.dataset.delay || 0;
+      setTimeout(() => entry.target.classList.add('visible'), delay);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.pillar, .case-card').forEach((el, i) => {
+  el.dataset.delay = i * 80;
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
