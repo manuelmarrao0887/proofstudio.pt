@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contactos | Rações Valouro</title>
+  <meta name="description" content="Contacte a Rações Valouro: Ramalhal, Torres Vedras. Telefone (+351) 261 910 100, geral@valouro.pt." />
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Contactos | Rações Valouro" />
+  <meta property="og:description" content="Contacte a Rações Valouro: Ramalhal, Torres Vedras. Telefone (+351) 261 910 100, geral@valouro.pt." />
+  <meta property="og:locale" content="pt_PT" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- NOTE: Tailwind Play CDN used for this prototype. For production, build Tailwind via CLI/PostCSS and purge unused classes. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            // Brand palette sampled from the real Grupo Valouro logo
+            gold: {
+              50:'#FAF5EA',100:'#F3E7CB',200:'#E7CF98',300:'#D9B566',
+              400:'#C59C42',500:'#A87830',600:'#8E6228',700:'#6F4D21',
+              800:'#5A3F1E',900:'#4A341B',950:'#2C1F10'
+            },
+            ink: {
+              DEFAULT:'#181818', soft:'#3A3A3A', muted:'#6B6B6B',
+              700:'#333333',800:'#202020',900:'#161616',950:'#0D0D0D'
+            },
+            cream: { 50:'#FCFAF5',100:'#F8F4EC',200:'#EFE7D7' },
+          },
+          fontFamily: {
+            heading: ['Lexend','system-ui','sans-serif'],
+            sans: ['"Source Sans 3"','system-ui','sans-serif'],
+          },
+          boxShadow: {
+            soft:'0 1px 2px rgba(24,24,24,0.04), 0 10px 30px -14px rgba(24,24,24,0.22)',
+            lift:'0 18px 50px -18px rgba(24,24,24,0.40)',
+          },
+          maxWidth: { content:'76rem' },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { font-family:'Source Sans 3',system-ui,sans-serif; }
+    h1,h2,h3,h4,.font-heading { font-family:'Lexend',system-ui,sans-serif; }
+    :focus-visible { outline:2px solid #A87830; outline-offset:2px; border-radius:4px; }
+
+    .reveal { opacity:0; transform:translateY(18px);
+      transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); will-change:opacity,transform; }
+    .reveal.is-visible { opacity:1; transform:none; }
+
+    @keyframes valouro-marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .marquee-track { animation:valouro-marquee 40s linear infinite; }
+    .marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state:paused; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto; }
+      .reveal { opacity:1!important; transform:none!important; transition:none!important; }
+      .marquee-track { animation:none!important; }
+      *,*::before,*::after { animation-duration:.001ms!important; transition-duration:.001ms!important; }
+    }
+    .grain { background-image:
+      radial-gradient(120% 120% at 85% 0%, rgba(168,120,48,0.22) 0%, transparent 55%),
+      radial-gradient(90% 90% at 0% 100%, rgba(13,13,13,0.55) 0%, transparent 60%); }
+  </style>
+</head>
+<body class="bg-cream-100 text-ink antialiased selection:bg-gold-200 selection:text-ink-950">
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-lg focus:bg-ink-900 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-cream-50 focus:shadow-lift">Saltar para o conteúdo principal</a>
+
+  <header class="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
+    <div class="mx-auto flex max-w-content items-center justify-between gap-4 rounded-2xl border border-ink/10 bg-cream-50/90 px-4 py-2.5 shadow-soft backdrop-blur-md sm:px-6">
+      <a href="index.html" class="flex items-center" aria-label="Rações Valouro — início">
+        <img src="assets/logo.png" width="207" height="93" alt="Grupo Valouro" class="h-10 w-auto sm:h-11" />
+      </a>
+
+      <nav class="hidden items-center gap-1 lg:flex" aria-label="Navegação principal">
+        <a href="empresa.html" class="rounded-lg px-3 py-2 text-sm font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Empresa</a>
+        <a href="produtos.html" class="rounded-lg px-3 py-2 text-sm font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Produtos</a>
+        <a href="qualidade.html" class="rounded-lg px-3 py-2 text-sm font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Qualidade</a>
+        <a href="grupo.html" class="rounded-lg px-3 py-2 text-sm font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Grupo</a>
+        <a href="noticias.html" class="rounded-lg px-3 py-2 text-sm font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Notícias</a>
+        
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <div class="hidden items-center gap-0.5 rounded-lg border border-ink/10 bg-cream-100 p-0.5 sm:flex" role="group" aria-label="Idioma">
+          <button class="rounded-md bg-ink-900 px-2 py-1 text-xs font-semibold text-cream-50" aria-current="true">PT</button>
+          <button class="cursor-pointer rounded-md px-2 py-1 text-xs font-semibold text-ink-muted transition-colors hover:text-gold-700">EN</button>
+          <button class="cursor-pointer rounded-md px-2 py-1 text-xs font-semibold text-ink-muted transition-colors hover:text-gold-700">ES</button>
+        </div>
+        <a href="contactos.html" class="hidden cursor-pointer items-center gap-2 rounded-lg bg-ink-900 px-4 py-2 text-sm font-semibold text-cream-50 shadow-sm transition-colors hover:bg-ink-700 sm:inline-flex">
+          Contactar
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <button id="menu-toggle" type="button" class="grid h-10 w-10 cursor-pointer place-items-center rounded-lg border border-ink/10 bg-cream-100 text-ink transition-colors hover:bg-gold-50 lg:hidden" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="mx-auto mt-2 hidden max-w-content overflow-hidden rounded-2xl border border-ink/10 bg-cream-50 shadow-lift lg:hidden">
+      <nav class="flex flex-col p-2" aria-label="Navegação móvel">
+        <a href="empresa.html" class="rounded-lg px-4 py-3 text-base font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Empresa</a>
+        <a href="produtos.html" class="rounded-lg px-4 py-3 text-base font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Produtos</a>
+        <a href="qualidade.html" class="rounded-lg px-4 py-3 text-base font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Qualidade</a>
+        <a href="grupo.html" class="rounded-lg px-4 py-3 text-base font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Grupo</a>
+        <a href="noticias.html" class="rounded-lg px-4 py-3 text-base font-medium transition-colors text-ink-soft hover:bg-gold-50 hover:text-gold-700">Notícias</a>
+        
+        <a href="contactos.html" class="mt-1 inline-flex items-center justify-center gap-2 rounded-lg bg-ink-900 px-4 py-3 text-base font-semibold text-cream-50 transition-colors hover:bg-ink-700">
+          Contactar
+          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="relative isolate overflow-hidden bg-ink-950 text-cream-50">
+      <img src="https://images.unsplash.com/photo-1627920768491-e1b11d5fc42f?auto=format&fit=crop&w=1600&h=700&q=70" alt="" aria-hidden="true" loading="eager"
+           class="absolute inset-0 h-full w-full object-cover opacity-35" />
+      <div class="grain absolute inset-0" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/70 to-ink-950/40" aria-hidden="true"></div>
+      <div class="relative mx-auto max-w-content px-5 pb-16 pt-36 sm:px-6 sm:pt-40 lg:pb-20">
+        <span class="reveal inline-flex items-center gap-2 rounded-full border border-gold-300/30 bg-gold-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-gold-200">
+          <span class="h-1.5 w-1.5 rounded-full bg-gold-400"></span>Contactos
+        </span>
+        <h1 class="reveal mt-5 max-w-3xl font-heading text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl">Vamos falar sobre nutrição animal?</h1>
+        <p class="reveal mt-5 max-w-2xl text-lg leading-relaxed text-cream-100/85">A nossa equipa ajuda a encontrar a solução certa para a sua produção. Contacte-nos por telefone, email ou através do formulário.</p>
+      </div>
+    </section>
+
+    <nav aria-label="Trilho" class="bg-cream-100">
+      <div class="mx-auto flex max-w-content items-center gap-2 px-5 py-4 text-sm text-ink-muted sm:px-6">
+        <a href="index.html" class="transition-colors hover:text-gold-700">Início</a>
+        <span aria-hidden="true">/</span>
+        <span class="font-medium text-ink">Contactos</span>
+      </div>
+    </nav>
+
+    <section class="bg-cream-100 py-20 lg:py-28">
+      <div class="mx-auto max-w-content px-5 sm:px-6">
+        <div class="grid gap-10 lg:grid-cols-2">
+          <div class="reveal">
+            <h2 class="font-heading text-2xl font-bold text-ink-900 sm:text-3xl">Informações de contacto</h2>
+            <ul class="mt-8 space-y-5">
+              <li class="flex items-start gap-4"><span class="mt-0.5 grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gold-50 text-gold-700" aria-hidden="true"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span><div><p class="font-semibold text-ink-900">Morada</p><p class="text-ink-muted">R. Mártir São Sebastião, 54<br/>2565-643 Ramalhal · Torres Vedras</p></div></li>
+              <li class="flex items-start gap-4"><span class="mt-0.5 grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gold-50 text-gold-700" aria-hidden="true"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg></span><div><p class="font-semibold text-ink-900">Telefone</p><a href="tel:+351261910100" class="text-gold-700 underline-offset-4 transition-colors hover:underline">(+351) 261 910 100</a></div></li>
+              <li class="flex items-start gap-4"><span class="mt-0.5 grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gold-50 text-gold-700" aria-hidden="true"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span><div><p class="font-semibold text-ink-900">Email</p><a href="mailto:geral@valouro.pt" class="text-gold-700 underline-offset-4 transition-colors hover:underline">geral@valouro.pt</a></div></li>
+            </ul>
+            <div class="mt-8 overflow-hidden rounded-2xl border border-ink/10 shadow-soft">
+              <iframe title="Mapa da localização da Rações Valouro em Ramalhal" class="h-64 w-full" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Ra%C3%A7%C3%B5es+Valouro+Ramalhal+Torres+Vedras&output=embed"></iframe>
+            </div>
+          </div>
+
+          <div class="reveal">
+            <form class="rounded-3xl border border-ink/10 bg-cream-50 p-6 shadow-soft sm:p-8" novalidate>
+              <h2 class="font-heading text-2xl font-bold text-ink-900">Envie-nos uma mensagem</h2>
+              <p class="mt-1 text-sm text-ink-muted">Responderemos com a maior brevidade.</p>
+              <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                <div><label for="nome" class="block text-sm font-semibold text-ink-900">Nome <span class="text-gold-700">*</span></label><input id="nome" name="nome" type="text" autocomplete="name" required class="mt-1.5 w-full rounded-lg border border-ink/15 bg-cream-50 px-3.5 py-2.5 text-ink placeholder:text-ink-muted/60 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/30" placeholder="O seu nome" /></div>
+                <div><label for="empresa" class="block text-sm font-semibold text-ink-900">Empresa</label><input id="empresa" name="empresa" type="text" autocomplete="organization" class="mt-1.5 w-full rounded-lg border border-ink/15 bg-cream-50 px-3.5 py-2.5 text-ink placeholder:text-ink-muted/60 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/30" placeholder="Opcional" /></div>
+                <div><label for="email" class="block text-sm font-semibold text-ink-900">Email <span class="text-gold-700">*</span></label><input id="email" name="email" type="email" autocomplete="email" required class="mt-1.5 w-full rounded-lg border border-ink/15 bg-cream-50 px-3.5 py-2.5 text-ink placeholder:text-ink-muted/60 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/30" placeholder="email@empresa.pt" /></div>
+                <div><label for="telefone" class="block text-sm font-semibold text-ink-900">Telefone</label><input id="telefone" name="telefone" type="tel" autocomplete="tel" class="mt-1.5 w-full rounded-lg border border-ink/15 bg-cream-50 px-3.5 py-2.5 text-ink placeholder:text-ink-muted/60 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/30" placeholder="Opcional" /></div>
+                <div class="sm:col-span-2"><label for="assunto" class="block text-sm font-semibold text-ink-900">Assunto</label>
+                  <select id="assunto" name="assunto" class="mt-1.5 w-full cursor-pointer rounded-lg border border-ink/15 bg-cream-50 px-3.5 py-2.5 text-ink focus:border-gold-500 focus:ring-2 focus:ring-gold-500/30">
+                    <option>Informação sobre produtos</option><option>Pedido de encomenda</option><option>Trabalhe connosco</option><option>Outro assunto</option>
+                  </select></div>
+                <div class="sm:col-span-2"><label for="mensagem" class="block text-sm font-semibold text-ink-900">Mensagem <span class="text-gold-700">*</span></label><textarea id="mensagem" name="mensagem" rows="4" required class="mt-1.5 w-full rounded-lg border border-ink/15 bg-cream-50 px-3.5 py-2.5 text-ink placeholder:text-ink-muted/60 focus:border-gold-500 focus:ring-2 focus:ring-gold-500/30" placeholder="Como podemos ajudar?"></textarea></div>
+              </div>
+              <button type="submit" class="mt-5 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-ink-900 px-6 py-3 text-base font-semibold text-cream-50 transition-colors hover:bg-ink-700">Enviar mensagem <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg></button>
+              <p class="mt-3 text-center text-xs text-ink-muted">Ao enviar, concorda com a nossa Política de Privacidade.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-ink-950 text-cream-100/75">
+    <div class="mx-auto max-w-content px-5 py-14 sm:px-6">
+      <div class="grid gap-10 md:grid-cols-12">
+        <div class="md:col-span-5">
+          <img src="assets/logo-light.png" width="207" height="93" alt="Grupo Valouro" class="h-11 w-auto" />
+          <p class="mt-5 max-w-sm text-sm leading-relaxed">Alimentos compostos para animais desde 1978. Parte do Grupo Valouro, referência agroindustrial da Península Ibérica.</p>
+        </div>
+        <nav class="md:col-span-2" aria-label="Empresa">
+          <h2 class="font-heading text-sm font-semibold uppercase tracking-wider text-cream-50">Empresa</h2>
+          <ul class="mt-4 space-y-2.5 text-sm">
+            <li><a href="empresa.html" class="transition-colors hover:text-gold-300">História</a></li>
+            <li><a href="qualidade.html" class="transition-colors hover:text-gold-300">Qualidade</a></li>
+            <li><a href="qualidade.html#ambiente" class="transition-colors hover:text-gold-300">Ambiente</a></li>
+            <li><a href="qualidade.html#responsabilidade" class="transition-colors hover:text-gold-300">Responsabilidade Social</a></li>
+            <li><a href="qualidade.html#inovacao" class="transition-colors hover:text-gold-300">Inovação</a></li>
+          </ul>
+        </nav>
+        <nav class="md:col-span-2" aria-label="Produtos">
+          <h2 class="font-heading text-sm font-semibold uppercase tracking-wider text-cream-50">Produtos</h2>
+          <ul class="mt-4 space-y-2.5 text-sm">
+            <li><a href="produtos.html#alta-energia" class="transition-colors hover:text-gold-300">Linha Alta Energia</a></li>
+            <li><a href="produtos.html#campo" class="transition-colors hover:text-gold-300">Linha Campo/Doméstica</a></li>
+            <li><a href="grupo.html" class="transition-colors hover:text-gold-300">Grupo Valouro</a></li>
+            <li><a href="contactos.html" class="transition-colors hover:text-gold-300">Trabalhe connosco</a></li>
+          </ul>
+        </nav>
+        <div class="md:col-span-3">
+          <h2 class="font-heading text-sm font-semibold uppercase tracking-wider text-cream-50">Contactos</h2>
+          <ul class="mt-4 space-y-2.5 text-sm">
+            <li>R. Mártir São Sebastião, 54<br/>2565-643 Ramalhal · Torres Vedras</li>
+            <li><a href="tel:+351261910100" class="transition-colors hover:text-gold-300">(+351) 261 910 100</a></li>
+            <li><a href="mailto:geral@valouro.pt" class="transition-colors hover:text-gold-300">geral@valouro.pt</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-12 flex flex-col gap-4 border-t border-cream-50/10 pt-6 text-xs sm:flex-row sm:items-center sm:justify-between">
+        <p>© <span id="year">2026</span> Rações Valouro, S.A. Todos os direitos reservados.</p>
+        <ul class="flex flex-wrap gap-x-5 gap-y-2">
+          <li><a href="#" class="transition-colors hover:text-gold-300">Política de Privacidade</a></li>
+          <li><a href="#" class="transition-colors hover:text-gold-300">Livro de Reclamações</a></li>
+          <li><a href="#" class="transition-colors hover:text-gold-300">Canal de Denúncias</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" type="button" class="fixed bottom-5 right-5 z-40 hidden h-12 w-12 cursor-pointer place-items-center rounded-full bg-ink-900 text-cream-50 shadow-lift transition-colors hover:bg-ink-700" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
+  <script>
+    (function(){
+      'use strict';
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
+
+      var toggle = document.getElementById('menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      if (toggle && menu) {
+        function closeMenu(){ menu.classList.add('hidden'); toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','Abrir menu'); }
+        toggle.addEventListener('click', function(){
+          var open = menu.classList.toggle('hidden') === false;
+          toggle.setAttribute('aria-expanded', String(open));
+          toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+        });
+        menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
+        document.addEventListener('keydown', function(e){ if (e.key==='Escape' && !menu.classList.contains('hidden')){ closeMenu(); toggle.focus(); } });
+      }
+
+      var btt = document.getElementById('back-to-top');
+      function onScroll(){ if (window.scrollY>500){ btt.classList.remove('hidden'); btt.classList.add('grid'); } else { btt.classList.add('hidden'); btt.classList.remove('grid'); } }
+      if (btt){ window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+        btt.addEventListener('click', function(){ window.scrollTo({top:0, behavior: reduce?'auto':'smooth'}); }); }
+
+      var reveals = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) { reveals.forEach(function(el){ el.classList.add('is-visible'); }); }
+      else { var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); } }); }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+        reveals.forEach(function(el){ io.observe(el); }); }
+
+      var counters = document.querySelectorAll('.count');
+      function run(el){ var t=parseFloat(el.getAttribute('data-target'))||0, sfx=el.getAttribute('data-suffix')||'';
+        if(reduce){ el.textContent=t.toLocaleString('pt-PT')+sfx; return; }
+        var s=null,d=1400; function step(ts){ if(!s)s=ts; var p=Math.min((ts-s)/d,1); var e=1-Math.pow(1-p,3);
+          el.textContent=Math.floor(e*t).toLocaleString('pt-PT')+sfx; if(p<1)requestAnimationFrame(step); else el.textContent=t.toLocaleString('pt-PT')+sfx; }
+        requestAnimationFrame(step); }
+      if('IntersectionObserver' in window){ var c=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ run(e.target); c.unobserve(e.target); } }); }, {threshold:0.5});
+        counters.forEach(function(el){ c.observe(el); }); } else { counters.forEach(run); }
+    })();
+  </script>
+</body>
+</html>
