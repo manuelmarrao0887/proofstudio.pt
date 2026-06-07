@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#06080c" />
+
+  <title>PROOF. Pipeline — CRM para consultores imobiliários independentes</title>
+  <meta name="description" content="Pipeline, cashflow e documentação. Sem ruído. Para consultores imobiliários independentes em Portugal." />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="PROOF. Pipeline" />
+  <meta property="og:description" content="Pipeline, cashflow e documentação para consultores imobiliários independentes." />
+  <meta property="og:locale" content="pt_PT" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2306080c'/%3E%3Crect x='22' y='22' width='6' height='6' rx='1.5' fill='%23c8d4ea'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============ ECLIPSE DESIGN SYSTEM — Proof Studio brand ============ */
+    :root {
+      /* Light (reference) */
+      --bg:#fbfcfe; --surface:#f3f6fb; --elevated:#eaeff7;
+      --border:#dde4ee; --border-strong:#c4cee0;
+      --fg:#0b1220; --fg-muted:#4a5366; --fg-subtle:#8b95a8;
+      --accent:#0b1220;
+      /* State (feedback only) */
+      --success:#22c55e; --warning:#f59e0b; --danger:#ef4444; --info:#94a3c4;
+      /* Radii */
+      --r-sm:6px; --r-md:10px; --r-lg:12px; --r-xl:18px; --r-pill:999px;
+    }
+    /* This app is dark-only — apply Eclipse dark tokens as the active theme */
+    :root, :root[data-theme="dark"] {
+      --bg:#06080c; --surface:#0b0f17; --elevated:#11161f;
+      --border:#1c2230; --border-strong:#262e3e;
+      --fg:#f5f7fb; --fg-muted:#8b95a8; --fg-subtle:#4a5366;
+      --accent:#c8d4ea;
+      --success:#22c55e; --warning:#f59e0b; --danger:#ef4444; --info:#94a3c4;
+    }
+
+    html, body { margin: 0; padding: 0; background: var(--bg); color-scheme: dark; }
+    body {
+      font-family: 'Geist', system-ui, -apple-system, sans-serif;
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+    }
+    * { box-sizing: border-box; }
+    button { font-family: 'Geist', sans-serif; cursor: pointer; }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--r-pill); }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* ---- Eclipse component shaping applied over the React inline styles ---- */
+    /* Cards / list rows / KPI tiles get soft radii and no shadows */
+    #root header, #root main { }
+    #root h1, #root h2 {
+      font-weight: 500 !important;
+      letter-spacing: -0.02em !important;
+      text-transform: none !important;
+    }
+    /* Primary action button → pill, Eclipse accent */
+    #root button { transition: background 150ms cubic-bezier(0.2,0,0,1), color 150ms, border-color 150ms; }
+
+    #root:empty::before {
+      content: 'A CARREGAR…';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Geist Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--fg-subtle);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/prop-types@15/prop-types.min.js"></script>
+  <script crossorigin src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect, useMemo } = React;
+    const { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, Tooltip } = Recharts;
+
+    // ============ DESIGN TOKENS — Eclipse (Proof Studio) ============
+    // Legacy token NAMES preserved; VALUES remapped to Eclipse dark tokens.
+    const C = {
+      ink: "#06080c",        // --bg
+      ink2: "#0b0f17",       // --surface
+      ink3: "#11161f",       // --elevated
+      inkM: "#1c2230",       // --border
+      paper: "#f5f7fb",      // --fg
+      paper2: "#c8d4ea",     // --accent (soft cool light)
+      grey2: "#8b95a8",      // --fg-muted
+      grey3: "#4a5366",      // --fg-subtle
+      signal: "#c8d4ea",     // accent (Eclipse uses a cool light accent, not saturated red)
+      success: "#22c55e",    // state: success
+    };
+    // Eclipse radii
+    const R = { sm: 6, md: 10, lg: 12, xl: 18, pill: 999 };
+    const F = {
+      sans: "'Geist', system-ui, -apple-system, sans-serif",
+      mono: "'Geist Mono', ui-monospace, monospace",
+      serif: "'Geist', system-ui, -apple-system, sans-serif",
+    };
+
+    // ============ MOCK DATA ============
+    const PHASES = [
+      { id: "lead", label: "LEAD", prob: 0.1 },
+      { id: "contacto", label: "CONTACTO", prob: 0.2 },
+      { id: "visita", label: "VISITA", prob: 0.35 },
+      { id: "proposta", label: "PROPOSTA", prob: 0.55 },
+      { id: "cpcv", label: "CPCV", prob: 0.85 },
+      { id: "escritura", label: "ESCRITURA", prob: 1 },
+    ];
+
+    const DOC_CHECKLIST = [
+      { id: "caderneta", label: "Caderneta Predial", critical: true },
+      { id: "certidao", label: "Certidão Permanente", critical: true },
+      { id: "licenca", label: "Licença de Utilização", critical: true },
+      { id: "ce", label: "Certificado Energético", critical: true },
+      { id: "fth", label: "Ficha Técnica Habitação", critical: false },
+      { id: "ami", label: "Contrato de Mediação (AMI)", critical: true },
+      { id: "cpcv_minuta", label: "Minuta CPCV", critical: false },
+      { id: "imt", label: "Guia IMT", critical: false },
+      { id: "banco", label: "Financiamento aprovado", critical: false },
+    ];
+
+    const INITIAL_DEALS = [
+      { id: "d1", imovel: "T3 · Av. Roma, Lisboa", area: 120, valor: 485000, cliente: "João Silva", tipo: "compra", fase: "escritura", comissaoPct: 5, dataEscritura: "2026-05-08", docs: ["caderneta","certidao","licenca","ce","ami","cpcv_minuta","imt","banco"] },
+      { id: "d2", imovel: "T2 · Rua do Salitre, Príncipe Real", area: 85, valor: 420000, cliente: "Família Costa", tipo: "compra", fase: "cpcv", comissaoPct: 5, dataEscritura: "2026-06-20", docs: ["caderneta","certidao","licenca","ce","ami"] },
+      { id: "d3", imovel: "T4 · Cascais, junto mar", area: 180, valor: 780000, cliente: "Alexandra Mendes", tipo: "venda", fase: "proposta", comissaoPct: 5, dataEscritura: "2026-07-15", docs: ["caderneta","certidao","licenca","ami"] },
+      { id: "d4", imovel: "T1 · Campo de Ourique", area: 55, valor: 285000, cliente: "Marta Rebelo", tipo: "compra", fase: "proposta", comissaoPct: 4, dataEscritura: "2026-06-30", docs: ["caderneta","ami"] },
+      { id: "d5", imovel: "T2 · Telheiras", area: 78, valor: 310000, cliente: "Pedro Guimarães", tipo: "venda", fase: "visita", comissaoPct: 5, dataEscritura: "2026-08-10", docs: ["caderneta","certidao","ami"] },
+      { id: "d6", imovel: "T3 · Oeiras, vista rio", area: 110, valor: 525000, cliente: "Inês Martinho", tipo: "compra", fase: "visita", comissaoPct: 5, dataEscritura: "2026-09-01", docs: ["ami"] },
+      { id: "d7", imovel: "T0 · Bairro Alto", area: 38, valor: 195000, cliente: "Tiago Neves", tipo: "compra", fase: "contacto", comissaoPct: 4, dataEscritura: "2026-08-20", docs: [] },
+      { id: "d8", imovel: "T4 · Estoril, moradia", area: 240, valor: 1250000, cliente: "Família Albuquerque", tipo: "venda", fase: "contacto", comissaoPct: 4, dataEscritura: "2026-10-15", docs: ["caderneta","ami"] },
+      { id: "d9", imovel: "T2 · Alvalade", area: 72, valor: 295000, cliente: "Rita Fonseca", tipo: "compra", fase: "lead", comissaoPct: 4, dataEscritura: "2026-11-01", docs: [] },
+      { id: "d10", imovel: "T3 · Belém", area: 130, valor: 610000, cliente: "Miguel Albergaria", tipo: "venda", fase: "lead", comissaoPct: 5, dataEscritura: "2026-12-10", docs: [] },
+    ];
+
+    // ============ UTILS ============
+    const fmtEur = (n) => new Intl.NumberFormat("pt-PT", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n);
+    const fmtEurFull = (n) => new Intl.NumberFormat("pt-PT", { style: "currency", currency: "EUR" }).format(n);
+    const fmtDate = (iso) => {
+      const d = new Date(iso);
+      return d.toLocaleDateString("pt-PT", { day: "2-digit", month: "short", year: "numeric" });
+    };
+    const fmtMonth = (iso) => {
+      const d = new Date(iso);
+      return d.toLocaleDateString("pt-PT", { month: "short", year: "2-digit" }).toUpperCase().replace(".","");
+    };
+    const getPhase = (id) => PHASES.find((p) => p.id === id);
+    const calcCommission = (deal) => deal.valor * (deal.comissaoPct / 100);
+    const calcExpected = (deal) => calcCommission(deal) * getPhase(deal.fase).prob;
+    const criticalDocs = DOC_CHECKLIST.filter((d) => d.critical).map((d) => d.id);
+
+    // ============ ROOT ============
+    function App() {
+      const [deals, setDeals] = useState(INITIAL_DEALS);
+      const [view, setView] = useState("dashboard");
+      const [selectedDeal, setSelectedDeal] = useState(null);
+
+      const toggleDoc = (dealId, docId) => {
+        setDeals((ds) =>
+          ds.map((d) =>
+            d.id === dealId
+              ? { ...d, docs: d.docs.includes(docId) ? d.docs.filter((x) => x !== docId) : [...d.docs, docId] }
+              : d
+          )
+        );
+      };
+
+      const advancePhase = (dealId) => {
+        setDeals((ds) =>
+          ds.map((d) => {
+            if (d.id !== dealId) return d;
+            const i = PHASES.findIndex((p) => p.id === d.fase);
+            if (i === PHASES.length - 1) return d;
+            return { ...d, fase: PHASES[i + 1].id };
+          })
+        );
+      };
+
+      return (
+        <div style={{ minHeight: "100vh", background: C.ink, color: C.paper, fontFamily: F.sans, WebkitFontSmoothing: "antialiased" }}>
+          <TopNav view={view} setView={setView} />
+          <main style={{ maxWidth: 960, margin: "0 auto", padding: "24px 20px 100px" }}>
+            {view === "dashboard" && <Dashboard deals={deals} onOpen={setSelectedDeal} />}
+            {view === "pipeline" && <Pipeline deals={deals} onOpen={setSelectedDeal} onAdvance={advancePhase} />}
+            {view === "cashflow" && <Cashflow deals={deals} />}
+            {view === "docs" && <DocsOverview deals={deals} onOpen={setSelectedDeal} />}
+          </main>
+          <Footer />
+          {selectedDeal && (
+            <DealDetail
+              deal={deals.find((d) => d.id === selectedDeal)}
+              onClose={() => setSelectedDeal(null)}
+              onToggleDoc={(docId) => toggleDoc(selectedDeal, docId)}
+              onAdvance={() => advancePhase(selectedDeal)}
+            />
+          )}
+        </div>
+      );
+    }
+
+    // ============ TOP NAV ============
+    function TopNav({ view, setView }) {
+      const items = [
+        { id: "dashboard", label: "DASHBOARD" },
+        { id: "pipeline", label: "PIPELINE" },
+        { id: "cashflow", label: "CASHFLOW" },
+        { id: "docs", label: "DOCUMENTOS" },
+      ];
+      return (
+        <header style={{ borderBottom: `1px solid ${C.inkM}`, background: C.ink, position: "sticky", top: 0, zIndex: 50 }}>
+          <div style={{ maxWidth: 960, margin: "0 auto", padding: "20px 20px 0", display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 8 }}>
+            <div style={{ fontFamily: F.sans, fontWeight: 600, fontSize: 20, letterSpacing: "-0.02em" }}>
+              PROOF.<span style={{ color: C.grey2, fontWeight: 500, fontSize: 11, letterSpacing: "0.1em", marginLeft: 10, fontFamily: F.mono, textTransform: "uppercase" }}>· Pipeline</span>
+            </div>
+            <div style={{ fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: C.grey2, textTransform: "uppercase" }}>
+              Ana Ribeiro · AMI 16384
+            </div>
+          </div>
+          <nav style={{ maxWidth: 960, margin: "0 auto", padding: "18px 20px 0", display: "flex", gap: 0, overflowX: "auto" }}>
+            {items.map((it) => (
+              <button
+                key={it.id}
+                onClick={() => setView(it.id)}
+                style={{
+                  background: "transparent", border: "none",
+                  padding: "8px 14px 16px 0", marginRight: 20,
+                  fontFamily: F.mono, fontSize: 11, letterSpacing: "0.1em", fontWeight: 500,
+                  color: view === it.id ? C.paper : C.grey2,
+                  borderBottom: view === it.id ? `2px solid ${C.signal}` : "2px solid transparent",
+                  cursor: "pointer", whiteSpace: "nowrap",
+                  transition: "color 150ms cubic-bezier(0.2,0,0,1)",
+                }}
+              >
+                {it.label}
+              </button>
+            ))}
+          </nav>
+        </header>
+      );
+    }
+
+    // ============ DASHBOARD ============
+    function Dashboard({ deals, onOpen }) {
+      const stats = useMemo(() => {
+        const now = new Date();
+        const in3m = new Date(now.getTime() + 90 * 86400000);
+        const active = deals.filter((d) => d.fase !== "escritura" || new Date(d.dataEscritura) > now);
+        const next3m = deals.filter((d) => {
+          const dt = new Date(d.dataEscritura);
+          return dt >= now && dt <= in3m;
+        });
+        const expected3m = next3m.reduce((s, d) => s + calcExpected(d), 0);
+        const nominal3m = next3m.reduce((s, d) => s + calcCommission(d), 0);
+        const closing = deals
+          .filter((d) => new Date(d.dataEscritura) >= now)
+          .sort((a, b) => new Date(a.dataEscritura) - new Date(b.dataEscritura))
+          .slice(0, 4);
+        const avgTicket = active.length ? active.reduce((s, d) => s + calcCommission(d), 0) / active.length : 0;
+        return { active: active.length, next3m: next3m.length, expected3m, nominal3m, closing, avgTicket };
+      }, [deals]);
+
+      return (
+        <div style={{ animation: "slideUp 400ms cubic-bezier(0.16,1,0.3,1)" }}>
+          <div style={{ padding: "48px 0 52px", borderBottom: `1px solid ${C.inkM}`, marginBottom: 44 }}>
+            <div style={{ fontFamily: F.mono, fontSize: 11, letterSpacing: "0.1em", color: C.signal, textTransform: "uppercase", marginBottom: 18 }}>
+              Receita esperada · próximos 3 meses
+            </div>
+            <div style={{ fontFamily: F.sans, fontWeight: 500, fontSize: "clamp(48px, 9vw, 96px)", lineHeight: 0.95, letterSpacing: "-0.04em", color: C.paper, marginBottom: 14 }}>
+              {fmtEur(stats.expected3m)}
+            </div>
+            <div style={{ fontFamily: F.mono, fontSize: 12, color: C.grey2, letterSpacing: "0.05em" }}>
+              Ajustado por probabilidade · Nominal: <span style={{ color: C.paper2 }}>{fmtEur(stats.nominal3m)}</span> · {stats.next3m} deals
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: 52 }}>
+            <KPI label="Deals activos" value={stats.active} />
+            <KPI label="Próximas 3 escrituras" value={stats.next3m} />
+            <KPI label="Ticket médio" value={fmtEur(stats.avgTicket)} />
+            <KPI label="AMI" value="16384" mono />
+          </div>
+
+          <div>
+            <div style={{ fontFamily: F.mono, fontSize: 11, letterSpacing: "0.1em", color: C.grey2, textTransform: "uppercase", marginBottom: 16 }}>
+              Próximas escrituras
+            </div>
+            <div style={{ border: `1px solid ${C.inkM}`, borderRadius: R.lg, overflow: "hidden", background: C.ink2 }}>
+              {stats.closing.map((d, i) => (
+                <button
+                  key={d.id}
+                  onClick={() => onOpen(d.id)}
+                  style={{
+                    width: "100%", background: C.ink2, border: "none",
+                    borderBottom: i < stats.closing.length - 1 ? `1px solid ${C.inkM}` : "none",
+                    padding: "18px 20px", display: "grid", gridTemplateColumns: "1fr auto", gap: 16,
+                    textAlign: "left", color: C.paper, cursor: "pointer", transition: "background 120ms",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = C.ink3)}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = C.ink2)}
+                >
+                  <div>
+                    <div style={{ fontSize: 15, fontWeight: 500, marginBottom: 6 }}>{d.imovel}</div>
+                    <div style={{ fontFamily: F.mono, fontSize: 11, color: C.grey2, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                      {d.cliente} · {getPhase(d.fase).label}
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: 15, fontWeight: 600, color: C.paper, marginBottom: 4 }}>{fmtEur(calcCommission(d))}</div>
+                    <div style={{ fontFamily: F.mono, fontSize: 10, color: C.grey2, letterSpacing: "0.05em" }}>{fmtDate(d.dataEscritura)}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    function KPI({ label, value, mono }) {
+      return (
+        <div style={{ background: C.ink2, border: `1px solid ${C.inkM}`, borderRadius: R.lg, padding: "22px 20px" }}>
+          <div style={{ fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: C.grey2, textTransform: "uppercase", marginBottom: 12 }}>
+            {label}
+          </div>
+          <div style={{ fontFamily: mono ? F.mono : F.sans, fontWeight: mono ? 500 : 500, fontSize: mono ? 20 : 26, color: C.paper, letterSpacing: "-0.01em" }}>
+            {value}
+          </div>
+        </div>
+      );
+    }
+
+    // ============ PIPELINE ============
+    function Pipeline({ deals, onOpen }) {
+      const byPhase = PHASES.map((p) => ({
+        ...p,
+        deals: deals.filter((d) => d.fase === p.id).sort((a, b) => new Date(a.dataEscritura) - new Date(b.dataEscritura)),
+      }));
+      const totalValue = deals.reduce((s, d) => s + calcExpected(d), 0);
+
+      return (
+        <div style={{ animation: "slideUp 400ms cubic-bezier(0.16,1,0.3,1)" }}>
+          <SectionHeader num="01" title="Pipeline" subtitle={`${deals.length} deals activos · ${fmtEur(totalValue)} em comissão esperada`} />
+
+          {byPhase.map((phase) => (
+            <div key={phase.id} style={{ marginBottom: 36 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", paddingBottom: 12, borderBottom: `1px solid ${C.inkM}`, marginBottom: 14 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+                  <div style={{ fontFamily: F.mono, fontSize: 11, letterSpacing: "0.1em", color: C.paper, fontWeight: 500 }}>{phase.label}</div>
+                  <div style={{ fontFamily: F.mono, fontSize: 10, color: C.grey2, letterSpacing: "0.1em" }}>{Math.round(phase.prob * 100)}%</div>
+                </div>
+                <div style={{ fontFamily: F.mono, fontSize: 10, color: C.grey2, letterSpacing: "0.1em" }}>{phase.deals.length}</div>
+              </div>
+
+              {phase.deals.length === 0 ? (
+                <div style={{ fontFamily: F.mono, fontSize: 11, color: C.grey3, letterSpacing: "0.1em", padding: "8px 0 16px" }}>— nenhum deal —</div>
+              ) : (
+                phase.deals.map((d) => <DealCard key={d.id} deal={d} onOpen={() => onOpen(d.id)} />)
+              )}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    function DealCard({ deal, onOpen }) {
+      const critDone = deal.docs.filter((id) => criticalDocs.includes(id)).length;
+      const critTotal = criticalDocs.length;
+      const critReady = critDone === critTotal;
+
+      return (
+        <button
+          onClick={onOpen}
+          style={{
+            width: "100%", display: "grid", gridTemplateColumns: "1fr auto", gap: 16,
+            padding: "16px 18px", background: C.ink2, border: `1px solid ${C.inkM}`,
+            borderRadius: R.md,
+            borderLeft: deal.tipo === "venda" ? `3px solid ${C.signal}` : `1px solid ${C.inkM}`,
+            marginBottom: 10, textAlign: "left", color: C.paper, cursor: "pointer",
+            transition: "all 120ms cubic-bezier(0.2,0,0,1)",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = C.ink3;
+            e.currentTarget.style.borderColor = C.grey3;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = C.ink2;
+            e.currentTarget.style.borderColor = C.inkM;
+          }}
+        >
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontSize: 14, fontWeight: 500, marginBottom: 6, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {deal.imovel}
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 12px", fontFamily: F.mono, fontSize: 10, color: C.grey2, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+              <span>{deal.cliente}</span><span>·</span>
+              <span style={{ color: deal.tipo === "venda" ? C.signal : C.grey2 }}>{deal.tipo}</span><span>·</span>
+              <span>DOCS {critDone}/{critTotal}{critReady && <span style={{ color: C.success }}> ●</span>}</span>
+            </div>
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: C.paper }}>{fmtEur(calcCommission(deal))}</div>
+            <div style={{ fontFamily: F.mono, fontSize: 10, color: C.grey2, letterSpacing: "0.05em" }}>{fmtMonth(deal.dataEscritura)}</div>
+          </div>
+        </button>
+      );
+    }
+
+    // ============ CASHFLOW ============
+    function Cashflow({ deals }) {
+      const monthly = useMemo(() => {
+        const map = {};
+        const now = new Date();
+        for (let i = 0; i < 9; i++) {
+          const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+          map[key] = {
+            key,
+            label: d.toLocaleDateString("pt-PT", { month: "short", year: "2-digit" }).toUpperCase().replace(".",""),
+            expected: 0, nominal: 0, deals: [],
+          };
+        }
+        deals.forEach((d) => {
+          const dt = new Date(d.dataEscritura);
+          const key = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}`;
+          if (map[key]) {
+            map[key].expected += calcExpected(d);
+            map[key].nominal += calcCommission(d);
+            map[key].deals.push(d);
+          }
+        });
+        return Object.values(map).sort((a, b) => a.key.localeCompare(b.key));
+      }, [deals]);
+
+      const total = monthly.reduce((s, m) => s + m.expected, 0);
+      const totalNominal = monthly.reduce((s, m) => s + m.nominal, 0);
+
+      return (
+        <div style={{ animation: "slideUp 400ms cubic-bezier(0.16,1,0.3,1)" }}>
+          <SectionHeader num="02" title="Cashflow Previsto" subtitle="Receita esperada por mês, ajustada pela probabilidade de cada fase." />
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 32 }}>
+            <KPI label="Total esperado · 9m" value={fmtEur(total)} />
+            <KPI label="Total nominal · 9m" value={fmtEur(totalNominal)} />
+            <KPI label="Diferencial de risco" value={fmtEur(totalNominal - total)} />
+          </div>
+
+          <div style={{ background: C.ink2, border: `1px solid ${C.inkM}`, borderRadius: R.lg, padding: "24px 16px 8px", marginBottom: 24 }}>
+            <div style={{ fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: C.grey2, textTransform: "uppercase", marginBottom: 20, paddingLeft: 8 }}>
+              Receita esperada · €
+            </div>
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={monthly} margin={{ top: 10, right: 10, bottom: 10, left: 0 }}>
+                <XAxis dataKey="label" stroke={C.grey2}
+                  tick={{ fontFamily: F.mono, fontSize: 10, fill: C.grey2, letterSpacing: 0.8 }}
+                  tickLine={false} axisLine={{ stroke: C.inkM }} />
+                <YAxis stroke={C.grey2}
+                  tick={{ fontFamily: F.mono, fontSize: 10, fill: C.grey2 }}
+                  tickFormatter={(v) => (v >= 1000 ? `${Math.round(v / 1000)}k` : v)}
+                  tickLine={false} axisLine={false} />
+                <Tooltip cursor={{ fill: C.ink3 }}
+                  contentStyle={{ background: C.ink, border: `1px solid ${C.inkM}`, fontFamily: F.mono, fontSize: 11, color: C.paper, borderRadius: 10 }}
+                  labelStyle={{ color: C.signal, letterSpacing: "0.1em", textTransform: "uppercase", fontSize: 10 }}
+                  formatter={(v) => [fmtEurFull(v), "Esperado"]} />
+                <Bar dataKey="expected" fill={C.signal} radius={[6, 6, 0, 0]}>
+                  {monthly.map((_, i) => <Cell key={i} fill={i === 0 ? C.signal : C.grey3} />)}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div style={{ fontFamily: F.mono, fontSize: 11, letterSpacing: "0.1em", color: C.grey2, textTransform: "uppercase", marginBottom: 12 }}>
+            Decomposição por mês
+          </div>
+          <div style={{ border: `1px solid ${C.inkM}`, borderRadius: R.lg, overflow: "hidden", background: C.ink2 }}>
+            {monthly.filter((m) => m.deals.length > 0).map((m, i, arr) => (
+              <div key={m.key} style={{
+                background: C.ink2, padding: "16px 18px",
+                borderBottom: i < arr.length - 1 ? `1px solid ${C.inkM}` : "none",
+                display: "grid", gridTemplateColumns: "100px 1fr auto", gap: 16, alignItems: "center",
+              }}>
+                <div style={{ fontFamily: F.mono, fontSize: 12, color: C.signal, letterSpacing: "0.1em", fontWeight: 500 }}>{m.label}</div>
+                <div style={{ fontSize: 12, color: C.grey2, fontFamily: F.mono, letterSpacing: "0.05em" }}>{m.deals.length} deal{m.deals.length > 1 ? "s" : ""}</div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: 14, fontWeight: 600 }}>{fmtEur(m.expected)}</div>
+                  <div style={{ fontFamily: F.mono, fontSize: 10, color: C.grey3, letterSpacing: "0.05em" }}>nom. {fmtEur(m.nominal)}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 24, padding: "22px 22px", background: C.ink2, border: `1px solid ${C.inkM}`, borderLeft: `3px solid ${C.signal}`, borderRadius: R.lg, fontFamily: F.serif, fontStyle: "normal", fontSize: 14, color: C.paper2, lineHeight: 1.6 }}>
+            "Ajustado por probabilidade" significa: cada deal contribui com <strong style={{ color: C.paper, fontWeight: 600 }}>comissão × probabilidade da fase</strong>. Um deal em CPCV (85%) conta quase todo; um em Lead (10%) quase não conta. A coluna <em>nominal</em> é o valor se tudo fechar.
+          </div>
+        </div>
+      );
+    }
+
+    // ============ DOCS OVERVIEW ============
+    function DocsOverview({ deals, onOpen }) {
+      const enriched = deals.map((d) => {
+        const critDone = d.docs.filter((id) => criticalDocs.includes(id)).length;
+        const critTotal = criticalDocs.length;
+        const pct = critTotal === 0 ? 0 : Math.round((critDone / critTotal) * 100);
+        return { ...d, critDone, critTotal, pct };
+      }).sort((a, b) => b.pct - a.pct || new Date(a.dataEscritura) - new Date(b.dataEscritura));
+
+      const fullyReady = enriched.filter((d) => d.pct === 100).length;
+      const atRisk = enriched.filter((d) => d.pct < 50 && ["proposta","cpcv","escritura"].includes(d.fase)).length;
+
+      return (
+        <div style={{ animation: "slideUp 400ms cubic-bezier(0.16,1,0.3,1)" }}>
+          <SectionHeader num="03" title="Documentação" subtitle="Estado dos documentos críticos por deal. Crítico = bloqueia a escritura." />
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 32 }}>
+            <KPI label="Deals prontos" value={`${fullyReady}/${deals.length}`} />
+            <KPI label="Em risco" value={atRisk} />
+            <KPI label="Docs críticos" value={criticalDocs.length} />
+          </div>
+
+          <div style={{ border: `1px solid ${C.inkM}`, borderRadius: R.lg, overflow: "hidden", background: C.ink2 }}>
+            {enriched.map((d, i) => (
+              <button key={d.id} onClick={() => onOpen(d.id)} style={{
+                width: "100%", background: C.ink2, border: "none",
+                borderBottom: i < enriched.length - 1 ? `1px solid ${C.inkM}` : "none",
+                padding: "16px 18px", display: "grid", gridTemplateColumns: "1fr 120px 70px",
+                gap: 12, alignItems: "center", textAlign: "left", color: C.paper, cursor: "pointer",
+                transition: "background 120ms",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = C.ink3)}
+              onMouseLeave={(e) => (e.currentTarget.style.background = C.ink2)}
+              >
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.imovel}</div>
+                  <div style={{ fontFamily: F.mono, fontSize: 10, color: C.grey2, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                    {getPhase(d.fase).label} · {fmtMonth(d.dataEscritura)}
+                  </div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ flex: 1, height: 4, background: C.ink3, borderRadius: R.pill, position: "relative", overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${d.pct}%`, borderRadius: R.pill, background: d.pct === 100 ? C.success : d.pct > 50 ? C.paper2 : C.grey2 }} />
+                  </div>
+                </div>
+                <div style={{ fontFamily: F.mono, fontSize: 11, fontWeight: 500, color: d.pct === 100 ? C.success : d.pct > 50 ? C.paper2 : C.grey2, textAlign: "right", letterSpacing: "0.05em" }}>
+                  {d.critDone}/{d.critTotal}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // ============ DEAL DETAIL MODAL ============
+    function DealDetail({ deal, onClose, onToggleDoc, onAdvance }) {
+      if (!deal) return null;
+      const phase = getPhase(deal.fase);
+      const commission = calcCommission(deal);
+      const expected = calcExpected(deal);
+      const canAdvance = deal.fase !== "escritura";
+
+      return (
+        <div onClick={onClose} style={{
+          position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)",
+          zIndex: 100, display: "flex", alignItems: "flex-end", justifyContent: "center",
+          backdropFilter: "blur(4px)",
+        }}>
+          <div onClick={(e) => e.stopPropagation()} style={{
+            background: C.ink, width: "100%", maxWidth: 640, maxHeight: "92vh",
+            overflow: "auto", border: `1px solid ${C.inkM}`, borderBottom: "none",
+            borderRadius: `${R.xl}px ${R.xl}px 0 0`,
+            animation: "slideUp 300ms cubic-bezier(0.16,1,0.3,1)",
+          }}>
+            <div style={{ padding: "24px 24px 20px", borderBottom: `1px solid ${C.inkM}`, position: "sticky", top: 0, background: C.ink, zIndex: 10 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, marginBottom: 12 }}>
+                <div style={{ fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: C.signal, textTransform: "uppercase" }}>
+                  Deal · {phase.label}
+                </div>
+                <button onClick={onClose} style={{ background: "transparent", border: `1px solid ${C.inkM}`, borderRadius: R.pill, width: 30, height: 30, color: C.grey2, fontSize: 15, lineHeight: 1, padding: 0, cursor: "pointer", fontFamily: F.mono, display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+              </div>
+              <h2 style={{ fontFamily: F.sans, fontWeight: 500, fontSize: "clamp(22px, 4vw, 28px)", letterSpacing: "-0.02em", margin: "0 0 8px", color: C.paper }}>
+                {deal.imovel}
+              </h2>
+              <div style={{ fontFamily: F.mono, fontSize: 11, color: C.grey2, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                {deal.cliente} · {deal.tipo} · {deal.area}m²
+              </div>
+            </div>
+
+            <div style={{ padding: "24px 24px 0", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 12, marginBottom: 0 }}>
+              <KPI label="Valor Imóvel" value={fmtEur(deal.valor)} />
+              <KPI label="Comissão" value={`${deal.comissaoPct}%`} mono />
+              <KPI label="Comissão €" value={fmtEur(commission)} />
+              <KPI label="Esperado" value={fmtEur(expected)} />
+            </div>
+
+            <div style={{ padding: "0 24px 24px", borderBottom: `1px solid ${C.inkM}` }}>
+              <div style={{ marginTop: 24, fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: C.grey2, textTransform: "uppercase", marginBottom: 8 }}>
+                Escritura prevista
+              </div>
+              <div style={{ fontFamily: F.sans, fontSize: 18, fontWeight: 500 }}>{fmtDate(deal.dataEscritura)}</div>
+            </div>
+
+            {canAdvance && (
+              <div style={{ padding: "20px 24px", borderBottom: `1px solid ${C.inkM}` }}>
+                <button onClick={onAdvance} style={{
+                  background: C.paper, border: "none", color: C.ink,
+                  fontFamily: F.sans, fontWeight: 500, fontSize: 13, padding: "14px 20px",
+                  borderRadius: R.pill,
+                  letterSpacing: "0.04em", textTransform: "uppercase", cursor: "pointer",
+                  width: "100%", transition: "background 120ms",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = C.paper2)}
+                onMouseLeave={(e) => (e.currentTarget.style.background = C.paper)}
+                >
+                  Avançar → {PHASES[PHASES.findIndex((p) => p.id === deal.fase) + 1].label}
+                </button>
+              </div>
+            )}
+
+            <div style={{ padding: "24px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 16 }}>
+                <div style={{ fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: C.grey2, textTransform: "uppercase" }}>
+                  Checklist documental
+                </div>
+                <div style={{ fontFamily: F.mono, fontSize: 11, color: C.paper2, letterSpacing: "0.05em" }}>
+                  {deal.docs.filter((id) => criticalDocs.includes(id)).length}/{criticalDocs.length} críticos
+                </div>
+              </div>
+
+              <div>
+                {DOC_CHECKLIST.map((doc) => {
+                  const done = deal.docs.includes(doc.id);
+                  return (
+                    <button key={doc.id} onClick={() => onToggleDoc(doc.id)} style={{
+                      width: "100%", display: "grid", gridTemplateColumns: "24px 1fr auto", gap: 14,
+                      padding: "14px 0", background: "transparent", border: "none",
+                      borderBottom: `1px solid ${C.inkM}`,
+                      textAlign: "left", cursor: "pointer", alignItems: "center",
+                    }}>
+                      <div style={{
+                        width: 18, height: 18, borderRadius: R.sm,
+                        border: `1.5px solid ${done ? C.success : C.inkM}`,
+                        background: done ? C.success : "transparent",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        transition: "all 150ms",
+                      }}>
+                        {done && <span style={{ color: C.ink, fontSize: 12, fontWeight: 700, fontFamily: F.sans }}>✓</span>}
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 400, color: done ? C.grey2 : C.paper, textDecoration: done ? "line-through" : "none" }}>
+                          {doc.label}
+                        </div>
+                      </div>
+                      {doc.critical && (
+                        <div style={{ fontFamily: F.mono, fontSize: 9, letterSpacing: "0.1em", color: done ? C.grey3 : C.signal, textTransform: "uppercase", fontWeight: 500 }}>
+                          CRÍTICO
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ============ SECTION HEADER ============
+    function SectionHeader({ num, title, subtitle }) {
+      return (
+        <div style={{ padding: "24px 0 36px" }}>
+          <div style={{ fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em", color: C.grey2, textTransform: "uppercase", marginBottom: 10 }}>
+            <span style={{ color: C.signal }}>{num}</span> / 03
+          </div>
+          <h1 style={{ fontFamily: F.sans, fontWeight: 500, fontSize: "clamp(32px, 5.5vw, 48px)", lineHeight: 1.0, letterSpacing: "-0.03em", textTransform: "none", margin: "0 0 14px", color: C.paper }}>
+            {title}
+          </h1>
+          <p style={{ fontSize: 14, color: C.paper2, margin: 0, maxWidth: 560, lineHeight: 1.6 }}>{subtitle}</p>
+        </div>
+      );
+    }
+
+    // ============ FOOTER ============
+    function Footer() {
+      return (
+        <footer style={{
+          maxWidth: 960, margin: "0 auto", padding: "24px 20px 40px",
+          borderTop: `1px solid ${C.inkM}`,
+          display: "flex", justifyContent: "space-between",
+          fontFamily: F.mono, fontSize: 10, letterSpacing: "0.1em",
+          textTransform: "uppercase", color: C.grey3, flexWrap: "wrap", gap: 8,
+        }}>
+          <div>
+            <strong style={{ color: C.paper, fontFamily: F.sans, fontWeight: 600, letterSpacing: "-0.02em" }}>PROOF.</strong> · PIPELINE · MVP v0.1
+          </div>
+          <div>2026.04.18 · LX</div>
+        </footer>
+      );
+    }
+
+    // ============ MOUNT ============
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PROOF. · Calculadora XTB</title>
+<meta name="description" content="Projeção de ganhos XTB com juros compostos, inflação e IRS português. Um case study PROOF." />
+<meta name="theme-color" content="#fbfcfe" />
+
+<!-- Open Graph -->
+<meta property="og:title" content="PROOF. · Calculadora XTB" />
+<meta property="og:description" content="Projeção de ganhos XTB com juros compostos, inflação e IRS português." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* ===== Eclipse design tokens (light) ===== */
+    --bg: #fbfcfe;
+    --surface: #f3f6fb;
+    --elevated: #eaeff7;
+    --border: #dde4ee;
+    --border-strong: #c4cee0;
+    --fg: #0b1220;
+    --fg-muted: #4a5366;
+    --fg-subtle: #8b95a8;
+    --accent: #0b1220;
+
+    /* State (feedback only) */
+    --state-success: #22c55e;
+    --state-warning: #f59e0b;
+    --state-danger: #ef4444;
+    --state-info: #94a3c4;
+
+    /* ===== Legacy variable names remapped to Eclipse tokens =====
+       The app's JS emits inline styles referencing these names.
+       Names are preserved; only their values change. */
+    --ink: var(--bg);
+    --ink-2: var(--surface);
+    --ink-3: var(--elevated);
+    --paper: var(--fg);
+    --paper-2: var(--fg-muted);
+    --grey: var(--border);
+    --grey-2: var(--fg-subtle);
+    --grey-3: var(--fg-muted);
+    --signal: var(--accent);
+    --signal-2: var(--accent);
+    --success: var(--state-success);
+
+    /* Fonts */
+    --font-display: 'Geist', system-ui, sans-serif;
+    --font-mono: 'Geist Mono', ui-monospace, monospace;
+    --ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+    /* Radii */
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 12px;
+    --r-xl: 18px;
+    --r-pill: 999px;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #06080c;
+    --surface: #0b0f17;
+    --elevated: #11161f;
+    --border: #1c2230;
+    --border-strong: #262e3e;
+    --fg: #f5f7fb;
+    --fg-muted: #8b95a8;
+    --fg-subtle: #4a5366;
+    --accent: #c8d4ea;
+  }
+
+  html { color-scheme: light dark; background: var(--bg); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 20px 64px;
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; }
+
+  /* Labels técnicos */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    display: inline-block;
+  }
+  .label-xs { font-size: 9px; }
+  .label-dim { color: var(--fg-subtle); }
+  .label-signal { color: var(--fg); }
+  .label-paper { color: var(--fg); }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 36px;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    line-height: 1;
+  }
+  .wordmark .dot { color: var(--fg-subtle); }
+  .header-meta { text-align: right; }
+  .header-meta > div { margin-top: 4px; }
+
+  /* H1 */
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(32px, 7vw, 46px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    text-transform: none;
+    color: var(--fg);
+  }
+  h1 .dot { color: var(--fg-subtle); }
+  .hero-desc {
+    font-size: 15px;
+    color: var(--fg-muted);
+    margin-top: 16px;
+    line-height: 1.6;
+    max-width: 480px;
+  }
+  .hero { margin-bottom: 40px; }
+
+  /* Resultado sticky */
+  .result {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 28px;
+    margin-bottom: 24px;
+    position: sticky;
+    top: 16px;
+    z-index: 50;
+  }
+  .result-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .result-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .result-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+    color: var(--fg-muted);
+  }
+  .result-tag.signal {
+    color: var(--fg);
+    border-color: var(--border-strong);
+  }
+  .result-value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(44px, 11vw, 68px);
+    color: var(--fg);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-feature-settings: "tnum";
+  }
+  .result-stats {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .result-stats .stat-v {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--fg);
+    margin-top: 6px;
+    font-feature-settings: "tnum";
+  }
+  .result-stats .stat-v.pos { color: var(--state-success); }
+  .result-stats .stat-v.neg { color: var(--state-danger); }
+
+  /* Secções */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .section-head {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .section-body { padding: 24px; }
+
+  /* Inputs */
+  .field {
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+  .field:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+  .field-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .field-value {
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--fg);
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    padding: 6px 12px;
+    cursor: text;
+    letter-spacing: -0.01em;
+    transition: border-color 120ms var(--ease-out);
+    font-feature-settings: "tnum";
+  }
+  .field-value:hover { border-color: var(--border-strong); }
+  .field-value .suffix {
+    color: var(--fg-subtle);
+    font-size: 13px;
+    margin-left: 4px;
+    font-weight: 400;
+  }
+  .field-input {
+    background: var(--elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-sm);
+    color: var(--fg);
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 500;
+    padding: 6px 12px;
+    width: 130px;
+    text-align: right;
+    outline: none;
+  }
+  .field-input-suffix {
+    color: var(--fg-subtle);
+    font-size: 13px;
+    font-family: var(--font-display);
+    margin-left: 6px;
+  }
+  .field-slider-container {
+    display: flex;
+    align-items: center;
+  }
+  .field-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 3px;
+    border-radius: var(--r-pill);
+    background: var(--border);
+    outline: none;
+    accent-color: var(--accent);
+  }
+  .field-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    cursor: pointer;
+    border-radius: var(--r-pill);
+  }
+  .field-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    cursor: pointer;
+    border: none;
+    border-radius: var(--r-pill);
+  }
+  .field-range {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+
+  /* Toggle */
+  .toggle {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 18px;
+    cursor: pointer;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    margin-bottom: 10px;
+    transition: border-color 120ms var(--ease-out), background 120ms var(--ease-out);
+  }
+  .toggle:last-child { margin-bottom: 0; }
+  .toggle.on {
+    background: var(--elevated);
+    border-color: var(--border-strong);
+  }
+  .toggle-text { flex: 1; margin-right: 16px; }
+  .toggle-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg);
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+  .toggle-desc {
+    font-family: var(--font-display);
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .toggle-switch {
+    width: 40px;
+    height: 22px;
+    background: var(--elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-pill);
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all 120ms var(--ease-out);
+  }
+  .toggle.on .toggle-switch {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .toggle-switch::after {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-radius: var(--r-pill);
+    background: var(--fg-subtle);
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: all 120ms var(--ease-out);
+  }
+  .toggle.on .toggle-switch::after {
+    background: var(--bg);
+    left: 20px;
+  }
+
+  /* Cenários */
+  .scenario {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .scenario:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .scenario-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .scenario-labels {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .scenario-value {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+    font-feature-settings: "tnum";
+  }
+  .scenario-value.signal { color: var(--fg); }
+  .scenario-bar {
+    height: 4px;
+    background: var(--elevated);
+    border-radius: var(--r-pill);
+    overflow: hidden;
+  }
+  .scenario-bar-fill {
+    height: 100%;
+    background: var(--border-strong);
+    border-radius: var(--r-pill);
+    transition: width 200ms var(--ease-out);
+  }
+  .scenario-bar-fill.signal { background: var(--accent); }
+
+  /* Breakdown */
+  .breakdown-bar {
+    display: flex;
+    height: 40px;
+    margin-bottom: 18px;
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .breakdown-segment {
+    display: flex;
+    align-items: center;
+    padding-left: 14px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    font-feature-settings: "tnum";
+  }
+  .breakdown-capital {
+    background: var(--elevated);
+    color: var(--fg);
+  }
+  .breakdown-juros {
+    flex: 1;
+    background: var(--accent);
+    color: var(--bg);
+  }
+  .breakdown-legend {
+    display: flex;
+    justify-content: space-between;
+  }
+  .breakdown-legend-v {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 4px;
+    font-feature-settings: "tnum";
+  }
+
+  /* Chart */
+  .chart {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    margin-bottom: 16px;
+  }
+  .chart svg { width: 100%; height: 100%; display: block; }
+  .chart-legend {
+    display: flex;
+    gap: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .chart-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chart-legend-dash {
+    width: 14px;
+    border-top: 2px dashed var(--accent);
+  }
+  .chart-legend-solid {
+    width: 14px;
+    height: 2px;
+    background: var(--fg);
+  }
+
+  /* Avisos */
+  .warnings {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .warnings-head {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .warnings-body { padding: 24px; }
+  .warning-item {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .warning-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .warning-num { flex-shrink: 0; }
+  .warning-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg);
+    text-transform: none;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .warning-desc {
+    font-family: var(--font-display);
+    font-size: 13px;
+    color: var(--fg-muted);
+    line-height: 1.6;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 44px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-right {
+    max-width: 280px;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  /* Focus accessibility */
+  button:focus-visible,
+  input:focus-visible,
+  .toggle:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Header -->
+  <header class="header">
+    <div>
+      <div class="wordmark">PROOF<span class="dot">.</span></div>
+      <div style="margin-top: 4px;"><span class="label">XTB · CALCULADORA</span></div>
+    </div>
+    <div class="header-meta">
+      <span class="label">CASE 001</span>
+      <div><span class="label label-dim">v1.0 · <span id="today"></span></span></div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>PROJEÇÃO<br />DE GANHOS<span class="dot">.</span></h1>
+    <p class="hero-desc">Simulação com juros compostos, inflação e IRS português sobre mais-valias.</p>
+  </div>
+
+  <!-- Resultado sticky -->
+  <div class="result">
+    <div class="result-head">
+      <span class="label">VALOR ESTIMADO · <span id="yearsLabel">20 ANOS</span></span>
+      <div class="result-tags" id="resultTags"></div>
+    </div>
+    <div class="result-value" id="resultValue">€0</div>
+    <div class="result-stats">
+      <div>
+        <span class="label label-xs">INVESTIDO</span>
+        <div class="stat-v" id="statInvested">€0</div>
+      </div>
+      <div>
+        <span class="label label-xs">GANHO</span>
+        <div class="stat-v" id="statGain">€0</div>
+      </div>
+      <div>
+        <span class="label label-xs">MÚLTIPLO</span>
+        <div class="stat-v" id="statMultiple">0×</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="section">
+    <div class="section-head">
+      <span class="label">EVOLUÇÃO TEMPORAL</span>
+      <span class="label label-dim" id="chartMeta">20 ANOS · 7% A.A.</span>
+    </div>
+    <div class="section-body">
+      <div class="chart">
+        <svg id="chart" viewBox="0 0 700 240" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="chart-legend">
+        <div class="chart-legend-item">
+          <div class="chart-legend-solid"></div>
+          <span class="label">VALOR TOTAL</span>
+        </div>
+        <div class="chart-legend-item">
+          <div class="chart-legend-dash"></div>
+          <span class="label">CAPITAL INVESTIDO</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Parâmetros -->
+  <div class="section">
+    <div class="section-head">
+      <span class="label">PARÂMETROS DE INVESTIMENTO</span>
+      <span class="label label-dim">05 CAMPOS</span>
+    </div>
+    <div class="section-body" id="fields"></div>
+  </div>
+
+  <!-- Toggles -->
+  <div class="section">
+    <div class="section-head">
+      <span class="label">AJUSTES À REALIDADE</span>
+      <span class="label label-dim">03 CONTROLOS</span>
+    </div>
+    <div class="section-body" id="toggles"></div>
+  </div>
+
+  <!-- Cenários -->
+  <div class="section">
+    <div class="section-head">
+      <span class="label">ANÁLISE DE CENÁRIOS</span>
+      <span class="label label-dim">3% · 7% · 10%</span>
+    </div>
+    <div class="section-body">
+      <div style="margin-bottom: 20px;">
+        <span class="label label-dim">A DISTÂNCIA ENTRE OS VALORES É O SEU INTERVALO DE INCERTEZA.</span>
+      </div>
+      <div id="scenarios"></div>
+    </div>
+  </div>
+
+  <!-- Breakdown -->
+  <div class="section">
+    <div class="section-head">
+      <span class="label">COMPOSIÇÃO DO RESULTADO</span>
+      <span class="label label-dim">CAPITAL · JUROS</span>
+    </div>
+    <div class="section-body">
+      <div class="breakdown-bar">
+        <div class="breakdown-segment breakdown-capital" id="bdCap" style="width: 50%;">50%</div>
+        <div class="breakdown-segment breakdown-juros" id="bdJur">50%</div>
+      </div>
+      <div class="breakdown-legend">
+        <div>
+          <span class="label">SEU CAPITAL</span>
+          <div class="breakdown-legend-v" id="bdCapVal" style="color: var(--paper);">€0</div>
+        </div>
+        <div style="text-align: right;">
+          <span class="label label-signal">JUROS COMPOSTOS</span>
+          <div class="breakdown-legend-v" id="bdJurVal" style="color: var(--signal);">€0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Avisos -->
+  <div class="warnings">
+    <div class="warnings-head">
+      <span class="label label-signal">LIMITES DO MODELO · LER</span>
+    </div>
+    <div class="warnings-body">
+      <div class="warning-item">
+        <span class="label warning-num label-signal">01</span>
+        <div>
+          <div class="warning-title">VOLATILIDADE</div>
+          <div class="warning-desc">A linha subiu bonita, mas a realidade é dentada. O S&amp;P 500 teve anos de −37% (2008) e +34% (2019).</div>
+        </div>
+      </div>
+      <div class="warning-item">
+        <span class="label warning-num label-signal">02</span>
+        <div>
+          <div class="warning-title">SEQUÊNCIA DE RETORNOS</div>
+          <div class="warning-desc">Um crash nos primeiros anos prejudica muito menos do que nos últimos, quando já tem capital acumulado.</div>
+        </div>
+      </div>
+      <div class="warning-item">
+        <span class="label warning-num label-signal">03</span>
+        <div>
+          <div class="warning-title">HISTÓRICO ≠ FUTURO</div>
+          <div class="warning-desc">7% é a média histórica do S&amp;P 500. Houve décadas perdidas inteiras (1929–1954, 2000–2013).</div>
+        </div>
+      </div>
+      <div class="warning-item">
+        <span class="label warning-num label-signal">04</span>
+        <div>
+          <div class="warning-title">ETFs DE ACUMULAÇÃO</div>
+          <div class="warning-desc">Dividendos acumulados (VWCE) adiam imposto mas não eliminam. Ao vender, paga 28% sobre toda a mais-valia.</div>
+        </div>
+      </div>
+      <div class="warning-item">
+        <span class="label warning-num label-signal">05</span>
+        <div>
+          <div class="warning-title">CUSTOS XTB</div>
+          <div class="warning-desc">Volume &gt;€100k/mês paga 0,2% de comissão. Conta inativa 1 ano sem transações cobra €10/mês.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div>
+      <div class="wordmark" style="font-size: 14px;">PROOF<span class="dot">.</span></div>
+      <div style="margin-top: 2px;">
+        <span class="label label-dim">CASE 001 · v1.0 · <span id="todayFooter"></span></span>
+      </div>
+    </div>
+    <span class="label label-dim footer-right">
+      SIMULAÇÃO EDUCATIVA · NÃO É ACONSELHAMENTO FINANCEIRO
+    </span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  // ============ STATE ============
+  const state = {
+    initial: 1000,
+    monthly: 300,
+    rate: 7,
+    years: 20,
+    inflation: 2.5,
+    applyInflation: true,
+    applyTax: true,
+    applyFx: false,
+  };
+
+  const fields = [
+    { key: 'initial', label: 'INVESTIMENTO INICIAL', suffix: '€', min: 0, max: 50000, step: 100, hardMax: 10000000 },
+    { key: 'monthly', label: 'REFORÇO MENSAL', suffix: '€', min: 0, max: 3000, step: 25, hardMax: 100000 },
+    { key: 'rate', label: 'RENTABILIDADE ANUAL', suffix: '%', min: 0, max: 30, step: 0.5, hardMax: 100 },
+    { key: 'years', label: 'HORIZONTE TEMPORAL', suffix: ' ANOS', min: 1, max: 50, step: 1, hardMax: 80 },
+    { key: 'inflation', label: 'INFLAÇÃO ANUAL ESTIMADA', suffix: '%', min: 0, max: 10, step: 0.1, hardMax: 30 },
+  ];
+
+  const toggles = [
+    { key: 'applyInflation', title: 'DESCONTAR INFLAÇÃO', desc: 'Mostra o valor em poder de compra de hoje' },
+    { key: 'applyTax', title: 'DESCONTAR IRS · 28%', desc: 'Taxa em Portugal sobre mais-valias realizadas' },
+    { key: 'applyFx', title: 'TAXA CAMBIAL XTB · 0,5%', desc: 'Aplica-se apenas a ativos em moeda não-EUR' },
+  ];
+
+  // ============ HELPERS ============
+  const fmt0 = (n) => new Intl.NumberFormat('pt-PT', { maximumFractionDigits: 0 }).format(Math.round(n || 0));
+  const fmt1 = (n) => new Intl.NumberFormat('pt-PT', { maximumFractionDigits: 1 }).format(n || 0);
+  const eur = (n) => `€${fmt0(n)}`;
+
+  function proj({ initial, monthly, annualRate, years, inflation, taxRate, fxFee }) {
+    const r = annualRate / 100 / 12;
+    const fx = fxFee / 100;
+    const data = [{ year: 0, nominal: initial, invested: initial, afterTax: initial, real: initial }];
+    let balance = initial * (1 - fx);
+    let contributed = initial;
+    for (let y = 1; y <= years; y++) {
+      for (let m = 0; m < 12; m++) {
+        balance = balance * (1 + r) + monthly * (1 - fx);
+        contributed += monthly;
+      }
+      const gains = Math.max(0, balance - contributed);
+      const afterTax = contributed + gains * (1 - taxRate / 100);
+      const real = balance / Math.pow(1 + inflation / 100, y);
+      data.push({
+        year: y,
+        nominal: Math.round(balance),
+        invested: Math.round(contributed),
+        afterTax: Math.round(afterTax),
+        real: Math.round(real),
+        gains: Math.round(gains),
+      });
+    }
+    return data;
+  }
+
+  // ============ RENDER ============
+  function renderFields() {
+    const container = document.getElementById('fields');
+    container.innerHTML = fields.map((f) => `
+      <div class="field" data-key="${f.key}">
+        <div class="field-head">
+          <span class="label">${f.label}</span>
+          <button class="field-value" data-edit="${f.key}">
+            <span class="field-value-num">${fmt1(state[f.key])}</span><span class="suffix">${f.suffix}</span>
+          </button>
+        </div>
+        <input type="range" class="field-slider" data-slider="${f.key}"
+               min="${f.min}" max="${f.max}" step="${f.step}"
+               value="${Math.min(state[f.key], f.max)}" />
+        <div class="field-range">
+          <span class="label label-xs">${fmt0(f.min)}${f.suffix}</span>
+          <span class="label label-xs" data-range-max="${f.key}">
+            ${fmt0(f.max)}${f.suffix}${state[f.key] > f.max ? ` <span class="label-signal">· ATUAL ${fmt1(state[f.key])}${f.suffix}</span>` : ''}
+          </span>
+        </div>
+      </div>
+    `).join('');
+
+    // Slider events
+    container.querySelectorAll('[data-slider]').forEach(slider => {
+      slider.addEventListener('input', (e) => {
+        const key = e.target.dataset.slider;
+        state[key] = parseFloat(e.target.value);
+        updateField(key);
+        recompute();
+      });
+    });
+
+    // Edit click
+    container.querySelectorAll('[data-edit]').forEach(btn => {
+      btn.addEventListener('click', (e) => startEdit(e.currentTarget.dataset.edit));
+    });
+  }
+
+  function updateField(key) {
+    const f = fields.find(x => x.key === key);
+    const fieldEl = document.querySelector(`.field[data-key="${key}"]`);
+    if (!fieldEl) return;
+    const numSpan = fieldEl.querySelector('.field-value-num');
+    if (numSpan) numSpan.textContent = fmt1(state[key]);
+    const slider = fieldEl.querySelector('[data-slider]');
+    if (slider) slider.value = Math.min(state[key], f.max);
+    const rangeMax = fieldEl.querySelector(`[data-range-max="${key}"]`);
+    if (rangeMax) {
+      rangeMax.innerHTML = `${fmt0(f.max)}${f.suffix}${state[key] > f.max ? ` <span class="label-signal">· ATUAL ${fmt1(state[key])}${f.suffix}</span>` : ''}`;
+    }
+  }
+
+  function startEdit(key) {
+    const f = fields.find(x => x.key === key);
+    const fieldEl = document.querySelector(`.field[data-key="${key}"]`);
+    const btn = fieldEl.querySelector('[data-edit]');
+    const currentValue = state[key];
+
+    const wrapper = document.createElement('div');
+    wrapper.style.display = 'flex';
+    wrapper.style.alignItems = 'baseline';
+    wrapper.style.gap = '6px';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.inputMode = 'decimal';
+    input.className = 'field-input';
+    input.value = currentValue;
+
+    const suffix = document.createElement('span');
+    suffix.className = 'field-input-suffix';
+    suffix.textContent = f.suffix;
+
+    wrapper.appendChild(input);
+    wrapper.appendChild(suffix);
+
+    btn.replaceWith(wrapper);
+    input.focus();
+    input.select();
+
+    const commit = () => {
+      const parsed = parseFloat(String(input.value).replace(',', '.'));
+      if (!isNaN(parsed)) {
+        state[key] = Math.max(f.min, Math.min(f.hardMax, parsed));
+      }
+      renderFields();
+      recompute();
+    };
+
+    const cancel = () => {
+      renderFields();
+    };
+
+    input.addEventListener('blur', commit);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { input.blur(); }
+      if (e.key === 'Escape') { input.removeEventListener('blur', commit); cancel(); }
+    });
+  }
+
+  function renderToggles() {
+    const container = document.getElementById('toggles');
+    container.innerHTML = toggles.map(t => `
+      <div class="toggle ${state[t.key] ? 'on' : ''}" data-toggle="${t.key}" role="switch" aria-checked="${state[t.key]}" tabindex="0">
+        <div class="toggle-text">
+          <div class="toggle-title">${t.title}</div>
+          <div class="toggle-desc">${t.desc}</div>
+        </div>
+        <div class="toggle-switch"></div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('[data-toggle]').forEach(el => {
+      const action = () => {
+        const key = el.dataset.toggle;
+        state[key] = !state[key];
+        renderToggles();
+        recompute();
+      };
+      el.addEventListener('click', action);
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); action(); }
+      });
+    });
+  }
+
+  function recompute() {
+    const taxRate = state.applyTax ? 28 : 0;
+    const fxFee = state.applyFx ? 0.5 : 0;
+    const data = proj({
+      initial: state.initial,
+      monthly: state.monthly,
+      annualRate: state.rate,
+      years: state.years,
+      inflation: state.inflation,
+      taxRate,
+      fxFee,
+    });
+    const final = data[data.length - 1];
+    const totalInvested = final.invested;
+    const grossGains = final.nominal - totalInvested;
+    const displayValue = state.applyInflation
+      ? (state.applyTax ? final.afterTax / Math.pow(1 + state.inflation/100, state.years) : final.real)
+      : (state.applyTax ? final.afterTax : final.nominal);
+    const netGains = displayValue - totalInvested;
+    const multiple = displayValue / totalInvested;
+
+    // Main result
+    document.getElementById('resultValue').textContent = eur(displayValue);
+    document.getElementById('yearsLabel').textContent = `${state.years} ${state.years === 1 ? 'ANO' : 'ANOS'}`;
+    document.getElementById('statInvested').textContent = eur(totalInvested);
+    const gainEl = document.getElementById('statGain');
+    gainEl.textContent = (netGains > 0 ? '+' : '') + eur(netGains);
+    gainEl.className = 'stat-v ' + (netGains > 0 ? 'pos' : 'neg');
+    document.getElementById('statMultiple').textContent = fmt1(multiple) + '×';
+
+    // Tags
+    const tags = document.getElementById('resultTags');
+    tags.innerHTML =
+      (state.applyInflation ? '<span class="result-tag signal">VALOR REAL</span>' : '') +
+      (state.applyTax ? '<span class="result-tag">APÓS IRS</span>' : '');
+
+    // Chart meta
+    document.getElementById('chartMeta').textContent = `${state.years} ANOS · ${state.rate}% A.A.`;
+
+    // Chart
+    renderChart(data);
+
+    // Scenarios
+    const scenarios = [
+      { label: 'PESSIMISTA', rate: 3 },
+      { label: 'REALISTA', rate: 7 },
+      { label: 'OTIMISTA', rate: 10 },
+    ].map(s => {
+      const d = proj({
+        initial: state.initial, monthly: state.monthly, annualRate: s.rate,
+        years: state.years, inflation: state.inflation, taxRate, fxFee,
+      });
+      const f = d[d.length - 1];
+      const val = state.applyInflation
+        ? (state.applyTax ? f.afterTax / Math.pow(1 + state.inflation/100, state.years) : f.real)
+        : (state.applyTax ? f.afterTax : f.nominal);
+      return { ...s, value: val };
+    });
+    const maxVal = Math.max(...scenarios.map(x => x.value));
+    document.getElementById('scenarios').innerHTML = scenarios.map(s => {
+      const pct = (s.value / maxVal) * 100;
+      const isRealista = s.label === 'REALISTA';
+      return `
+        <div class="scenario">
+          <div class="scenario-head">
+            <div class="scenario-labels">
+              <span class="label ${isRealista ? 'label-signal' : 'label-paper'}">${s.label}</span>
+              <span class="label label-dim">${s.rate}% A.A.</span>
+            </div>
+            <div class="scenario-value ${isRealista ? 'signal' : ''}">${eur(s.value)}</div>
+          </div>
+          <div class="scenario-bar">
+            <div class="scenario-bar-fill ${isRealista ? 'signal' : ''}" style="width: ${pct}%;"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Breakdown
+    const capPct = Math.round((totalInvested / final.nominal) * 100);
+    const jurPct = Math.round((grossGains / final.nominal) * 100);
+    const bdCap = document.getElementById('bdCap');
+    const bdJur = document.getElementById('bdJur');
+    bdCap.style.width = `${capPct}%`;
+    bdCap.textContent = `${capPct}%`;
+    bdJur.textContent = `${jurPct}%`;
+    document.getElementById('bdCapVal').textContent = eur(totalInvested);
+    document.getElementById('bdJurVal').textContent = eur(grossGains);
+  }
+
+  function renderChart(data) {
+    const svg = document.getElementById('chart');
+    const W = 700, H = 240;
+    const padL = 40, padR = 10, padT = 10, padB = 24;
+
+    const years = data.length - 1;
+    const maxVal = Math.max(...data.map(d => d.nominal));
+    const minVal = 0;
+
+    const xScale = (i) => padL + (i / years) * (W - padL - padR);
+    const yScale = (v) => padT + (1 - (v - minVal) / (maxVal - minVal || 1)) * (H - padT - padB);
+
+    // Grid
+    let grid = '';
+    for (let i = 0; i <= 4; i++) {
+      const y = padT + (i / 4) * (H - padT - padB);
+      grid += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="var(--grey)" stroke-dasharray="2 4" stroke-width="1"/>`;
+    }
+
+    // Y axis labels
+    let yLabels = '';
+    for (let i = 0; i <= 4; i++) {
+      const v = maxVal * (1 - i / 4);
+      const label = v >= 1000000 ? `${(v/1000000).toFixed(1)}M` : v >= 1000 ? `${Math.round(v/1000)}k` : Math.round(v);
+      const y = padT + (i / 4) * (H - padT - padB);
+      yLabels += `<text x="${padL - 6}" y="${y + 4}" font-family="Geist Mono" font-size="10" fill="var(--grey-2)" text-anchor="end">${label}</text>`;
+    }
+
+    // X axis labels (every n years)
+    let xLabels = '';
+    const step = years <= 10 ? 1 : years <= 20 ? 5 : years <= 40 ? 10 : 10;
+    for (let i = 0; i <= years; i += step) {
+      const x = xScale(i);
+      xLabels += `<text x="${x}" y="${H - 6}" font-family="Geist Mono" font-size="10" fill="var(--grey-2)" text-anchor="middle">${i}</text>`;
+    }
+
+    // Nominal area
+    const nominalPoints = data.map((d, i) => `${xScale(i)},${yScale(d.nominal)}`).join(' ');
+    const nominalArea = `M${padL},${H - padB} L${data.map((d, i) => `${xScale(i)},${yScale(d.nominal)}`).join(' L')} L${W - padR},${H - padB} Z`;
+
+    // Invested line
+    const investedPoints = data.map((d, i) => `${xScale(i)},${yScale(d.invested)}`).join(' ');
+
+    svg.innerHTML = `
+      ${grid}
+      ${yLabels}
+      ${xLabels}
+      <line x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}" stroke="var(--grey)" stroke-width="1"/>
+      <path d="${nominalArea}" fill="var(--paper)" fill-opacity="0.08"/>
+      <polyline points="${nominalPoints}" fill="none" stroke="var(--paper)" stroke-width="2"/>
+      <polyline points="${investedPoints}" fill="none" stroke="var(--signal)" stroke-width="1.5" stroke-dasharray="4 3"/>
+    `;
+  }
+
+  // ============ INIT ============
+  function setDate() {
+    const d = new Date().toLocaleDateString('pt-PT', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.');
+    document.getElementById('today').textContent = d;
+    document.getElementById('todayFooter').textContent = d;
+  }
+
+  setDate();
+  renderFields();
+  renderToggles();
+  recompute();
+})();
+</script>
+
+</body>
+</html>

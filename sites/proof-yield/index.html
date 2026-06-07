@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROOF. YIELD — Portfolio Imobiliário</title>
+<meta name="description" content="Prova do que cada imóvel entrega. Gestão de portfolio de investimento imobiliário — AL e ALD.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<style>
+  /* ============================================================
+     ECLIPSE DESIGN SYSTEM — Proof Studio
+     Light is default; dark via :root[data-theme="dark"].
+     Legacy variable NAMES are kept and REMAPPED to Eclipse tokens
+     so JS-emitted inline styles + class colors stay coherent.
+     ============================================================ */
+  :root {
+    /* Eclipse tokens — Light */
+    --bg: #fbfcfe;
+    --surface: #f3f6fb;
+    --elevated: #eaeff7;
+    --border: #dde4ee;
+    --border-strong: #c4cee0;
+    --fg: #0b1220;
+    --fg-muted: #4a5366;
+    --fg-subtle: #8b95a8;
+    --accent: #0b1220;
+
+    /* State (feedback only) */
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #94a3c4;
+
+    /* ---- Legacy var names remapped to Eclipse tokens ---- */
+    --ink: var(--bg);          /* page background */
+    --ink-2: var(--surface);   /* card / panel surface */
+    --ink-3: var(--elevated);  /* hover / nested surface */
+    --paper: var(--fg);        /* primary text */
+    --paper-2: var(--fg-muted);
+    --grey: var(--border);
+    --grey-2: var(--fg-muted);
+    --grey-3: var(--fg-subtle);
+    --signal: var(--fg);       /* primary action -> institutional, not red */
+    --signal-2: var(--fg-muted);
+    --warn: var(--warning);
+
+    /* Fonts */
+    --font-display: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'Geist Mono', ui-monospace, monospace;
+    --font-accent: 'Geist', sans-serif;
+
+    /* Radii */
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 12px;
+    --r-xl: 18px;
+    --r-pill: 999px;
+
+    --ease-out: cubic-bezier(0.2, 0, 0, 1);
+    --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration-fast: 120ms;
+    --duration-base: 200ms;
+    --duration-slow: 400ms;
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #06080c;
+    --surface: #0b0f17;
+    --elevated: #11161f;
+    --border: #1c2230;
+    --border-strong: #262e3e;
+    --fg: #f5f7fb;
+    --fg-muted: #8b95a8;
+    --fg-subtle: #4a5366;
+    --accent: #c8d4ea;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html { color-scheme: light dark; background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  button { font-family: inherit; cursor: pointer; }
+  input, select, textarea { font-family: inherit; }
+
+  /* ========== LAYOUT ========== */
+  .shell { max-width: 1320px; margin: 0 auto; padding: 32px 24px 140px; }
+  @media (min-width: 768px) { .shell { padding: 56px 40px 180px; } }
+
+  /* ========== HEADER ========== */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+  .brand .dot { color: var(--fg-subtle); }
+  .brand .sub {
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: 500;
+    color: var(--fg-muted);
+  }
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-subtle);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hero {
+    margin: 48px 0 56px;
+  }
+  .tagline {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(34px, 7vw, 68px);
+    line-height: 1.0;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    color: var(--fg);
+  }
+  .tagline .break { display: block; color: var(--fg-subtle); }
+  .tagline .accent { color: var(--fg); }
+
+  .hero-desc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    max-width: 560px;
+    line-height: 1.8;
+  }
+
+  /* ========== KPI BAR ========== */
+  .kpi-bar {
+    display: grid;
+    grid-template-columns: 1fr;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    margin-bottom: 48px;
+    background: var(--surface);
+  }
+  @media (min-width: 640px) {
+    .kpi-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .kpi-bar { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .kpi {
+    padding: 28px 28px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+  }
+  @media (min-width: 640px) {
+    .kpi:nth-child(2n) { border-right: 1px solid var(--border); }
+    .kpi:nth-last-child(-n+2) { border-bottom: none; }
+  }
+  @media (min-width: 1024px) {
+    .kpi:last-child { border-right: none; }
+    .kpi { border-bottom: none; }
+  }
+  .kpi:last-child { border-right: none; }
+
+  .kpi-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    margin-bottom: 14px;
+  }
+  .kpi-value {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(24px, 4vw, 32px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+  }
+  .kpi-value .unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg-subtle);
+    margin-left: 4px;
+    letter-spacing: 0;
+  }
+
+  /* ========== MAP ========== */
+  .map-section { margin-bottom: 48px; }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  .section-count {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-subtle);
+    letter-spacing: 0.1em;
+  }
+  #map {
+    height: 340px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    #map { height: 400px; }
+  }
+
+  /* override leaflet defaults to match Eclipse */
+  .leaflet-container { background: var(--surface); font-family: var(--font-mono); }
+  .leaflet-control-zoom a,
+  .leaflet-control-attribution {
+    background: var(--elevated) !important;
+    color: var(--fg-muted) !important;
+    border: 1px solid var(--border) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 10px !important;
+  }
+  .leaflet-control-zoom a { color: var(--fg) !important; font-size: 16px !important; }
+  .leaflet-bar { border-radius: var(--r-sm) !important; overflow: hidden; }
+  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background: var(--surface) !important;
+    color: var(--fg) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: none !important;
+    border-radius: var(--r-md) !important;
+  }
+  .leaflet-popup-content {
+    font-family: var(--font-mono) !important;
+    font-size: 11px !important;
+    margin: 14px 16px !important;
+  }
+  .leaflet-popup-content strong {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .leaflet-popup-close-button { color: var(--fg-subtle) !important; }
+  .custom-marker {
+    background: var(--fg);
+    width: 12px;
+    height: 12px;
+    border-radius: var(--r-pill);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--border-strong);
+  }
+
+  /* ========== CTA BAR ========== */
+  .action-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 24px;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--fg);
+    border-radius: var(--r-pill);
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+  .btn:hover { border-color: var(--border-strong); background: var(--surface); }
+  .btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+  /* primary = --fg bg + --bg text */
+  .btn-signal {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+    font-weight: 500;
+  }
+  .btn-signal:hover {
+    background: var(--fg-muted);
+    border-color: var(--fg-muted);
+    color: var(--bg);
+  }
+
+  .btn-ghost {
+    color: var(--fg-muted);
+    border-color: var(--border);
+    background: transparent;
+  }
+  .btn-ghost:hover { color: var(--fg); border-color: var(--border-strong); background: var(--surface); }
+
+  /* ========== EMPTY STATE ========== */
+  .empty {
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 72px 32px;
+    text-align: center;
+    background: var(--surface);
+  }
+  .empty-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 20px;
+  }
+  .empty-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    color: var(--fg);
+  }
+  .empty-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    max-width: 460px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  /* ========== CARD GRID ========== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  @media (min-width: 768px) {
+    .card-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1280px) {
+    .card-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+  .card:hover { border-color: var(--border-strong); }
+
+  .card-head {
+    padding: 20px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .card-id {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-subtle);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+  .card-type {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 9px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+    color: var(--fg-muted);
+    white-space: nowrap;
+  }
+  .card-type.al { color: var(--fg); border-color: var(--border-strong); }
+
+  .card-loc {
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-muted);
+    letter-spacing: 0.02em;
+    line-height: 1.6;
+  }
+  .card-loc .coords {
+    display: block;
+    color: var(--fg-subtle);
+    font-size: 10px;
+    margin-top: 6px;
+    letter-spacing: 0.08em;
+  }
+  .card-tenant {
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-subtle);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .card-tenant strong {
+    display: block;
+    color: var(--fg);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-top: 4px;
+  }
+
+  .card-data {
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 7px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .data-row .k {
+    color: var(--fg-subtle);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+  .data-row .v {
+    color: var(--fg);
+    font-weight: 500;
+  }
+
+  .card-returns {
+    padding: 18px 22px;
+    background: var(--elevated);
+    border-bottom: 1px solid var(--border);
+  }
+  .return-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 7px 0;
+  }
+  .return-row .k {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  .return-row .v {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+  }
+  .return-row.main {
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+    padding-top: 14px;
+  }
+  .return-row.main .k { color: var(--fg); }
+  .return-row.main .v { font-size: 22px; font-weight: 600; }
+
+  .v.positive { color: var(--success); }
+  .v.negative { color: var(--danger); }
+
+  .card-actions {
+    display: flex;
+    gap: 0;
+  }
+  .card-actions .btn {
+    flex: 1;
+    border: none;
+    border-right: 1px solid var(--border);
+    border-radius: 0;
+    padding: 14px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    background: transparent;
+    color: var(--fg-muted);
+  }
+  .card-actions .btn:last-child { border-right: none; }
+  .card-actions .btn:hover { background: var(--elevated); color: var(--fg); }
+
+  /* ========== WARNING ========== */
+  .warn-box {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--warning);
+    border-radius: var(--r-lg);
+    padding: 20px 22px;
+    margin-top: 48px;
+    background: var(--surface);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .warn-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--r-pill);
+    background: var(--warning);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+  .warn-text {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-muted);
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+  .warn-text strong {
+    display: block;
+    color: var(--fg);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* ========== MODAL ========== */
+  .modal-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 8, 12, 0.5);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .modal-scrim.open { display: flex; animation: fade var(--duration-base) var(--ease-out); }
+  @media (min-width: 768px) {
+    .modal-scrim { align-items: center; padding: 40px 20px; }
+  }
+
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slide-up { from { transform: translateY(40px); } to { transform: translateY(0); } }
+
+  .modal {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    width: 100%;
+    max-width: 720px;
+    max-height: 92vh;
+    overflow-y: auto;
+    animation: slide-up var(--duration-slow) var(--ease-enter);
+  }
+  @media (min-width: 768px) {
+    .modal { border-radius: var(--r-xl); }
+  }
+
+  .modal-head {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 2;
+  }
+  .modal-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+  .modal-close {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+    color: var(--fg-muted);
+    padding: 7px 14px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+  .modal-close:hover { border-color: var(--border-strong); color: var(--fg); }
+
+  .modal-body { padding: 28px; }
+
+  .type-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .type-toggle button {
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border);
+    color: var(--fg-muted);
+    padding: 15px;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: all var(--duration-fast) var(--ease-out);
+  }
+  .type-toggle button:last-child { border-right: none; }
+  .type-toggle button.active { background: var(--fg); color: var(--bg); }
+
+  .field-group { margin-bottom: 22px; }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  @media (min-width: 640px) {
+    .field-row.two { grid-template-columns: 1fr 1fr; }
+    .field-row.three { grid-template-columns: 1fr 1fr 1fr; }
+  }
+
+  label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  label .opt { color: var(--fg-subtle); text-transform: none; letter-spacing: 0; font-size: 10px; margin-left: 4px; }
+
+  input[type="text"], input[type="number"], select, textarea {
+    width: 100%;
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    color: var(--fg);
+    padding: 12px 14px;
+    font-size: 15px;
+    font-weight: 400;
+    transition: border-color var(--duration-fast) var(--ease-out);
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--border-strong);
+  }
+  input::placeholder { color: var(--fg-subtle); }
+
+  .input-affix {
+    position: relative;
+  }
+  .input-affix .pfx {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--fg-subtle);
+    pointer-events: none;
+  }
+  .input-affix input { padding-left: 30px; }
+  .input-affix.sfx .pfx { left: auto; right: 14px; }
+  .input-affix.sfx input { padding-left: 14px; padding-right: 38px; }
+
+  .geocode-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  .geocode-row .input-affix, .geocode-row > .field-col { flex: 1; min-width: 200px; }
+  .geocode-status {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-muted);
+    letter-spacing: 0.04em;
+    margin-top: 8px;
+    min-height: 14px;
+  }
+  .geocode-status.ok { color: var(--success); }
+  .geocode-status.err { color: var(--danger); }
+
+  .help {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-subtle);
+    margin-top: 8px;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+  }
+
+  .modal-foot {
+    display: flex;
+    gap: 10px;
+    padding: 22px 28px;
+    border-top: 1px solid var(--border);
+    position: sticky;
+    bottom: 0;
+    background: var(--bg);
+  }
+  .modal-foot .btn { flex: 1; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 28px 0;
+  }
+  .subhead {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-muted);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .subhead-hint {
+    color: var(--fg-subtle);
+    text-transform: none;
+    letter-spacing: 0.04em;
+    margin-top: 6px;
+    display: block;
+    font-size: 10px;
+    line-height: 1.6;
+  }
+
+  /* ========== FOOTER SIGNATURE ========== */
+  .signature {
+    margin-top: 96px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .sig-brand {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+  .sig-brand .dot { color: var(--fg-subtle); }
+  .sig-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .sig-meta span { color: var(--fg-subtle); margin: 0 8px; }
+  .sig-tools {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    width: 100%;
+  }
+  .sig-tools .btn {
+    flex: 1;
+    font-size: 9px;
+    padding: 11px;
+  }
+  @media (min-width: 768px) {
+    .sig-tools { width: auto; margin-top: 0; }
+    .sig-tools .btn { flex: none; }
+  }
+
+  /* ========== STAMP ========== */
+  .stamp-approved {
+    position: fixed;
+    bottom: 180px;
+    right: 24px;
+    width: 120px;
+    height: 120px;
+    border: 2px solid var(--fg);
+    border-radius: var(--r-pill);
+    color: var(--fg);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-12deg);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.9;
+    text-align: center;
+    line-height: 1.3;
+    background: var(--bg);
+  }
+
+  /* ========== SCROLLBAR ========== */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--r-pill); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--fg-subtle); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="brand">PROOF<span class="dot">.</span><span class="sub">YIELD</span></div>
+    <div class="meta" id="topMeta">v0.1 · 2026.04.19</div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="tagline">
+      PROVA DO QUE<br>
+      <span class="accent">CADA IMÓVEL</span><br>
+      <span class="break">ENTREGA.</span>
+    </h1>
+    <p class="hero-desc">Portfolio · Alojamento Local e Arrendamento de Longa Duração · Rentabilidade real com alavancagem bancária</p>
+  </section>
+
+  <!-- KPI BAR -->
+  <div class="kpi-bar" id="kpiBar">
+    <div class="kpi">
+      <div class="kpi-label">Valor Total Portfolio</div>
+      <div class="kpi-value" id="kpiValor">€0</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Total Investido (Entrada)</div>
+      <div class="kpi-value" id="kpiEntrada">€0</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Cashflow Anual</div>
+      <div class="kpi-value" id="kpiCashflow">€0</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">ROI Cash-on-Cash</div>
+      <div class="kpi-value" id="kpiRoi">0<span class="unit">%</span></div>
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <section class="map-section">
+    <div class="section-head">
+      <div class="section-title">Mapa do Portfolio</div>
+      <div class="section-count" id="mapCount">0 IMÓVEIS</div>
+    </div>
+    <div id="map"></div>
+  </section>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+    <button class="btn btn-signal" id="btnAdd">+ Adicionar Imóvel</button>
+    <button class="btn btn-ghost" id="btnSeed">Dados de exemplo</button>
+  </div>
+
+  <!-- LIST -->
+  <div class="section-head">
+    <div class="section-title">Imóveis</div>
+    <div class="section-count" id="listCount">0 TOTAL</div>
+  </div>
+
+  <div id="listHost">
+    <div class="empty" id="empty">
+      <div class="empty-label">● Portfolio Vazio</div>
+      <div class="empty-title">Sem Imóveis Ainda.</div>
+      <div class="empty-sub">Adiciona o primeiro imóvel para começar. Cálculos aplicam-se em tempo real.</div>
+    </div>
+    <div class="card-grid" id="grid" style="display:none"></div>
+  </div>
+
+  <!-- WARNING -->
+  <div class="warn-box" id="warnBox" style="display:none">
+    <div class="warn-dot"></div>
+    <div class="warn-text">
+      <strong>Aviso de Precisão</strong>
+      Os cálculos usam os dados introduzidos. Se deixares "custos anuais adicionais" a zero, o ROI é optimista — exclui IMI, condomínio, seguros, manutenção, IRS e comissões de plataformas. Preenche esses valores para obter rentabilidade realista.
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <footer class="signature">
+    <div>
+      <div class="sig-brand">PROOF<span class="dot">.</span> YIELD</div>
+      <div class="sig-meta">CASE 001 <span>·</span> v0.1 <span>·</span> <span id="sigDate">2026.04.19</span></div>
+    </div>
+    <div class="sig-tools">
+      <button class="btn btn-ghost" id="btnExport">Export JSON</button>
+      <button class="btn btn-ghost" id="btnImport">Import</button>
+      <button class="btn btn-ghost" id="btnClear">Limpar Tudo</button>
+    </div>
+  </footer>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-scrim" id="modal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle">Novo Imóvel</div>
+      <button class="modal-close" id="modalClose" aria-label="Fechar">Fechar ✕</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="type-toggle" role="radiogroup" aria-label="Tipo">
+        <button type="button" class="active" data-type="AL">Alojamento Local</button>
+        <button type="button" data-type="ALD">Arrendamento LD</button>
+      </div>
+
+      <!-- IDENTIFICAÇÃO -->
+      <div class="subhead">Identificação</div>
+
+      <div class="field-group">
+        <label for="fName">Nome / Referência</label>
+        <input type="text" id="fName" placeholder="Ex: T2 Avenidas Novas" autocomplete="off">
+      </div>
+
+      <!-- MORADA + GEOCODE -->
+      <div class="field-group">
+        <label for="fAddress">Morada</label>
+        <div class="geocode-row">
+          <div class="input-affix" style="flex:1; min-width:200px;">
+            <input type="text" id="fAddress" placeholder="Rua, nº, cidade" autocomplete="off">
+          </div>
+          <button type="button" class="btn" id="btnGeo">Geocodificar</button>
+        </div>
+        <div class="geocode-status" id="geoStatus"></div>
+      </div>
+
+      <div class="field-row two">
+        <div class="field-group">
+          <label for="fLat">Latitude <span class="opt">(auto)</span></label>
+          <input type="text" id="fLat" placeholder="38.7223">
+        </div>
+        <div class="field-group">
+          <label for="fLng">Longitude <span class="opt">(auto)</span></label>
+          <input type="text" id="fLng" placeholder="-9.1393">
+        </div>
+      </div>
+
+      <!-- FINANCEIRO -->
+      <div class="divider"></div>
+      <div class="subhead">Financeiro <span class="subhead-hint">Valores base da aquisição e financiamento</span></div>
+
+      <div class="field-row three">
+        <div class="field-group">
+          <label for="fValor">Valor do imóvel</label>
+          <div class="input-affix"><span class="pfx">€</span>
+            <input type="number" id="fValor" placeholder="185000" min="0" step="1000">
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="fEntrada">Entrada inicial</label>
+          <div class="input-affix"><span class="pfx">€</span>
+            <input type="number" id="fEntrada" placeholder="37000" min="0" step="500">
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="fPrest">Prestação banco / mês</label>
+          <div class="input-affix"><span class="pfx">€</span>
+            <input type="number" id="fPrest" placeholder="620" min="0" step="10">
+          </div>
+        </div>
+      </div>
+
+      <!-- RENDIMENTO -->
+      <div class="divider"></div>
+      <div class="subhead">Rendimento <span class="subhead-hint">Receita bruta mensal antes de custos operacionais</span></div>
+
+      <div class="field-row two">
+        <div class="field-group">
+          <label for="fRenda">Rendimento / mês</label>
+          <div class="input-affix"><span class="pfx">€</span>
+            <input type="number" id="fRenda" placeholder="1450" min="0" step="10">
+          </div>
+        </div>
+        <div class="field-group" id="fldOcup">
+          <label for="fOcup">Taxa de ocupação <span class="opt">(AL)</span></label>
+          <div class="input-affix sfx"><span class="pfx">%</span>
+            <input type="number" id="fOcup" placeholder="70" min="0" max="100" step="1" value="70">
+          </div>
+        </div>
+        <div class="field-group" id="fldTenant" style="display:none">
+          <label for="fTenant">Inquilino <span class="opt">(ALD)</span></label>
+          <input type="text" id="fTenant" placeholder="Nome completo" autocomplete="off">
+        </div>
+      </div>
+
+      <!-- CUSTOS -->
+      <div class="divider"></div>
+      <div class="subhead">Custos Anuais Adicionais <span class="subhead-hint">IMI + Condomínio + Seguros + Manutenção + Comissões + IRS estimado. Se 0, o ROI será optimista.</span></div>
+
+      <div class="field-group">
+        <label for="fCustos">Soma total anual <span class="opt">(opcional mas recomendado)</span></label>
+        <div class="input-affix"><span class="pfx">€</span>
+          <input type="number" id="fCustos" placeholder="2500" min="0" step="50" value="0">
+        </div>
+        <div class="help">Regra prática: manutenção ~1% do valor do imóvel/ano. IMI ~0.3–0.45% VPT. AL: comissão Airbnb ~15%.</div>
+      </div>
+
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="btnCancel">Cancelar</button>
+      <button class="btn btn-signal" id="btnSave">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- STAMP (reveals on high ROI) -->
+<div class="stamp-approved" id="stamp">APPROVED<br>YIELD<br>&gt; 15%</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+(() => {
+  'use strict';
+
+  // ============ STATE ============
+  const STORAGE_KEY = 'proof-yield-v1';
+  let state = loadState();
+  let editingId = null;
+  let currentType = 'AL';
+  let map = null;
+  let markers = [];
+
+  // ============ UTILS ============
+  function uid() {
+    return 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  }
+
+  function fmtEur(n, opts = {}) {
+    if (!isFinite(n)) return '€0';
+    const rounded = Math.round(n);
+    const s = Math.abs(rounded).toLocaleString('pt-PT');
+    return (rounded < 0 ? '-€' : '€') + s;
+  }
+
+  function fmtPct(n) {
+    if (!isFinite(n)) return '0.0%';
+    return n.toFixed(1).replace('.', ',') + '%';
+  }
+
+  function todayStr() {
+    const d = new Date();
+    return d.getFullYear() + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getDate()).padStart(2,'0');
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return { items: [] };
+      const parsed = JSON.parse(raw);
+      if (!parsed.items || !Array.isArray(parsed.items)) return { items: [] };
+      return parsed;
+    } catch (e) { return { items: [] }; }
+  }
+
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  }
+
+  // ============ CALC ============
+  function calc(it) {
+    const renda = Number(it.renda) || 0;
+    const prest = Number(it.prest) || 0;
+    const valor = Number(it.valor) || 0;
+    const entrada = Number(it.entrada) || 0;
+    const custos = Number(it.custos) || 0;
+    const ocup = it.type === 'AL' ? (Number(it.ocup) || 0) / 100 : 1;
+
+    const rendaAnualBruta = renda * 12;
+    const rendaAnualEfetiva = rendaAnualBruta * ocup;
+    const prestAnual = prest * 12;
+
+    const cashflowAnual = rendaAnualEfetiva - prestAnual - custos;
+    const cashflowMensal = cashflowAnual / 12;
+
+    const yieldBruto = valor > 0 ? (rendaAnualBruta / valor) * 100 : 0;
+    const yieldLiquido = valor > 0 ? ((rendaAnualEfetiva - custos) / valor) * 100 : 0;
+    const cashOnCash = entrada > 0 ? (cashflowAnual / entrada) * 100 : 0;
+    const roiTotal = valor > 0 ? (cashflowAnual / valor) * 100 : 0;
+
+    return {
+      rendaAnualBruta, rendaAnualEfetiva, prestAnual,
+      cashflowAnual, cashflowMensal,
+      yieldBruto, yieldLiquido, cashOnCash, roiTotal
+    };
+  }
+
+  function portfolioTotals() {
+    const t = {
+      valor: 0, entrada: 0, cashflowAnual: 0, rendaAnualBruta: 0
+    };
+    state.items.forEach(it => {
+      const c = calc(it);
+      t.valor += Number(it.valor) || 0;
+      t.entrada += Number(it.entrada) || 0;
+      t.cashflowAnual += c.cashflowAnual;
+      t.rendaAnualBruta += c.rendaAnualBruta;
+    });
+    t.roi = t.entrada > 0 ? (t.cashflowAnual / t.entrada) * 100 : 0;
+    return t;
+  }
+
+  // ============ RENDER ============
+  function render() {
+    renderKPIs();
+    renderList();
+    renderMap();
+    renderSignature();
+    const hasItems = state.items.length > 0;
+    document.getElementById('empty').style.display = hasItems ? 'none' : 'block';
+    document.getElementById('grid').style.display = hasItems ? 'grid' : 'none';
+    document.getElementById('warnBox').style.display = hasItems ? 'flex' : 'none';
+  }
+
+  function renderKPIs() {
+    const t = portfolioTotals();
+    document.getElementById('kpiValor').textContent = fmtEur(t.valor);
+    document.getElementById('kpiEntrada').textContent = fmtEur(t.entrada);
+    const cfEl = document.getElementById('kpiCashflow');
+    cfEl.textContent = fmtEur(t.cashflowAnual);
+    cfEl.style.color = t.cashflowAnual >= 0 ? 'var(--paper)' : 'var(--signal)';
+
+    const roiEl = document.getElementById('kpiRoi');
+    roiEl.innerHTML = t.roi.toFixed(1).replace('.', ',') + '<span class="unit">%</span>';
+    roiEl.style.color = t.roi >= 0 ? 'var(--paper)' : 'var(--signal)';
+
+    // stamp
+    const stamp = document.getElementById('stamp');
+    stamp.style.display = (t.roi >= 15 && state.items.length >= 1) ? 'flex' : 'none';
+  }
+
+  function renderList() {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    document.getElementById('listCount').textContent = state.items.length + ' TOTAL';
+    document.getElementById('mapCount').textContent = state.items.length + (state.items.length === 1 ? ' IMÓVEL' : ' IMÓVEIS');
+
+    state.items.forEach((it, idx) => {
+      const c = calc(it);
+      const cardEl = document.createElement('div');
+      cardEl.className = 'card';
+
+      const id = String(idx + 1).padStart(3, '0');
+      const typeLbl = it.type === 'AL' ? 'ALOJAMENTO LOCAL' : 'ARRENDAMENTO LD';
+      const typeCls = it.type === 'AL' ? 'al' : '';
+
+      const tenantBlock = it.type === 'ALD' && it.tenant ? `
+        <div class="card-tenant">
+          Inquilino
+          <strong>${escapeHtml(it.tenant)}</strong>
+        </div>` : '';
+
+      const ocupRow = it.type === 'AL' ? `
+        <div class="data-row"><span class="k">Ocupação</span><span class="v">${(Number(it.ocup)||0)}%</span></div>` : '';
+
+      const coords = (it.lat && it.lng) ? `<span class="coords">LAT ${Number(it.lat).toFixed(4)} · LNG ${Number(it.lng).toFixed(4)}</span>` : '';
+      const addr = it.address ? escapeHtml(it.address) : '<span style="color:var(--grey-3)">Sem morada</span>';
+
+      const cfPos = c.cashflowAnual >= 0 ? 'positive' : 'negative';
+      const roiPos = c.cashOnCash >= 0 ? 'positive' : 'negative';
+
+      cardEl.innerHTML = `
+        <div class="card-head">
+          <div>
+            <div class="card-id">IMÓVEL ${id}</div>
+            <div class="card-title">${escapeHtml(it.name || 'Sem nome')}</div>
+          </div>
+          <div class="card-type ${typeCls}">${typeLbl}</div>
+        </div>
+
+        <div class="card-loc">
+          ${addr}
+          ${coords}
+        </div>
+
+        ${tenantBlock}
+
+        <div class="card-data">
+          <div class="data-row"><span class="k">Valor Imóvel</span><span class="v">${fmtEur(it.valor)}</span></div>
+          <div class="data-row"><span class="k">Entrada</span><span class="v">${fmtEur(it.entrada)}</span></div>
+          <div class="data-row"><span class="k">Prestação/mês</span><span class="v">${fmtEur(it.prest)}</span></div>
+          <div class="data-row"><span class="k">Renda/mês</span><span class="v">${fmtEur(it.renda)}</span></div>
+          ${ocupRow}
+          <div class="data-row"><span class="k">Custos anuais</span><span class="v">${fmtEur(it.custos || 0)}</span></div>
+        </div>
+
+        <div class="card-returns">
+          <div class="return-row">
+            <span class="k">Yield Bruto</span>
+            <span class="v">${fmtPct(c.yieldBruto)}</span>
+          </div>
+          <div class="return-row">
+            <span class="k">Cashflow anual</span>
+            <span class="v ${cfPos}">${fmtEur(c.cashflowAnual)}</span>
+          </div>
+          <div class="return-row main">
+            <span class="k">ROI Cash-on-Cash</span>
+            <span class="v ${roiPos}">${fmtPct(c.cashOnCash)}</span>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="btn" data-action="edit" data-id="${it.id}">Editar</button>
+          <button class="btn" data-action="remove" data-id="${it.id}">Remover</button>
+        </div>
+      `;
+      grid.appendChild(cardEl);
+    });
+
+    grid.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const id = btn.getAttribute('data-id');
+        const action = btn.getAttribute('data-action');
+        if (action === 'edit') openModal(id);
+        if (action === 'remove') removeItem(id);
+      });
+    });
+  }
+
+  function renderSignature() {
+    document.getElementById('sigDate').textContent = todayStr();
+    document.getElementById('topMeta').textContent = 'v0.1 · ' + todayStr();
+  }
+
+  // ============ MAP ============
+  function initMap() {
+    map = L.map('map', {
+      zoomControl: true,
+      attributionControl: true
+    }).setView([39.5, -8.0], 6);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+  }
+
+  function renderMap() {
+    if (!map) return;
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+
+    const pts = state.items.filter(it => it.lat && it.lng);
+    pts.forEach((it, idx) => {
+      const icon = L.divIcon({
+        className: '',
+        html: '<div class="custom-marker"></div>',
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
+      });
+      const m = L.marker([Number(it.lat), Number(it.lng)], { icon }).addTo(map);
+      const c = calc(it);
+      const id = String(state.items.indexOf(it) + 1).padStart(3, '0');
+      m.bindPopup(`
+        <strong>IMÓVEL ${id}</strong><br>
+        ${escapeHtml(it.name || '')}<br>
+        <br>
+        ${it.type === 'AL' ? 'AL' : 'ALD'}<br>
+        ROI: ${fmtPct(c.cashOnCash)}<br>
+        CF/ano: ${fmtEur(c.cashflowAnual)}
+      `);
+      markers.push(m);
+    });
+
+    if (pts.length === 1) {
+      map.setView([Number(pts[0].lat), Number(pts[0].lng)], 14);
+    } else if (pts.length > 1) {
+      const bounds = L.latLngBounds(pts.map(p => [Number(p.lat), Number(p.lng)]));
+      map.fitBounds(bounds, { padding: [40, 40] });
+    }
+  }
+
+  // ============ MODAL ============
+  function openModal(id = null) {
+    editingId = id;
+    const modal = document.getElementById('modal');
+    const title = document.getElementById('modalTitle');
+
+    if (id) {
+      const it = state.items.find(x => x.id === id);
+      if (!it) return;
+      title.textContent = 'Editar Imóvel';
+      setType(it.type);
+      document.getElementById('fName').value = it.name || '';
+      document.getElementById('fAddress').value = it.address || '';
+      document.getElementById('fLat').value = it.lat || '';
+      document.getElementById('fLng').value = it.lng || '';
+      document.getElementById('fValor').value = it.valor || '';
+      document.getElementById('fEntrada').value = it.entrada || '';
+      document.getElementById('fPrest').value = it.prest || '';
+      document.getElementById('fRenda').value = it.renda || '';
+      document.getElementById('fOcup').value = it.ocup ?? 70;
+      document.getElementById('fTenant').value = it.tenant || '';
+      document.getElementById('fCustos').value = it.custos ?? 0;
+    } else {
+      title.textContent = 'Novo Imóvel';
+      setType('AL');
+      ['fName','fAddress','fLat','fLng','fValor','fEntrada','fPrest','fRenda','fTenant'].forEach(k => document.getElementById(k).value = '');
+      document.getElementById('fOcup').value = 70;
+      document.getElementById('fCustos').value = 0;
+    }
+    document.getElementById('geoStatus').textContent = '';
+    document.getElementById('geoStatus').className = 'geocode-status';
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+    editingId = null;
+  }
+
+  function setType(t) {
+    currentType = t;
+    document.querySelectorAll('.type-toggle button').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-type') === t);
+    });
+    document.getElementById('fldOcup').style.display = t === 'AL' ? 'block' : 'none';
+    document.getElementById('fldTenant').style.display = t === 'ALD' ? 'block' : 'none';
+  }
+
+  // ============ GEOCODE ============
+  async function geocode() {
+    const addr = document.getElementById('fAddress').value.trim();
+    const status = document.getElementById('geoStatus');
+    if (!addr) {
+      status.textContent = 'Introduz uma morada primeiro.';
+      status.className = 'geocode-status err';
+      return;
+    }
+    status.textContent = 'A geocodificar…';
+    status.className = 'geocode-status';
+    try {
+      const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=pt&q=' + encodeURIComponent(addr);
+      const resp = await fetch(url, { headers: { 'Accept-Language': 'pt-PT' } });
+      const data = await resp.json();
+      if (data && data.length > 0) {
+        document.getElementById('fLat').value = Number(data[0].lat).toFixed(6);
+        document.getElementById('fLng').value = Number(data[0].lon).toFixed(6);
+        status.textContent = '✓ Localizado: ' + (data[0].display_name || '').slice(0, 80);
+        status.className = 'geocode-status ok';
+      } else {
+        status.textContent = 'Não encontrado. Introduz lat/lng manualmente.';
+        status.className = 'geocode-status err';
+      }
+    } catch (e) {
+      status.textContent = 'Erro de rede. Introduz lat/lng manualmente.';
+      status.className = 'geocode-status err';
+    }
+  }
+
+  // ============ SAVE / REMOVE ============
+  function saveItem() {
+    const name = document.getElementById('fName').value.trim();
+    if (!name) {
+      alert('Nome obrigatório.');
+      return;
+    }
+    const data = {
+      id: editingId || uid(),
+      type: currentType,
+      name,
+      address: document.getElementById('fAddress').value.trim(),
+      lat: document.getElementById('fLat').value.trim(),
+      lng: document.getElementById('fLng').value.trim(),
+      valor: Number(document.getElementById('fValor').value) || 0,
+      entrada: Number(document.getElementById('fEntrada').value) || 0,
+      prest: Number(document.getElementById('fPrest').value) || 0,
+      renda: Number(document.getElementById('fRenda').value) || 0,
+      ocup: Number(document.getElementById('fOcup').value) || 0,
+      tenant: document.getElementById('fTenant').value.trim(),
+      custos: Number(document.getElementById('fCustos').value) || 0,
+      createdAt: editingId ? (state.items.find(x => x.id === editingId)?.createdAt || Date.now()) : Date.now()
+    };
+
+    if (editingId) {
+      const i = state.items.findIndex(x => x.id === editingId);
+      if (i >= 0) state.items[i] = data;
+    } else {
+      state.items.push(data);
+    }
+    saveState();
+    render();
+    closeModal();
+  }
+
+  function removeItem(id) {
+    const it = state.items.find(x => x.id === id);
+    if (!it) return;
+    if (!confirm('Remover "' + (it.name || 'imóvel') + '"? Esta acção é irreversível.')) return;
+    state.items = state.items.filter(x => x.id !== id);
+    saveState();
+    render();
+  }
+
+  // ============ EXPORT / IMPORT / SEED ============
+  function exportJson() {
+    const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'proof-yield-portfolio-' + todayStr() + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importJson() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          if (!parsed.items || !Array.isArray(parsed.items)) throw new Error('Formato inválido');
+          if (!confirm('Isto vai substituir o portfolio atual por ' + parsed.items.length + ' imóveis. Continuar?')) return;
+          state = parsed;
+          saveState();
+          render();
+        } catch (err) {
+          alert('Ficheiro inválido: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
+
+  function clearAll() {
+    if (!confirm('Apagar todos os imóveis do portfolio? Acção irreversível.')) return;
+    state = { items: [] };
+    saveState();
+    render();
+  }
+
+  function seedExample() {
+    if (state.items.length > 0) {
+      if (!confirm('Isto vai adicionar imóveis de exemplo ao portfolio actual. Continuar?')) return;
+    }
+    const samples = [
+      {
+        id: uid(), type: 'AL', name: 'T2 Avenidas Novas',
+        address: 'Avenida da República, Lisboa',
+        lat: '38.738900', lng: '-9.146000',
+        valor: 285000, entrada: 57000, prest: 920, renda: 1800, ocup: 72,
+        tenant: '', custos: 3600, createdAt: Date.now()
+      },
+      {
+        id: uid(), type: 'ALD', name: 'T3 Parque das Nações',
+        address: 'Avenida D. João II, Lisboa',
+        lat: '38.764800', lng: '-9.094000',
+        valor: 340000, entrada: 68000, prest: 1100, renda: 1450, ocup: 100,
+        tenant: 'João Silva Martins', custos: 2200, createdAt: Date.now() + 1
+      },
+      {
+        id: uid(), type: 'AL', name: 'T1 Ribeira Porto',
+        address: 'Rua das Flores, Porto',
+        lat: '41.141700', lng: '-8.614000',
+        valor: 175000, entrada: 35000, prest: 560, renda: 1350, ocup: 68,
+        tenant: '', custos: 2800, createdAt: Date.now() + 2
+      }
+    ];
+    state.items.push(...samples);
+    saveState();
+    render();
+  }
+
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // ============ EVENTS ============
+  document.getElementById('btnAdd').addEventListener('click', () => openModal());
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('btnCancel').addEventListener('click', closeModal);
+  document.getElementById('btnSave').addEventListener('click', saveItem);
+  document.getElementById('btnGeo').addEventListener('click', geocode);
+  document.getElementById('btnExport').addEventListener('click', exportJson);
+  document.getElementById('btnImport').addEventListener('click', importJson);
+  document.getElementById('btnClear').addEventListener('click', clearAll);
+  document.getElementById('btnSeed').addEventListener('click', seedExample);
+
+  document.querySelectorAll('.type-toggle button').forEach(b => {
+    b.addEventListener('click', () => setType(b.getAttribute('data-type')));
+  });
+
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target.id === 'modal') closeModal();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  document.getElementById('fAddress').addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      geocode();
+    }
+  });
+
+  // ============ BOOT ============
+  initMap();
+  render();
+})();
+</script>
+
+</body>
+</html>

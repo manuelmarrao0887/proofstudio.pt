@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ALDEIA DOS PATUDINHOS.</title>
+  <meta name="description" content="Sistema de gestão de creche canina. Powered by PROOF.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       ECLIPSE design system — Proof Studio
+       Light (primary) theme. Legacy token names are
+       kept and remapped to Eclipse values so inline
+       styles emitted by the app's JS keep resolving.
+       ============================================ */
+    :root {
+      /* Eclipse tokens */
+      --bg:            #fbfcfe;
+      --surface:       #f3f6fb;
+      --elevated:      #eaeff7;
+      --border:        #dde4ee;
+      --border-strong: #c4cee0;
+      --fg:            #0b1220;
+      --fg-muted:      #4a5366;
+      --fg-subtle:     #8b95a8;
+      --accent:        #0b1220;
+
+      /* System states */
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger:  #ef4444;
+      --info:    #94a3c4;
+
+      /* Type */
+      --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, monospace;
+
+      /* Radius */
+      --radius-xs: 6px;
+      --radius-sm: 10px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+
+      /* Legacy aliases — mapped onto Eclipse tokens.
+         These names are referenced in inline styles by the app JS. */
+      --ink:     var(--bg);          /* canvas */
+      --ink-2:   var(--surface);     /* cards / panels */
+      --ink-3:   var(--elevated);    /* nested / overlays */
+      --paper:   var(--fg);          /* primary text */
+      --paper-2: var(--fg-muted);    /* secondary text */
+      --grey:    var(--border);      /* hairlines */
+      --grey-2:  var(--fg-subtle);   /* meta / captions */
+      --grey-3:  var(--fg-muted);
+      --signal:  var(--fg);          /* accent = near-black (no saturated colour) */
+      --signal-2:var(--fg-muted);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { color-scheme: light; background: var(--bg); }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    button { font-family: inherit; }
+    input, select, textarea {
+      font-family: var(--font-sans);
+      background: var(--elevated);
+      color: var(--fg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      padding: 10px 12px;
+      font-size: 14px;
+      width: 100%;
+      outline: none;
+      transition: border-color 120ms cubic-bezier(0.2, 0, 0, 1);
+    }
+    input::placeholder, textarea::placeholder { color: var(--fg-subtle); }
+    input:focus, select:focus, textarea:focus { border-color: var(--border-strong); }
+    select { cursor: pointer; }
+
+    /* Layout */
+    .header-wrap {
+      border-bottom: 1px solid var(--border);
+      padding: 48px 32px;
+    }
+    .header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    main {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 48px 32px;
+    }
+
+    /* Tipografia */
+    h1 {
+      font-size: clamp(40px, 7vw, 76px);
+      font-weight: 500;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      text-wrap: balance;
+      margin-bottom: 12px;
+    }
+    h2 {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      line-height: 1.05;
+      text-wrap: balance;
+      margin-bottom: 32px;
+      margin-top: 48px;
+    }
+    h2:first-child { margin-top: 0; }
+    h3 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--fg-subtle);
+      margin-bottom: 16px;
+    }
+    h4 {
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      margin-bottom: 4px;
+    }
+    p { color: var(--fg-muted); text-wrap: pretty; }
+    .label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--fg-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .signal-dot { color: var(--fg-subtle); }
+
+    /* Componentes */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .card-nested {
+      background: var(--elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+    }
+    .btn {
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      border: none;
+      transition: all 120ms cubic-bezier(0.2, 0, 0, 1);
+    }
+    .btn-primary {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    .btn-primary:hover { background: var(--fg-muted); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--border-strong); background: var(--elevated); }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+    }
+    .badge-success {
+      background: color-mix(in srgb, var(--success) 14%, transparent);
+      color: var(--success);
+      border-color: color-mix(in srgb, var(--success) 35%, transparent);
+    }
+    .badge-signal {
+      background: color-mix(in srgb, var(--danger) 12%, transparent);
+      color: var(--danger);
+      border-color: color-mix(in srgb, var(--danger) 35%, transparent);
+    }
+    .badge-grey {
+      background: var(--elevated);
+      color: var(--fg-muted);
+      border-color: var(--border);
+    }
+
+    /* Grelhas */
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    .grid-kpi {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .grid-prices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+    }
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .grid-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* KPI */
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: -0.025em;
+      color: var(--fg);
+      margin-top: 12px;
+    }
+
+    /* Itens */
+    .item {
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px;
+      margin-top: 64px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--fg-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Utilidades */
+    .mt-0 { margin-top: 0; }
+    .mt-1 { margin-top: 8px; }
+    .mt-2 { margin-top: 16px; }
+    .mt-3 { margin-top: 24px; }
+    .mt-4 { margin-top: 32px; }
+    .mb-0 { margin-bottom: 0; }
+    .mb-1 { margin-bottom: 8px; }
+    .mb-2 { margin-bottom: 16px; }
+    .mb-3 { margin-bottom: 24px; }
+    .mb-4 { margin-bottom: 32px; }
+    .gap-2 { gap: 16px; }
+    .muted { color: var(--fg-subtle); }
+    .small { font-size: 13px; }
+    .tiny { font-size: 11px; }
+    .text-right { text-align: right; }
+
+    @media (max-width: 640px) {
+      .header-wrap, main { padding: 32px 16px; }
+      .card { padding: 20px; }
+    }
+
+    /* Respeitar reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    // ============================================
+    // ESTADO DA APLICAÇÃO
+    // ============================================
+    const state = {
+      userRole: null,
+      currentClientId: null,
+      selectedDogCheckIn: null,
+      selectedDogVacine: null,
+      editingDog: null,
+      newVacine: { type: '', date: '', nextDue: '' },
+      newBooking: { startDate: '', endDate: '', notes: '', dogId: null },
+      showBookingForm: false,
+
+      prices: { 0: 35, 1: 45, 2: 45, 3: 45, 4: 45, 5: 50, 6: 40 },
+
+      clients: [
+        { id: 1, name: 'João Silva', email: 'joao.silva@email.com', phone: '919999999', transport: true, dogs: [
+          { id: 101, name: 'Rex', breed: 'Golden Retriever', birthDate: '2020-03-15',
+            vacines: [
+              { id: 'v1', type: 'Raiva', date: '2025-12-01', nextDue: '2026-12-01' },
+              { id: 'v2', type: 'DHPP', date: '2025-10-15', nextDue: '2026-10-15' }
+            ],
+            checkIns: [
+              { id: 'ci1', checkIn: '2026-04-16T08:30', checkOut: '2026-04-16T17:00' },
+              { id: 'ci2', checkIn: '2026-04-15T09:00', checkOut: '2026-04-15T17:30' }
+            ]
+          },
+          { id: 102, name: 'Luna', breed: 'Labrador', birthDate: '2021-07-22', vacines: [], checkIns: [] },
+          { id: 103, name: 'Bolt', breed: 'Border Collie', birthDate: '2022-01-10', vacines: [], checkIns: [] }
+        ]},
+        { id: 2, name: 'Maria Santos', email: 'maria.santos@email.com', phone: '918888888', transport: false, dogs: [
+          { id: 104, name: 'Max', breed: 'Pastor Alemão', birthDate: '2019-05-20', vacines: [], checkIns: [] },
+          { id: 105, name: 'Bella', breed: 'Poodle', birthDate: '2022-11-08', vacines: [], checkIns: [] }
+        ]},
+        { id: 3, name: 'Pedro Oliveira', email: 'pedro.oliveira@email.com', phone: '917777777', transport: true, dogs: [
+          { id: 106, name: 'Charlie', breed: 'Beagle', birthDate: '2021-03-30', vacines: [], checkIns: [] },
+          { id: 107, name: 'Daisy', breed: 'Cocker Spaniel', birthDate: '2020-09-12', vacines: [], checkIns: [] }
+        ]},
+        { id: 4, name: 'Ana Costa', email: 'ana.costa@email.com', phone: '916666666', transport: false, dogs: [
+          { id: 108, name: 'Buddy', breed: 'Bulldog', birthDate: '2021-06-07', vacines: [], checkIns: [] },
+          { id: 109, name: 'Molly', breed: 'Dálmata', birthDate: '2020-02-14', vacines: [], checkIns: [] },
+          { id: 110, name: 'Rocky', breed: 'Rottweiler', birthDate: '2019-12-25', vacines: [], checkIns: [] }
+        ]},
+        { id: 5, name: 'Carlos Ferreira', email: 'carlos.ferreira@email.com', phone: '915555555', transport: true, dogs: [
+          { id: 111, name: 'Duke', breed: 'Doberman', birthDate: '2021-04-18', vacines: [], checkIns: [] },
+          { id: 112, name: 'Lucy', breed: 'Shiba Inu', birthDate: '2022-08-09', vacines: [], checkIns: [] }
+        ]},
+        { id: 6, name: 'Filipa Martins', email: 'filipa.martins@email.com', phone: '914444444', transport: false, dogs: [
+          { id: 113, name: 'Simba', breed: 'Husky', birthDate: '2020-11-03', vacines: [], checkIns: [] },
+          { id: 114, name: 'Nala', breed: 'Husky', birthDate: '2020-11-03', vacines: [], checkIns: [] },
+          { id: 115, name: 'Zuri', breed: 'Schnauzer', birthDate: '2021-07-19', vacines: [], checkIns: [] }
+        ]},
+        { id: 7, name: 'Ricardo Santos', email: 'ricardo.santos@email.com', phone: '913333333', transport: true, dogs: [
+          { id: 116, name: 'Scout', breed: 'Australian Shepherd', birthDate: '2021-09-25', vacines: [], checkIns: [] }
+        ]},
+        { id: 8, name: 'Joana Gomes', email: 'joana.gomes@email.com', phone: '912222222', transport: false, dogs: [
+          { id: 117, name: 'Zeus', breed: 'Boxer', birthDate: '2020-01-14', vacines: [], checkIns: [] },
+          { id: 118, name: 'Athena', breed: 'Boxer', birthDate: '2020-01-14', vacines: [], checkIns: [] },
+          { id: 119, name: 'Apollo', breed: 'Boxer', birthDate: '2020-01-14', vacines: [], checkIns: [] }
+        ]},
+        { id: 9, name: 'Miguel Rocha', email: 'miguel.rocha@email.com', phone: '911111111', transport: true, dogs: [
+          { id: 120, name: 'Shadow', breed: 'Pincher Miniatura', birthDate: '2022-05-08', vacines: [], checkIns: [] },
+          { id: 121, name: 'Blaze', breed: 'Pincher Miniatura', birthDate: '2022-05-08', vacines: [], checkIns: [] }
+        ]},
+        { id: 10, name: 'Sofia Pereira', email: 'sofia.pereira@email.com', phone: '910000000', transport: false, dogs: [
+          { id: 122, name: 'Lady', breed: 'Pug', birthDate: '2021-10-20', vacines: [], checkIns: [] },
+          { id: 123, name: 'Tiger', breed: 'Pug', birthDate: '2021-10-20', vacines: [], checkIns: [] }
+        ]}
+      ],
+
+      bookings: [
+        { id: 'b1', clientId: 1, dogId: 101, startDate: '2026-04-20', endDate: '2026-04-25', notes: 'Férias em Barcelona', status: 'confirmed' },
+        { id: 'b2', clientId: 2, dogId: 104, startDate: '2026-05-01', endDate: '2026-05-05', notes: 'Viagem de trabalho', status: 'pending' }
+      ]
+    };
+
+    // ============================================
+    // HELPERS
+    // ============================================
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    function getAllDogs() {
+      const all = [];
+      state.clients.forEach(c => c.dogs.forEach(d => all.push({ ...d, clientId: c.id, clientName: c.name, transport: c.transport })));
+      return all;
+    }
+
+    function getClient(id) { return state.clients.find(c => c.id === id); }
+    function getCurrentClient() { return getClient(state.currentClientId); }
+
+    function findDogClient(dogId) {
+      for (const c of state.clients) {
+        const d = c.dogs.find(x => x.id === dogId);
+        if (d) return { client: c, dog: d };
+      }
+      return null;
+    }
+
+    function calculateMonthlyPrice(clientId) {
+      const client = getClient(clientId);
+      if (!client) return 0;
+      let total = 0;
+      for (let i = 0; i < 30; i++) {
+        const date = new Date(2026, 3, 1 + i);
+        total += state.prices[date.getDay()] || 0;
+      }
+      if (client.transport) total += 30 * 10;
+      return total;
+    }
+
+    function computeStats() {
+      const allDogs = getAllDogs();
+      return {
+        revenue: state.clients.reduce((sum, c) => sum + calculateMonthlyPrice(c.id), 0),
+        totalClients: state.clients.length,
+        totalDogs: allDogs.length,
+        withTransport: state.clients.filter(c => c.transport).length,
+        dogsNow: allDogs.filter(d => d.checkIns.some(ci => !ci.checkOut)).length,
+        missingVacines: allDogs.filter(d => d.vacines.length === 0).length
+      };
+    }
+
+    function formatDateTime(iso) {
+      try { return new Date(iso).toLocaleString('pt-PT'); } catch(e) { return iso; }
+    }
+
+    function isVacineExpired(nextDue) {
+      try { return new Date(nextDue) < new Date(); } catch(e) { return false; }
+    }
+
+    // ============================================
+    // ACÇÕES
+    // ============================================
+    function login(role) {
+      state.userRole = role;
+      render();
+    }
+
+    function loginCliente(clientId) {
+      if (!clientId) return;
+      state.userRole = 'cliente';
+      state.currentClientId = parseInt(clientId);
+      render();
+    }
+
+    function logout() {
+      state.userRole = null;
+      state.currentClientId = null;
+      state.selectedDogCheckIn = null;
+      state.selectedDogVacine = null;
+      state.editingDog = null;
+      state.showBookingForm = false;
+      render();
+    }
+
+    function selectDogCheckIn(dogId) {
+      state.selectedDogCheckIn = dogId ? parseInt(dogId) : null;
+      render();
+    }
+
+    function selectDogVacine(dogId) {
+      state.selectedDogVacine = dogId ? parseInt(dogId) : null;
+      state.editingDog = null;
+      render();
+    }
+
+    function updatePrice(day, value) {
+      const n = parseInt(value);
+      if (!isNaN(n)) state.prices[day] = n;
+      render();
+    }
+
+    function doCheckIn(dogId) {
+      const ref = findDogClient(dogId);
+      if (!ref) return;
+      ref.dog.checkIns.push({
+        id: 'ci-' + Date.now(),
+        checkIn: new Date().toISOString(),
+        checkOut: null
+      });
+      render();
+    }
+
+    function doCheckOut(dogId) {
+      const ref = findDogClient(dogId);
+      if (!ref) return;
+      const last = ref.dog.checkIns[ref.dog.checkIns.length - 1];
+      if (last && !last.checkOut) {
+        last.checkOut = new Date().toISOString();
+      }
+      render();
+    }
+
+    function startEditVacine(dogId) {
+      state.editingDog = dogId;
+      state.newVacine = { type: '', date: '', nextDue: '' };
+      render();
+    }
+
+    function cancelEditVacine() {
+      state.editingDog = null;
+      state.newVacine = { type: '', date: '', nextDue: '' };
+      render();
+    }
+
+    function updateNewVacine(field, value) {
+      state.newVacine[field] = value;
+    }
+
+    function saveVacine(dogId) {
+      if (!state.newVacine.type || !state.newVacine.date) {
+        alert('Indique pelo menos o tipo de vacina e a data de aplicação.');
+        return;
+      }
+      const ref = findDogClient(dogId);
+      if (!ref) return;
+      ref.dog.vacines.push({
+        id: 'v-' + Date.now(),
+        type: state.newVacine.type,
+        date: state.newVacine.date,
+        nextDue: state.newVacine.nextDue || state.newVacine.date
+      });
+      state.editingDog = null;
+      state.newVacine = { type: '', date: '', nextDue: '' };
+      render();
+    }
+
+    function toggleBookingForm() {
+      state.showBookingForm = !state.showBookingForm;
+      state.newBooking = { startDate: '', endDate: '', notes: '', dogId: null };
+      render();
+    }
+
+    function updateNewBooking(field, value) {
+      state.newBooking[field] = value;
+    }
+
+    function createBooking() {
+      const client = getCurrentClient();
+      if (!client) return;
+      const dogId = state.newBooking.dogId || client.dogs[0]?.id;
+      if (!dogId || !state.newBooking.startDate || !state.newBooking.endDate) {
+        alert('Preencha o cão, data de início e data de fim.');
+        return;
+      }
+      state.bookings.push({
+        id: 'b-' + Date.now(),
+        clientId: client.id,
+        dogId: parseInt(dogId),
+        startDate: state.newBooking.startDate,
+        endDate: state.newBooking.endDate,
+        notes: state.newBooking.notes || '',
+        status: 'pending'
+      });
+      state.showBookingForm = false;
+      state.newBooking = { startDate: '', endDate: '', notes: '', dogId: null };
+      render();
+    }
+
+    // ============================================
+    // VIEWS
+    // ============================================
+    function renderHeader(subtitle, showLogout = false) {
+      return `
+        <div class="header-wrap">
+          <div class="header-inner">
+            <div>
+              <h1>Aldeia dos<br/>Patudinhos<span class="signal-dot">.</span></h1>
+              <p class="label">${esc(subtitle)}</p>
+            </div>
+            ${showLogout ? `<button class="btn btn-secondary" onclick="logout()">Logout</button>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFooter() {
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
+      return `<footer>Aldeia dos Patudinhos · Powered by PROOF. · v2.0 · ${y}.${m}.${d}</footer>`;
+    }
+
+    function renderLogin() {
+      return `
+        ${renderHeader('Sistema de gestão de creche canina', false)}
+        <main>
+          <h2>Selecione o seu acesso</h2>
+          <div class="grid-cards">
+            <div class="card">
+              <h3>Dono do Negócio</h3>
+              <p class="small mb-3" style="color: var(--paper-2);">Acesso completo: gestão financeira, relatórios, definição de preços, todas as operações.</p>
+              <button class="btn btn-primary" onclick="login('owner')">Entrar como Owner</button>
+            </div>
+            <div class="card">
+              <h3>Operadora</h3>
+              <p class="small mb-3" style="color: var(--paper-2);">Gestão diária: check-in, check-out, vacinas, histórico de cães.</p>
+              <button class="btn btn-primary" onclick="login('operadora')">Entrar como Operadora</button>
+            </div>
+            <div class="card">
+              <h3>Cliente</h3>
+              <p class="small mb-3" style="color: var(--paper-2);">Consulta: estado do cão, histórico, reservas e faturação.</p>
+              <select onchange="loginCliente(this.value)">
+                <option value="">Selecione o seu nome</option>
+                ${state.clients.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+        </main>
+        ${renderFooter()}
+      `;
+    }
+
+    function renderOwner() {
+      const stats = computeStats();
+      const kpis = [
+        { label: 'Receita Mensal', value: '€' + stats.revenue },
+        { label: 'Clientes', value: stats.totalClients },
+        { label: 'Cães', value: stats.totalDogs },
+        { label: 'Com Transporte', value: stats.withTransport },
+        { label: 'Cães Presentes', value: stats.dogsNow },
+        { label: 'Sem Vacinas', value: stats.missingVacines }
+      ];
+      const days = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+
+      return `
+        ${renderHeader('Owner Dashboard', true)}
+        <main>
+          <div class="grid-kpi">
+            ${kpis.map(k => `
+              <div class="card">
+                <p class="label">${esc(k.label)}</p>
+                <p class="kpi-value">${esc(k.value)}</p>
+              </div>
+            `).join('')}
+          </div>
+
+          <h2>Configurar Preços</h2>
+          <div class="card">
+            <div class="grid-prices">
+              ${days.map((day, idx) => `
+                <div>
+                  <label class="label">${day}</label>
+                  <input type="number" value="${state.prices[idx]}" oninput="updatePrice(${idx}, this.value)" />
+                </div>
+              `).join('')}
+            </div>
+            <p class="tiny muted mt-3" style="font-family: 'Geist Mono', monospace;">Transporte opcional: €10/dia por cliente ativo.</p>
+          </div>
+
+          <h2>Clientes</h2>
+          <div class="grid">
+            ${state.clients.map(c => `
+              <div class="card">
+                <div class="row">
+                  <div>
+                    <h4>${esc(c.name)}</h4>
+                    <p class="small muted">${esc(c.email)} · ${esc(c.phone)}</p>
+                    <p class="tiny mt-1" style="color: var(--paper-2);">
+                      ${c.dogs.length} cão(es)${c.transport ? ' · <span class="badge badge-grey" style="padding: 2px 8px; font-size: 9px;">Transporte</span>' : ''}
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="label">Receita Mensal</p>
+                    <p style="font-size: 20px; font-weight: 500; letter-spacing: -0.02em; color: var(--fg);">€${calculateMonthlyPrice(c.id)}</p>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </main>
+        ${renderFooter()}
+      `;
+    }
+
+    function renderOperadora() {
+      const allDogs = getAllDogs();
+      const sel = state.selectedDogCheckIn;
+      const dogCheckIn = sel ? allDogs.find(d => d.id === sel) : null;
+      const activeCheckIn = dogCheckIn ? dogCheckIn.checkIns.find(ci => !ci.checkOut) : null;
+
+      const selV = state.selectedDogVacine;
+      const dogVacine = selV ? allDogs.find(d => d.id === selV) : null;
+
+      return `
+        ${renderHeader('Operadora · Gestão Diária', true)}
+        <main>
+          <h2>Check-in / Check-out</h2>
+          <div class="card mb-4">
+            <h3>Selecionar Cão</h3>
+            <select onchange="selectDogCheckIn(this.value)" class="mb-3">
+              <option value="">— Selecione um cão —</option>
+              ${allDogs.map(d => `<option value="${d.id}" ${d.id === sel ? 'selected' : ''}>${esc(d.name)} (${esc(d.clientName)})</option>`).join('')}
+            </select>
+
+            ${dogCheckIn ? `
+              <div class="card-nested">
+                <div class="mb-3">
+                  <h4>${esc(dogCheckIn.name)}</h4>
+                  <p class="small muted">${esc(dogCheckIn.breed)} · ${esc(dogCheckIn.clientName)}</p>
+                </div>
+                ${activeCheckIn ? `
+                  <p class="small mb-2">Estado: <span class="badge badge-success">Presente</span></p>
+                  <p class="tiny muted mb-2">Entrada: ${formatDateTime(activeCheckIn.checkIn)}</p>
+                  <button class="btn btn-primary" onclick="doCheckOut(${dogCheckIn.id})">Fazer Check-out</button>
+                ` : `
+                  <p class="small mb-2">Estado: <span class="badge badge-grey">Ausente</span></p>
+                  <button class="btn btn-primary" onclick="doCheckIn(${dogCheckIn.id})">Fazer Check-in</button>
+                `}
+                ${dogCheckIn.checkIns.length > 0 ? `
+                  <div class="mt-4" style="padding-top: 24px; border-top: 1px solid var(--grey);">
+                    <p class="label">Histórico</p>
+                    <div style="max-height: 240px; overflow-y: auto;">
+                      ${dogCheckIn.checkIns.slice().reverse().map(ci => `
+                        <div class="item">
+                          Entrada: ${formatDateTime(ci.checkIn)}
+                          ${ci.checkOut ? `<div class="tiny muted mt-1">Saída: ${formatDateTime(ci.checkOut)}</div>` : ''}
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+            ` : ''}
+          </div>
+
+          <h2>Gestão de Vacinas</h2>
+          <div class="card">
+            <h3>Selecionar Cão</h3>
+            <select onchange="selectDogVacine(this.value)" class="mb-3">
+              <option value="">— Selecione um cão —</option>
+              ${allDogs.map(d => `<option value="${d.id}" ${d.id === selV ? 'selected' : ''}>${esc(d.name)} (${esc(d.clientName)})</option>`).join('')}
+            </select>
+
+            ${dogVacine ? `
+              <div class="card-nested">
+                <h4 class="mb-3">${esc(dogVacine.name)} · ${esc(dogVacine.clientName)}</h4>
+                ${dogVacine.vacines.length > 0 ? `
+                  <div class="mb-3">
+                    ${dogVacine.vacines.map(v => `
+                      <div class="item item-row">
+                        <div>
+                          <p style="font-weight: 500; font-size: 13px; color: var(--fg);">${esc(v.type)}</p>
+                          <p class="tiny muted mt-1">Aplicada: ${esc(v.date)} · Próxima: ${esc(v.nextDue)}</p>
+                        </div>
+                        ${isVacineExpired(v.nextDue) ? `<span class="badge badge-signal">Vencida</span>` : `<span class="badge badge-success">Válida</span>`}
+                      </div>
+                    `).join('')}
+                  </div>
+                ` : `<p class="small muted mb-3">Sem vacinas registadas.</p>`}
+
+                ${state.editingDog === dogVacine.id ? `
+                  <div class="grid-form mb-2">
+                    <input type="text" placeholder="Tipo (ex: Raiva)" value="${esc(state.newVacine.type)}" oninput="updateNewVacine('type', this.value)" />
+                    <input type="date" value="${esc(state.newVacine.date)}" oninput="updateNewVacine('date', this.value)" />
+                    <input type="date" value="${esc(state.newVacine.nextDue)}" oninput="updateNewVacine('nextDue', this.value)" />
+                  </div>
+                  <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-primary" onclick="saveVacine(${dogVacine.id})">Guardar</button>
+                    <button class="btn btn-secondary" onclick="cancelEditVacine()">Cancelar</button>
+                  </div>
+                ` : `
+                  <button class="btn btn-secondary" onclick="startEditVacine(${dogVacine.id})">Adicionar Vacina</button>
+                `}
+              </div>
+            ` : ''}
+          </div>
+        </main>
+        ${renderFooter()}
+      `;
+    }
+
+    function renderCliente() {
+      const c = getCurrentClient();
+      if (!c) { logout(); return ''; }
+      const clientBookings = state.bookings.filter(b => b.clientId === c.id);
+
+      return `
+        ${renderHeader('Portal do Cliente', true)}
+        <main>
+          <h2>${esc(c.name)}</h2>
+          <p class="small muted mb-4" style="margin-top: -24px;">${esc(c.email)} · ${esc(c.phone)}</p>
+
+          <h3>Meus Cães</h3>
+          <div class="grid mb-4">
+            ${c.dogs.map(dog => `
+              <div class="card">
+                <div class="mb-3">
+                  <h4>${esc(dog.name)}</h4>
+                  <p class="small muted">${esc(dog.breed)} · Nascido ${esc(dog.birthDate)}</p>
+                </div>
+
+                <div class="mb-3">
+                  <p class="label">Vacinas</p>
+                  ${dog.vacines.length > 0 ? dog.vacines.map(v => `
+                    <div class="item">
+                      ${esc(v.type)} · ${esc(v.date)}
+                      ${isVacineExpired(v.nextDue) ? `<span class="badge badge-signal" style="margin-left: 12px;">Vencida</span>` : ''}
+                    </div>
+                  `).join('') : `<p class="small muted">Nenhuma vacina registada.</p>`}
+                </div>
+
+                <div>
+                  <p class="label">Histórico Recente</p>
+                  ${dog.checkIns.length > 0 ? dog.checkIns.slice(-3).reverse().map(ci => `
+                    <div class="item">
+                      Entrada: ${formatDateTime(ci.checkIn)}
+                      ${ci.checkOut ? `<div class="tiny muted mt-1">Saída: ${formatDateTime(ci.checkOut)}</div>` : ''}
+                    </div>
+                  `).join('') : `<p class="small muted">Nenhum histórico.</p>`}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <h3>Minhas Reservas</h3>
+          <div class="grid mb-4">
+            ${clientBookings.length > 0 ? clientBookings.map(b => {
+              const d = c.dogs.find(x => x.id === b.dogId);
+              return `
+                <div class="card">
+                  <div class="row">
+                    <div>
+                      <h4>${esc(d ? d.name : '—')}</h4>
+                      <p class="small muted">${esc(b.startDate)} até ${esc(b.endDate)}</p>
+                      ${b.notes ? `<p class="small mt-2" style="color: var(--paper-2);">${esc(b.notes)}</p>` : ''}
+                    </div>
+                    <span class="badge ${b.status === 'confirmed' ? 'badge-success' : 'badge-signal'}">
+                      ${b.status === 'confirmed' ? 'Confirmada' : 'Pendente'}
+                    </span>
+                  </div>
+                </div>
+              `;
+            }).join('') : `<p class="small muted">Sem reservas.</p>`}
+
+            ${state.showBookingForm ? `
+              <div class="card-nested">
+                <h3>Nova Reserva</h3>
+                <div class="grid-form mb-2">
+                  <select onchange="updateNewBooking('dogId', this.value)">
+                    <option value="">Selecionar cão</option>
+                    ${c.dogs.map(d => `<option value="${d.id}" ${state.newBooking.dogId == d.id ? 'selected' : ''}>${esc(d.name)}</option>`).join('')}
+                  </select>
+                  <input type="date" value="${esc(state.newBooking.startDate)}" oninput="updateNewBooking('startDate', this.value)" />
+                  <input type="date" value="${esc(state.newBooking.endDate)}" oninput="updateNewBooking('endDate', this.value)" />
+                </div>
+                <textarea placeholder="Notas (opcional)" oninput="updateNewBooking('notes', this.value)" style="min-height: 80px; margin-bottom: 16px;">${esc(state.newBooking.notes)}</textarea>
+                <div style="display: flex; gap: 12px;">
+                  <button class="btn btn-primary" onclick="createBooking()">Confirmar Reserva</button>
+                  <button class="btn btn-secondary" onclick="toggleBookingForm()">Cancelar</button>
+                </div>
+              </div>
+            ` : `
+              <button class="btn btn-primary" style="justify-self: start;" onclick="toggleBookingForm()">Fazer Reserva</button>
+            `}
+          </div>
+
+          <h3>Informações da Conta</h3>
+          <div class="card">
+            <p class="small mb-1"><span class="muted">Email:</span> ${esc(c.email)}</p>
+            <p class="small mb-1"><span class="muted">Telefone:</span> ${esc(c.phone)}</p>
+            <p class="small">
+              <span class="muted">Transporte:</span>
+              ${c.transport ? `<span class="badge badge-success" style="margin-left: 8px;">Ativo</span>` : `<span class="badge badge-grey" style="margin-left: 8px;">Inativo</span>`}
+            </p>
+          </div>
+        </main>
+        ${renderFooter()}
+      `;
+    }
+
+    // ============================================
+    // RENDER PRINCIPAL
+    // ============================================
+    function render() {
+      const app = document.getElementById('app');
+      let html = '';
+      if (state.userRole === 'owner') html = renderOwner();
+      else if (state.userRole === 'operadora') html = renderOperadora();
+      else if (state.userRole === 'cliente') html = renderCliente();
+      else html = renderLogin();
+      app.innerHTML = html;
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // Inicialização
+    render();
+  </script>
+</body>
+</html>

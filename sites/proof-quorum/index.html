@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROOF. QUORUM. — Calçada do Tojal 48</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ───── Eclipse tokens (light) ───── */
+    --bg: #fbfcfe;
+    --surface: #f3f6fb;
+    --elevated: #eaeff7;
+    --border: #dde4ee;
+    --border-strong: #c4cee0;
+    --fg: #0b1220;
+    --fg-muted: #4a5366;
+    --fg-subtle: #8b95a8;
+    --accent: #0b1220;
+
+    /* State (feedback only) */
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #94a3c4;
+
+    /* ───── Legacy var remap → Eclipse (DO NOT rename; JS emits these inline) ───── */
+    --ink: var(--bg);
+    --ink-2: var(--surface);
+    --ink-3: var(--elevated);
+    --paper: var(--fg);
+    --paper-2: var(--fg-muted);
+    --grey: var(--border);
+    --grey-2: var(--fg-muted);
+    --grey-3: var(--fg-subtle);
+    --signal: var(--fg);
+    --signal-2: var(--accent);
+
+    /* Fonts */
+    --font-display: 'Geist', sans-serif;
+    --font-body: 'Geist', sans-serif;
+    --font-mono: 'Geist Mono', monospace;
+    --font-accent: 'Geist', sans-serif;
+    --ease-out: cubic-bezier(0.2, 0, 0, 1);
+    --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #06080c;
+    --surface: #0b0f17;
+    --elevated: #11161f;
+    --border: #1c2230;
+    --border-strong: #262e3e;
+    --fg: #f5f7fb;
+    --fg-muted: #8b95a8;
+    --fg-subtle: #4a5366;
+    --accent: #c8d4ea;
+
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #94a3c4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { color-scheme: light; background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--fg); color: var(--bg); }
+
+  a, button { color: inherit; font-family: inherit; }
+  button { cursor: pointer; background: transparent; border: none; }
+
+  /* ───── HEADER ───────────────────────────── */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    color: var(--fg);
+  }
+  .wordmark .dot { color: var(--fg-subtle); }
+  .wordmark .sub {
+    font-weight: 600;
+    color: var(--fg);
+  }
+  .wordmark .bar {
+    width: 1px;
+    height: 14px;
+    background: var(--border-strong);
+    align-self: center;
+  }
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+  }
+  .caption {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    font-weight: 400;
+  }
+  .role-select {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--surface);
+    padding: 3px;
+    gap: 2px;
+  }
+  .role-select button {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    color: var(--fg-muted);
+    border-radius: 999px;
+    transition: all 140ms var(--ease-out);
+  }
+  .role-select button.active {
+    background: var(--fg);
+    color: var(--bg);
+    font-weight: 500;
+  }
+  .role-select button:not(.active):hover {
+    background: var(--elevated);
+    color: var(--fg);
+  }
+
+  /* ───── LAYOUT ───────────────────────────── */
+  .layout {
+    display: grid;
+    grid-template-columns: 248px 1fr;
+    min-height: calc(100vh - 62px - 74px);
+  }
+  .sidebar {
+    border-right: 1px solid var(--border);
+    padding: 36px 0;
+    background: var(--bg);
+    position: sticky;
+    top: 62px;
+    align-self: start;
+    height: calc(100vh - 62px);
+    overflow-y: auto;
+  }
+  .sidebar-section {
+    padding: 0 28px 8px;
+    margin-bottom: 14px;
+  }
+  .sidebar-section-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    margin-bottom: 12px;
+  }
+  .nav-item {
+    width: 100%;
+    text-align: left;
+    padding: 10px 28px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--fg-muted);
+    border-left: 2px solid transparent;
+    transition: all 140ms var(--ease-out);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    letter-spacing: -0.005em;
+  }
+  .nav-item:hover {
+    background: var(--surface);
+    color: var(--fg);
+  }
+  .nav-item.active {
+    background: var(--surface);
+    border-left-color: var(--fg);
+    color: var(--fg);
+    font-weight: 500;
+  }
+  .nav-item .count {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-subtle);
+    font-weight: 400;
+  }
+  .nav-item.active .count { color: var(--fg-muted); }
+
+  /* ───── MAIN ─────────────────────────────── */
+  main {
+    padding: 56px 64px 96px;
+    max-width: 1240px;
+  }
+  .page-header {
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 42px);
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--fg);
+  }
+  .page-subtitle {
+    color: var(--fg-muted);
+    font-size: 14px;
+    margin-top: 12px;
+    letter-spacing: -0.005em;
+    max-width: 620px;
+  }
+  .page-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+
+  /* ───── GRID & CARDS ─────────────────────── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  @media (max-width: 1024px) {
+    .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 26px 28px;
+  }
+  .card-signal {
+    border-left: 2px solid var(--fg);
+  }
+  .card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 36px;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--fg);
+  }
+  .stat-value .unit {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--fg-subtle);
+    margin-left: 4px;
+    letter-spacing: 0;
+  }
+  .stat-delta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-subtle);
+    margin-top: 12px;
+    letter-spacing: 0.02em;
+  }
+  .stat-delta.up { color: var(--success); }
+  .stat-delta.down { color: var(--danger); }
+
+  /* ───── STATUS DOT ───────────────────────── */
+  .status {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--fg-muted);
+  }
+  .status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .status.ready { color: var(--warning); }
+  .status.approved { color: var(--success); }
+  .status.draft { color: var(--fg-subtle); }
+  .status.archived { color: var(--fg-subtle); }
+
+  /* ───── TABLES ───────────────────────────── */
+  .table {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .table th, .table td {
+    padding: 15px 22px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .table th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    background: var(--elevated);
+    padding: 13px 22px;
+  }
+  .table td { font-weight: 400; color: var(--fg); }
+  .table td .mono { font-family: var(--font-mono); font-weight: 400; }
+  .table tr:last-child td { border-bottom: none; }
+  .table tr:hover td { background: var(--elevated); }
+  .table .amount { text-align: right; font-family: var(--font-mono); font-weight: 400; }
+  .table .amount.neg { color: var(--danger); }
+  .table .amount.pos { color: var(--success); }
+
+  /* ───── BUTTONS ──────────────────────────── */
+  .btn {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 11px 22px;
+    border: 1px solid var(--fg);
+    background: var(--fg);
+    color: var(--bg);
+    border-radius: 999px;
+    transition: all 140ms var(--ease-out);
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+  .btn-secondary {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--fg);
+  }
+  .btn-secondary:hover { border-color: var(--border-strong); background: var(--surface); opacity: 1; }
+  .btn-signal {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+    font-weight: 500;
+  }
+  .btn-signal:hover { opacity: 0.85; }
+
+  /* ───── SECTION SEP ──────────────────────── */
+  .section {
+    margin-top: 64px;
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.015em;
+    color: var(--fg);
+  }
+
+  /* ───── BUILDING DIAGRAM ─────────────────── */
+  .building {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+  }
+  .floor {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    min-height: 72px;
+    align-items: stretch;
+  }
+  .floor:last-child { border-bottom: none; }
+  .floor-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    padding: 18px 16px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+  }
+  .unit {
+    padding: 16px 18px;
+    border-right: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 140ms var(--ease-out);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .unit:last-child { border-right: none; }
+  .unit:hover { background: var(--elevated); }
+  .unit.self { background: var(--elevated); border-left: 2px solid var(--fg); padding-left: 16px; }
+  .unit.common { background: repeating-linear-gradient(45deg, var(--surface), var(--surface) 8px, var(--elevated) 8px, var(--elevated) 16px); }
+  .unit-id {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+  }
+  .unit-owner {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg);
+    margin-top: 5px;
+  }
+  .unit-status {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--fg-subtle);
+    letter-spacing: 0.1em;
+    margin-top: 5px;
+    text-transform: uppercase;
+  }
+  .unit.debt .unit-status { color: var(--danger); }
+
+  /* ───── LIST ITEMS ───────────────────────── */
+  .item-list { border: 1px solid var(--border); background: var(--surface); border-radius: 12px; overflow: hidden; }
+  .item-row {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 24px;
+    padding: 20px 26px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-date {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-subtle);
+    letter-spacing: 0.02em;
+  }
+  .item-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--fg);
+  }
+  .item-meta {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-top: 5px;
+  }
+
+  /* ───── PROGRESS BAR ─────────────────────── */
+  .progress {
+    height: 6px;
+    background: var(--elevated);
+    border-radius: 999px;
+    position: relative;
+    margin-top: 14px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--fg);
+    border-radius: 999px;
+    transition: width 400ms var(--ease-out);
+  }
+  .progress-fill.signal { background: var(--fg); }
+  .progress-fill.success { background: var(--success); }
+
+  /* ───── CHAT / MURAL ─────────────────────── */
+  .mural-post {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 14px;
+  }
+  .mural-post.pinned { border-left: 2px solid var(--fg); }
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .post-author {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    color: var(--fg);
+  }
+  .post-date {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-subtle);
+    letter-spacing: 0.05em;
+  }
+  .post-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--fg-muted);
+  }
+  .post-tag.urgent { border-color: var(--warning); color: var(--warning); }
+  .post-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--fg-muted);
+  }
+  .post-body em {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--fg);
+  }
+
+  /* ───── FORM ─────────────────────────────── */
+  .form-group { margin-bottom: 20px; }
+  .form-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 9px;
+  }
+  .input, .textarea, .select {
+    width: 100%;
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 12px 16px;
+    border-radius: 6px;
+    font: 400 14px var(--font-body);
+    transition: border-color 140ms var(--ease-out);
+  }
+  .input:focus, .textarea:focus, .select:focus {
+    border-color: var(--border-strong);
+    outline: none;
+  }
+  .input::placeholder, .textarea::placeholder { color: var(--fg-subtle); }
+  .textarea { min-height: 120px; resize: vertical; font-family: var(--font-body); }
+
+  /* ───── FINANCIAL BAR ────────────────────── */
+  .fin-bar {
+    display: grid;
+    grid-template-columns: 140px 1fr 120px;
+    gap: 16px;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .fin-bar:last-child { border-bottom: none; }
+  .fin-bar-label {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--fg-muted);
+  }
+  .fin-bar-track {
+    height: 6px;
+    background: var(--elevated);
+    border-radius: 999px;
+    position: relative;
+    overflow: hidden;
+  }
+  .fin-bar-track .fill {
+    height: 100%;
+    background: var(--fg);
+    border-radius: 999px;
+  }
+  .fin-bar-amount {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-align: right;
+    color: var(--fg);
+  }
+
+  /* ───── FOOTER ───────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .footer-wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+  }
+  .footer-wordmark .dot { color: var(--fg-subtle); }
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-subtle);
+  }
+
+  /* ───── QUOTE / PULL ─────────────────────── */
+  .pull {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--fg);
+    padding: 26px 0 26px 30px;
+    border-left: 1px solid var(--border-strong);
+    margin: 40px 0;
+    max-width: 680px;
+  }
+
+  /* ───── UTILS ────────────────────────────── */
+  .hidden { display: none !important; }
+  .mono { font-family: var(--font-mono); }
+  .muted { color: var(--fg-muted); }
+  .big-num {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 46px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--fg);
+  }
+  .mt-2 { margin-top: 8px; } .mt-4 { margin-top: 16px; } .mt-6 { margin-top: 24px; } .mt-8 { margin-top: 32px; }
+  .mb-2 { margin-bottom: 8px; } .mb-4 { margin-bottom: 16px; } .mb-6 { margin-bottom: 24px; }
+  .flex { display: flex; } .items-center { align-items: center; } .justify-between { justify-content: space-between; }
+  .gap-4 { gap: 16px; } .gap-6 { gap: 24px; } .gap-8 { gap: 32px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); padding: 20px 0; }
+    main { padding: 36px 24px 64px; }
+    .header { padding: 16px 20px; flex-wrap: wrap; }
+    .role-select button { padding: 7px 11px; font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────────────────────────────────────── HEADER ─────────────── -->
+<header class="header">
+  <div class="wordmark">
+    <span>PROOF<span class="dot">.</span></span>
+    <span class="bar"></span>
+    <span class="sub">QUORUM<span class="dot">.</span></span>
+  </div>
+  <div class="header-meta">
+    <span class="caption">CASE 048 · Calçada do Tojal</span>
+    <div class="role-select" role="tablist" aria-label="Perfil de acesso">
+      <button data-role="admin" class="active">Administração</button>
+      <button data-role="condomino">Condómino</button>
+      <button data-role="inquilino">Inquilino</button>
+    </div>
+    <span class="caption">v0.1.0</span>
+  </div>
+</header>
+
+<!-- ─────────────────────────────────────────── LAYOUT ─────────────── -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div id="sidebar-nav"></div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main id="content"></main>
+</div>
+
+<!-- ─────────────────────────────────────────── FOOTER ─────────────── -->
+<footer>
+  <div class="footer-wordmark">PROOF<span class="dot">.</span> · QUORUM<span class="dot">.</span></div>
+  <div class="footer-meta">PROOF. · QUORUM. · CASE 048 · v0.1.0 · 2026.04.19</div>
+</footer>
+
+<script>
+/* ───────────────────────────────────────────── DADOS MOCK ──────────── */
+
+const EDIFICIO = {
+  morada: 'Calçada do Tojal, 48',
+  postal: '1750-309 Lisboa',
+  fracoes: 10,
+  privadas: 9,
+  comuns: 1
+};
+
+const FRACOES = [
+  { id: 'CV-ESQ', piso: 'C/V', lado: 'ESQ', nome: 'António Silva', permilagem: 75, quota: 52, estado: 'regular', contacto: 'antonio.silva@email.pt' },
+  { id: 'CV-DTO', piso: 'C/V', lado: 'DTO', nome: 'FRAÇÃO COMUM', permilagem: 80, quota: 0, estado: 'arrendada', contacto: null, inquilino: 'Maria Santos', renda: 700 },
+  { id: 'RC-ESQ', piso: 'R/C', lado: 'ESQ', nome: 'Pedro Almeida', permilagem: 95, quota: 66, estado: 'regular', contacto: 'pedro.almeida@email.pt' },
+  { id: 'RC-DTO', piso: 'R/C', lado: 'DTO', nome: 'Isabel Ferreira', permilagem: 95, quota: 66, estado: 'regular', contacto: 'isabel.f@email.pt' },
+  { id: '1-ESQ',  piso: '1.º', lado: 'ESQ', nome: 'João Martins', permilagem: 110, quota: 76, estado: 'regular', contacto: 'joao.martins@email.pt' },
+  { id: '1-DTO',  piso: '1.º', lado: 'DTO', nome: 'Sofia Costa', permilagem: 110, quota: 76, estado: 'regular', contacto: 'sofia.costa@email.pt', admin: true },
+  { id: '2-ESQ',  piso: '2.º', lado: 'ESQ', nome: 'Rui Pereira', permilagem: 110, quota: 76, estado: 'divida', divida: 228, mesesAtraso: 3, contacto: 'rui.p@email.pt' },
+  { id: '2-DTO',  piso: '2.º', lado: 'DTO', nome: 'Catarina Lopes', permilagem: 110, quota: 76, estado: 'divida', divida: 76, mesesAtraso: 1, contacto: 'catarina.l@email.pt' },
+  { id: '3-ESQ',  piso: '3.º', lado: 'ESQ', nome: 'Miguel Rodrigues', permilagem: 105, quota: 73, estado: 'regular', contacto: 'miguel.r@email.pt', admin: true },
+  { id: '3-DTO',  piso: '3.º', lado: 'DTO', nome: 'Helena Dias', permilagem: 100, quota: 69, estado: 'regular', contacto: 'helena.d@email.pt' }
+];
+
+// O "condómino" que está logado para demonstração: Sofia Costa (1.º Dto)
+const CONDOMINO_ATUAL = '1-DTO';
+const INQUILINO_ATUAL = { fracao: 'CV-DTO', nome: 'Maria Santos', inicioContrato: '2024-09-01', renda: 700, caucao: 1400 };
+
+const ADMINISTRADORES = [
+  { nome: 'Sofia Costa', papel: 'Administradora executiva', fracao: '1.º Dto', desde: '2024-03', contacto: 'admin@tojal48.pt', telemovel: '+351 9XX XXX XXX' },
+  { nome: 'Miguel Rodrigues', papel: 'Vogal', fracao: '3.º Esq', desde: '2024-03', contacto: 'miguel.r@email.pt' },
+  { nome: 'Gesprédios Lda.', papel: 'Apoio contabilístico externo', fracao: '—', desde: '2024-03', contacto: 'tojal48@gespredios.pt' }
+];
+
+const FINANCAS_2025 = {
+  receitas: [
+    { item: 'Quotas ordinárias', valor: 7260 },
+    { item: 'Renda C/V Dto (fração comum)', valor: 8400 },
+    { item: 'Juros conta a prazo', valor: 78 }
+  ],
+  despesas: [
+    { item: 'Limpeza das partes comuns', valor: 2160 },
+    { item: 'Manutenção elevador (Otis)', valor: 1440 },
+    { item: 'Energia eléctrica partes comuns', valor: 680 },
+    { item: 'Seguro multirriscos (Fidelidade)', valor: 720 },
+    { item: 'Apoio administrativo (Gesprédios)', valor: 1800 },
+    { item: 'Reparações pontuais', valor: 412 },
+    { item: 'Taxas e licenças', valor: 85 }
+  ],
+  saldoConta: 3847.22,
+  fundoReserva: 12450.00
+};
+
+const ORCAMENTO_2026 = [
+  { item: 'Limpeza das partes comuns', valor: 2280 },
+  { item: 'Manutenção elevador', valor: 1500 },
+  { item: 'Energia eléctrica', valor: 720 },
+  { item: 'Seguro multirriscos', valor: 750 },
+  { item: 'Apoio administrativo', valor: 1800 },
+  { item: 'Pintura fachada (obra aprovada)', valor: 14500 },
+  { item: 'Reserva para intervenções', valor: 1200 },
+  { item: 'Taxas e licenças', valor: 90 }
+];
+
+const OBRAS = [
+  {
+    titulo: 'Pintura integral da fachada',
+    estado: 'em-curso',
+    statusTexto: 'EM EXECUÇÃO',
+    orcamento: 14500,
+    executado: 5800,
+    empreiteiro: 'Pintores Unidos Lda.',
+    inicio: '2026-03-15',
+    fimPrevisto: '2026-05-30',
+    descricao: 'Aprovada em AG de 2025.11.18. Inclui reparação de fissuras, aplicação de tinta elastomérica e pintura de guardas metálicas.'
+  },
+  {
+    titulo: 'Reparação do sistema de rega do logradouro',
+    estado: 'agendada',
+    statusTexto: 'AGENDADA',
+    orcamento: 680,
+    executado: 0,
+    empreiteiro: 'A definir (3 orçamentos pedidos)',
+    inicio: '2026-05-05',
+    fimPrevisto: '2026-05-12'
+  },
+  {
+    titulo: 'Substituição de luminárias LED nos corredores',
+    estado: 'concluida',
+    statusTexto: 'CONCLUÍDA',
+    orcamento: 420,
+    executado: 398,
+    empreiteiro: 'Eletro Baixa',
+    inicio: '2026-01-08',
+    fimPrevisto: '2026-01-10'
+  }
+];
+
+const SERVICOS = [
+  { nome: 'Clean Lisboa', tipo: 'Limpeza partes comuns', periodicidade: 'Semanal (segunda)', valor: 180, unidade: '/mês', contrato: 'Até 2026-12-31', contacto: 'geral@cleanlisboa.pt' },
+  { nome: 'Otis Elevadores', tipo: 'Manutenção + contrato completo', periodicidade: 'Mensal', valor: 120, unidade: '/mês', contrato: 'Automático anual', contacto: 'assistencia@otis.pt' },
+  { nome: 'Fidelidade', tipo: 'Seguro multirriscos do edifício', periodicidade: 'Anual', valor: 720, unidade: '/ano', contrato: 'Até 2026-10-01', contacto: '808 29 39 49' },
+  { nome: 'Gesprédios Lda.', tipo: 'Apoio contabilístico e fiscal', periodicidade: 'Mensal', valor: 150, unidade: '/mês', contrato: 'Indeterminado', contacto: 'tojal48@gespredios.pt' }
+];
+
+const ASSUNTOS = [
+  {
+    data: '2026-04-15',
+    titulo: 'Convocatória — Assembleia extraordinária',
+    autor: 'Sofia Costa',
+    tag: 'CONVOCATÓRIA',
+    urgent: true,
+    pinned: true,
+    body: 'Convoca-se assembleia extraordinária para <em>2026.05.08 às 21:00</em>, na sala comum do R/C. Ordem do dia: aprovação de obras complementares na fachada (ala norte) e deliberação sobre substituição do porteiro automático.'
+  },
+  {
+    data: '2026-04-10',
+    titulo: 'Relatório mensal da pintura da fachada',
+    autor: 'Sofia Costa',
+    tag: 'OBRAS',
+    body: 'A empreitada decorre dentro do prazo. Concluídas as fachadas sul e poente. A fachada nascente arranca na semana de 2026.04.21. Pede-se que os condóminos das frações viradas a nascente retirem vasos e objetos das varandas até <em>quinta-feira, 2026.04.23</em>.'
+  },
+  {
+    data: '2026-04-02',
+    titulo: 'Recibo de quotas disponível',
+    autor: 'Gesprédios Lda.',
+    tag: 'FINANCEIRO',
+    body: 'Os recibos referentes a Abril 2026 foram emitidos. Podem ser descarregados na área pessoal de cada fração.'
+  },
+  {
+    data: '2026-03-22',
+    titulo: 'Avaria no porteiro automático',
+    autor: 'Miguel Rodrigues',
+    tag: 'MANUTENÇÃO',
+    body: 'Foi reportada avaria no porteiro automático das campainhas do 2.º e 3.º. Técnico agendado para 2026.03.28. Durante este período, os moradores afetados podem usar o interfone comum do R/C.'
+  },
+  {
+    data: '2026-03-18',
+    titulo: 'Acta da AG Ordinária de 2026',
+    autor: 'Sofia Costa',
+    tag: 'ACTA',
+    body: 'Disponível no separador Documentos. Foram aprovadas as contas de 2025, o orçamento de 2026 e a obra de pintura da fachada. Acta assinada por todos os presentes.'
+  }
+];
+
+/* Nav estruturado por perfil */
+const NAVS = {
+  admin: [
+    { sec: 'Visão geral', items: [
+      { id: 'dashboard', label: 'Dashboard' },
+      { id: 'assuntos', label: 'Assuntos', count: 2 }
+    ]},
+    { sec: 'Finanças', items: [
+      { id: 'financeiro', label: 'Contas & orçamento' },
+      { id: 'dividas', label: 'Valores em dívida', count: 2 }
+    ]},
+    { sec: 'Edifício', items: [
+      { id: 'fracoes', label: 'Frações & condóminos' },
+      { id: 'obras', label: 'Obras & intervenções', count: 2 },
+      { id: 'servicos', label: 'Serviços externos' },
+      { id: 'inquilinos', label: 'Inquilinos' }
+    ]},
+    { sec: 'Governação', items: [
+      { id: 'administracao', label: 'Administração' },
+      { id: 'mural', label: 'Mural & comunicações' }
+    ]}
+  ],
+  condomino: [
+    { sec: 'Pessoal', items: [
+      { id: 'dashboard', label: 'Dashboard' },
+      { id: 'minha-fracao', label: 'A minha fração' },
+      { id: 'minhas-dividas', label: 'Os meus pagamentos' }
+    ]},
+    { sec: 'Edifício', items: [
+      { id: 'financeiro-publico', label: 'Contas do prédio' },
+      { id: 'obras', label: 'Obras em curso' },
+      { id: 'servicos', label: 'Serviços externos' }
+    ]},
+    { sec: 'Governação', items: [
+      { id: 'administracao', label: 'Administração' },
+      { id: 'mural', label: 'Mural & comunicações' },
+      { id: 'reportar', label: 'Reportar ao admin' }
+    ]}
+  ],
+  inquilino: [
+    { sec: 'Pessoal', items: [
+      { id: 'dashboard', label: 'Dashboard' },
+      { id: 'contrato', label: 'O meu contrato' }
+    ]},
+    { sec: 'Útil', items: [
+      { id: 'contactos', label: 'Contactos úteis' },
+      { id: 'reportar', label: 'Reportar problema' },
+      { id: 'comunicados-inq', label: 'Comunicados' }
+    ]}
+  ]
+};
+
+/* ───────────────────────────────────────────── ESTADO ────────────── */
+let state = { role: 'admin', view: 'dashboard' };
+
+function setRole(role) {
+  state.role = role;
+  state.view = NAVS[role][0].items[0].id;
+  document.querySelectorAll('.role-select button').forEach(b => b.classList.toggle('active', b.dataset.role === role));
+  renderSidebar();
+  renderView();
+}
+function setView(v) {
+  state.view = v;
+  renderSidebar();
+  renderView();
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+/* ───────────────────────────────────────────── RENDER SIDEBAR ────── */
+function renderSidebar() {
+  const nav = NAVS[state.role];
+  const html = nav.map(sec => `
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">${sec.sec}</div>
+    </div>
+    ${sec.items.map(it => `
+      <button class="nav-item ${state.view === it.id ? 'active' : ''}" onclick="setView('${it.id}')">
+        <span>${it.label}</span>
+        ${it.count ? `<span class="count">${it.count}</span>` : ''}
+      </button>
+    `).join('')}
+  `).join('');
+  document.getElementById('sidebar-nav').innerHTML = html;
+}
+
+/* ───────────────────────────────────────────── HELPERS ───────────── */
+const fmt = n => new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(n);
+const fmtShort = n => new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+const sum = arr => arr.reduce((a, b) => a + b.valor, 0);
+const totalReceitas = sum(FINANCAS_2025.receitas);
+const totalDespesas = sum(FINANCAS_2025.despesas);
+const totalOrc = sum(ORCAMENTO_2026);
+const totalDividas = FRACOES.filter(f => f.estado === 'divida').reduce((a, f) => a + f.divida, 0);
+const fracoesEmDia = FRACOES.filter(f => f.estado === 'regular').length;
+const fracoesDevedoras = FRACOES.filter(f => f.estado === 'divida').length;
+const pagamentosOK = Math.round((fracoesEmDia / (fracoesEmDia + fracoesDevedoras)) * 100);
+
+/* ───────────────────────────────────────────── VIEWS ─────────────── */
+const VIEWS = {};
+
+// ─── DASHBOARD (por perfil) ──────────────────────────────────────────
+VIEWS.dashboard = () => {
+  if (state.role === 'admin') return dashboardAdmin();
+  if (state.role === 'condomino') return dashboardCondomino();
+  if (state.role === 'inquilino') return dashboardInquilino();
+};
+
+function dashboardAdmin() {
+  return `
+    <div class="page-header">
+      <div>
+        <div class="caption">2026.04.19 · SEGUNDA-FEIRA</div>
+        <h1 class="page-title mt-2">Dashboard</h1>
+        <p class="page-subtitle">Visão agregada de tesouraria, obras e comunicação. Tudo o que precisas de saber do edifício em 30 segundos.</p>
+      </div>
+      <span class="page-tag">ADMIN</span>
+    </div>
+
+    <div class="grid-4">
+      <div class="card">
+        <div class="card-label">Saldo em conta</div>
+        <div class="stat-value">${fmtShort(FINANCAS_2025.saldoConta).replace('€', '')}<span class="unit">€</span></div>
+        <div class="stat-delta">Atualizado 2026.04.19</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Fundo de reserva</div>
+        <div class="stat-value">${fmtShort(FINANCAS_2025.fundoReserva).replace('€', '')}<span class="unit">€</span></div>
+        <div class="stat-delta up">10,2% do orçamento anual</div>
+      </div>
+      <div class="card card-signal">
+        <div class="card-label">Valores em dívida <span class="status ready">ATENÇÃO</span></div>
+        <div class="stat-value">${fmtShort(totalDividas).replace('€', '')}<span class="unit">€</span></div>
+        <div class="stat-delta down">${fracoesDevedoras} frações · ${100 - pagamentosOK}% do edifício</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Regularização</div>
+        <div class="stat-value">${pagamentosOK}<span class="unit">%</span></div>
+        <div class="stat-delta">${fracoesEmDia} / ${fracoesEmDia + fracoesDevedoras} frações em dia</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">Próximas decisões</h2>
+        <span class="caption">REQUER ACÇÃO</span>
+      </div>
+      <div class="item-list">
+        <div class="item-row">
+          <div class="item-date mono">2026.05.08</div>
+          <div>
+            <div class="item-title">Assembleia extraordinária</div>
+            <div class="item-meta">Convocatória enviada · 10/10 confirmações pendentes</div>
+          </div>
+          <span class="status ready">READY</span>
+        </div>
+        <div class="item-row">
+          <div class="item-date mono">2026.04.30</div>
+          <div>
+            <div class="item-title">Fechar orçamentos da rega</div>
+            <div class="item-meta">3 orçamentos pedidos · 1 recebido</div>
+          </div>
+          <span class="status draft">DRAFT</span>
+        </div>
+        <div class="item-row">
+          <div class="item-date mono">2026.04.25</div>
+          <div>
+            <div class="item-title">Cobrança — Rui Pereira (2.º Esq)</div>
+            <div class="item-meta">3 meses em atraso · aviso formal pendente</div>
+          </div>
+          <span class="status ready">READY</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section grid-2" style="gap:24px;">
+      <div>
+        <div class="section-header">
+          <h2 class="section-title">Fluxo financeiro 2026</h2>
+          <span class="caption">YTD</span>
+        </div>
+        <div class="card">
+          <div class="fin-bar">
+            <div class="fin-bar-label">Receita prevista</div>
+            <div class="fin-bar-track"><div class="fill" style="width:33%"></div></div>
+            <div class="fin-bar-amount">${fmtShort(totalReceitas)}</div>
+          </div>
+          <div class="fin-bar">
+            <div class="fin-bar-label">Receita real</div>
+            <div class="fin-bar-track"><div class="fill" style="width:31%; background: var(--success);"></div></div>
+            <div class="fin-bar-amount">${fmtShort(4815)}</div>
+          </div>
+          <div class="fin-bar">
+            <div class="fin-bar-label">Despesa</div>
+            <div class="fin-bar-track"><div class="fill" style="width:28%"></div></div>
+            <div class="fin-bar-amount">${fmtShort(4220)}</div>
+          </div>
+          <div class="fin-bar">
+            <div class="fin-bar-label">Obras (empenho)</div>
+            <div class="fin-bar-track"><div class="fill" style="width:40%; background: var(--signal);"></div></div>
+            <div class="fin-bar-amount">${fmtShort(5800)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-header">
+          <h2 class="section-title">Obras em curso</h2>
+          <span class="caption">${OBRAS.filter(o => o.estado !== 'concluida').length} ACTIVAS</span>
+        </div>
+        ${OBRAS.filter(o => o.estado !== 'concluida').map(o => `
+          <div class="card mb-4">
+            <div class="flex justify-between items-center mb-4">
+              <span class="status ${o.estado === 'em-curso' ? 'ready' : 'draft'}">${o.statusTexto}</span>
+              <span class="caption">${o.fimPrevisto}</span>
+            </div>
+            <div style="font-family:var(--font-display);font-weight:700;font-size:15px;margin-bottom:6px;">${o.titulo}</div>
+            <div class="muted" style="font-size:12px;">${o.empreiteiro}</div>
+            <div class="progress mt-4"><div class="progress-fill ${o.executado > 0 ? 'signal' : ''}" style="width:${Math.round(o.executado / o.orcamento * 100)}%"></div></div>
+            <div class="flex justify-between mt-2 mono" style="font-size:11px;color:var(--grey-2);">
+              <span>${fmt(o.executado)} executado</span>
+              <span>${fmt(o.orcamento)} orçamento</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="pull">Uma administração de condomínio boa <em>é aborrecida.</em> Se há dramas todos os meses, alguma coisa estrutural está a falhar.</div>
+  `;
+}
+
+function dashboardCondomino() {
+  const me = FRACOES.find(f => f.id === CONDOMINO_ATUAL);
+  return `
+    <div class="page-header">
+      <div>
+        <div class="caption">ÁREA PESSOAL · ${me.piso} ${me.lado}</div>
+        <h1 class="page-title mt-2">Olá, ${me.nome.split(' ')[0]}.</h1>
+        <p class="page-subtitle">O que é teu, e só o que é teu. Os dados financeiros dos outros condóminos estão protegidos por RGPD.</p>
+      </div>
+      <span class="page-tag">CONDÓMINO</span>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-label">A minha quota mensal</div>
+        <div class="stat-value">${me.quota}<span class="unit">€</span></div>
+        <div class="stat-delta">${me.permilagem}‰ de permilagem</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Situação</div>
+        <div class="stat-value" style="color:var(--success);font-size:28px;">EM DIA</div>
+        <div class="stat-delta up">Último pagamento 2026.04.02</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Regularização do prédio</div>
+        <div class="stat-value">${pagamentosOK}<span class="unit">%</span></div>
+        <div class="stat-delta">${fracoesEmDia} de ${fracoesEmDia + fracoesDevedoras} frações em dia</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">Últimos comunicados</h2>
+        <span class="caption">${ASSUNTOS.length} TOTAL</span>
+      </div>
+      ${ASSUNTOS.slice(0, 3).map(a => mural(a)).join('')}
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">A tua próxima obrigação</h2>
+      </div>
+      <div class="card card-signal">
+        <div class="card-label">ASSEMBLEIA EXTRAORDINÁRIA <span class="status ready">CONFIRMA PRESENÇA</span></div>
+        <div class="big-num">2026.05.08</div>
+        <div class="mt-2 muted">21:00 · sala comum do R/C · ordem do dia em 2 pontos</div>
+        <div class="mt-6 flex gap-4">
+          <button class="btn btn-signal">Confirmar presença</button>
+          <button class="btn btn-secondary">Ver convocatória</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function dashboardInquilino() {
+  const f = FRACOES.find(fr => fr.id === INQUILINO_ATUAL.fracao);
+  return `
+    <div class="page-header">
+      <div>
+        <div class="caption">INQUILINO · C/V DTO · FRAÇÃO COMUM</div>
+        <h1 class="page-title mt-2">Olá, ${INQUILINO_ATUAL.nome.split(' ')[0]}.</h1>
+        <p class="page-subtitle">Vês apenas o que te pertence: o teu contrato, o que podes reportar, e quem contactar se algo falhar.</p>
+      </div>
+      <span class="page-tag">INQUILINO</span>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-label">Renda mensal</div>
+        <div class="stat-value">${INQUILINO_ATUAL.renda}<span class="unit">€</span></div>
+        <div class="stat-delta">Vencimento dia 8 de cada mês</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Situação</div>
+        <div class="stat-value" style="color:var(--success);font-size:28px;">EM DIA</div>
+        <div class="stat-delta up">Último pagamento 2026.04.08</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Contrato</div>
+        <div class="stat-value" style="font-size:22px;">Activo</div>
+        <div class="stat-delta mono">Início ${INQUILINO_ATUAL.inicioContrato}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">Quem contactar</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-label">Administração do condomínio</div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:18px;">Sofia Costa</div>
+          <div class="muted mt-2" style="font-size:13px;">admin@tojal48.pt</div>
+          <div class="muted mono mt-2" style="font-size:12px;">+351 9XX XXX XXX</div>
+        </div>
+        <div class="card card-signal">
+          <div class="card-label">EMERGÊNCIAS</div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:18px;">Rotura / incêndio / inundação</div>
+          <div class="muted mt-2" style="font-size:13px;">Avisar de imediato a administração e ligar 112 se aplicável.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <h2 class="section-title">Comunicados recentes</h2>
+      </div>
+      ${ASSUNTOS.filter(a => ['MANUTENÇÃO','OBRAS'].includes(a.tag)).slice(0,2).map(a => mural(a)).join('')}
+    </div>
+  `;
+}
+
+// ─── FINANCEIRO (admin) ──────────────────────────────────────────────
+VIEWS.financeiro = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">2025 EXECUTADO · 2026 ORÇAMENTADO</div>
+      <h1 class="page-title mt-2">Contas & orçamento</h1>
+      <p class="page-subtitle">Visão completa do ano anterior e do orçamento aprovado para 2026. Valores em euros.</p>
+    </div>
+    <span class="page-tag">ADMIN</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-label">Saldo em conta corrente</div>
+      <div class="stat-value">${fmtShort(FINANCAS_2025.saldoConta).replace('€','')}<span class="unit">€</span></div>
+      <div class="stat-delta">BPI · IBAN PT50 .... 0048</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Fundo comum de reserva <span class="caption">MÍNIMO LEGAL 10%</span></div>
+      <div class="stat-value">${fmtShort(FINANCAS_2025.fundoReserva).replace('€','')}<span class="unit">€</span></div>
+      <div class="stat-delta up">Montepio · conta a prazo · rend. 1,1%</div>
+    </div>
+  </div>
+
+  <div class="section grid-2" style="gap:24px;">
+    <div>
+      <div class="section-header">
+        <h2 class="section-title">Receitas 2025</h2>
+        <span class="caption">${fmtShort(totalReceitas)}</span>
+      </div>
+      <table class="table">
+        <thead><tr><th>Rubrica</th><th style="text-align:right;">Valor</th></tr></thead>
+        <tbody>
+          ${FINANCAS_2025.receitas.map(r => `<tr><td>${r.item}</td><td class="amount pos">${fmt(r.valor)}</td></tr>`).join('')}
+          <tr style="background:var(--ink-3);"><td><strong>Total</strong></td><td class="amount pos"><strong>${fmt(totalReceitas)}</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="section-header">
+        <h2 class="section-title">Despesas 2025</h2>
+        <span class="caption">${fmtShort(totalDespesas)}</span>
+      </div>
+      <table class="table">
+        <thead><tr><th>Rubrica</th><th style="text-align:right;">Valor</th></tr></thead>
+        <tbody>
+          ${FINANCAS_2025.despesas.map(d => `<tr><td>${d.item}</td><td class="amount neg">${fmt(d.valor)}</td></tr>`).join('')}
+          <tr style="background:var(--ink-3);"><td><strong>Total</strong></td><td class="amount neg"><strong>${fmt(totalDespesas)}</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Orçamento 2026 <span class="status approved" style="margin-left:12px;">APROVADO EM AG</span></h2>
+      <span class="caption">${fmtShort(totalOrc)}</span>
+    </div>
+    <table class="table">
+      <thead><tr><th>Rubrica</th><th>% do total</th><th style="text-align:right;">Valor</th></tr></thead>
+      <tbody>
+        ${ORCAMENTO_2026.map(o => `
+          <tr>
+            <td>${o.item}</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="flex:1;height:4px;background:var(--grey);max-width:200px;">
+                  <div style="height:100%;background:var(--paper);width:${(o.valor/totalOrc*100).toFixed(1)}%;"></div>
+                </div>
+                <span class="mono" style="font-size:11px;color:var(--grey-2);">${(o.valor/totalOrc*100).toFixed(1)}%</span>
+              </div>
+            </td>
+            <td class="amount">${fmt(o.valor)}</td>
+          </tr>
+        `).join('')}
+        <tr style="background:var(--ink-3);"><td colspan="2"><strong>Total previsto</strong></td><td class="amount"><strong>${fmt(totalOrc)}</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section flex gap-4">
+    <button class="btn">Exportar PDF</button>
+    <button class="btn btn-secondary">Exportar CSV</button>
+  </div>
+`;
+
+// ─── CONTAS DO PRÉDIO (condómino — só leitura, agregados) ────────────
+VIEWS['financeiro-publico'] = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">VISÃO AGREGADA · CONDÓMINO</div>
+      <h1 class="page-title mt-2">Contas do prédio</h1>
+      <p class="page-subtitle">Os valores totais estão abertos a todos os condóminos. Informação nominativa de terceiros só é visível ao administrador.</p>
+    </div>
+    <span class="page-tag">CONDÓMINO</span>
+  </div>
+
+  <div class="grid-4">
+    <div class="card"><div class="card-label">Saldo</div><div class="stat-value">${fmtShort(FINANCAS_2025.saldoConta).replace('€','')}<span class="unit">€</span></div></div>
+    <div class="card"><div class="card-label">Fundo reserva</div><div class="stat-value">${fmtShort(FINANCAS_2025.fundoReserva).replace('€','')}<span class="unit">€</span></div></div>
+    <div class="card"><div class="card-label">Receitas 2025</div><div class="stat-value">${fmtShort(totalReceitas).replace('€','')}<span class="unit">€</span></div></div>
+    <div class="card"><div class="card-label">Despesas 2025</div><div class="stat-value">${fmtShort(totalDespesas).replace('€','')}<span class="unit">€</span></div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">Estrutura de despesa 2025</h2></div>
+    <div class="card">
+      ${FINANCAS_2025.despesas.map(d => `
+        <div class="fin-bar">
+          <div class="fin-bar-label">${d.item}</div>
+          <div class="fin-bar-track"><div class="fill" style="width:${(d.valor/totalDespesas*100).toFixed(1)}%"></div></div>
+          <div class="fin-bar-amount">${fmt(d.valor)}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">Orçamento 2026</h2><span class="status approved">APROVADO</span></div>
+    <div class="card">
+      ${ORCAMENTO_2026.map(o => `
+        <div class="fin-bar">
+          <div class="fin-bar-label">${o.item}</div>
+          <div class="fin-bar-track"><div class="fill" style="width:${(o.valor/totalOrc*100).toFixed(1)}%"></div></div>
+          <div class="fin-bar-amount">${fmt(o.valor)}</div>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+`;
+
+// ─── FRAÇÕES & CONDÓMINOS (admin) ────────────────────────────────────
+VIEWS.fracoes = () => {
+  const pisos = ['3.º','2.º','1.º','R/C','C/V'];
+  return `
+    <div class="page-header">
+      <div>
+        <div class="caption">${EDIFICIO.morada} · ${EDIFICIO.postal}</div>
+        <h1 class="page-title mt-2">Frações & condóminos</h1>
+        <p class="page-subtitle">${EDIFICIO.privadas} frações privadas + ${EDIFICIO.comuns} fração comum arrendada. Clica numa fração para detalhes.</p>
+      </div>
+      <span class="page-tag">ADMIN</span>
+    </div>
+
+    <div class="building">
+      ${pisos.map(piso => {
+        const esq = FRACOES.find(f => f.piso === piso && f.lado === 'ESQ');
+        const dto = FRACOES.find(f => f.piso === piso && f.lado === 'DTO');
+        return `
+          <div class="floor">
+            <div class="floor-label">${piso}</div>
+            ${renderUnit(esq)}
+            ${renderUnit(dto)}
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <div class="section">
+      <div class="section-header"><h2 class="section-title">Resumo nominativo</h2></div>
+      <table class="table">
+        <thead><tr><th>Fração</th><th>Proprietário</th><th>Permilagem</th><th>Quota</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
+          ${FRACOES.map(f => `
+            <tr>
+              <td class="mono">${f.piso} ${f.lado}</td>
+              <td>${f.nome}${f.admin ? ' <span class="caption" style="margin-left:6px;">· ADMIN</span>' : ''}</td>
+              <td class="mono">${f.permilagem}‰</td>
+              <td class="amount">${f.quota ? fmt(f.quota) : '—'}</td>
+              <td>${f.estado === 'regular' ? '<span class="status approved">EM DIA</span>' : f.estado === 'divida' ? `<span class="status ready">${f.mesesAtraso} MES(ES)</span>` : '<span class="status draft">ARRENDADA</span>'}</td>
+              <td>${f.estado === 'divida' ? `<button class="btn btn-secondary" style="font-size:10px;padding:6px 10px;">COBRAR</button>` : ''}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+
+function renderUnit(f) {
+  if (!f) return '<div class="unit"></div>';
+  const classes = ['unit'];
+  if (f.nome === 'FRAÇÃO COMUM') classes.push('common');
+  if (f.estado === 'divida') classes.push('debt');
+  return `
+    <div class="${classes.join(' ')}">
+      <div class="unit-id">${f.piso} ${f.lado}</div>
+      <div class="unit-owner">${f.nome}</div>
+      <div class="unit-status">${f.nome === 'FRAÇÃO COMUM' ? `COMUM · inq. ${f.inquilino}` : f.estado === 'divida' ? `DÍVIDA ${fmt(f.divida)}` : `QUOTA ${fmt(f.quota)}${f.admin ? ' · ADMIN' : ''}`}</div>
+    </div>
+  `;
+}
+
+// ─── DÍVIDAS (admin) ─────────────────────────────────────────────────
+VIEWS.dividas = () => {
+  const devs = FRACOES.filter(f => f.estado === 'divida');
+  return `
+    <div class="page-header">
+      <div>
+        <div class="caption">ACÇÃO REQUERIDA</div>
+        <h1 class="page-title mt-2">Valores em dívida</h1>
+        <p class="page-subtitle">Dados nominativos visíveis apenas a administradores. Cada condómino só vê o seu estado individual.</p>
+      </div>
+      <span class="page-tag">ADMIN · RESTRITO</span>
+    </div>
+
+    <div class="grid-3">
+      <div class="card card-signal">
+        <div class="card-label">Total em dívida</div>
+        <div class="stat-value">${fmtShort(totalDividas).replace('€','')}<span class="unit">€</span></div>
+        <div class="stat-delta down">${fracoesDevedoras} frações afectadas</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Taxa de regularização</div>
+        <div class="stat-value">${pagamentosOK}<span class="unit">%</span></div>
+        <div class="stat-delta">Meta interna: ≥ 95%</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Maior atraso</div>
+        <div class="stat-value">3<span class="unit">meses</span></div>
+        <div class="stat-delta down">Rui Pereira · 2.º Esq</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><h2 class="section-title">Por fração</h2></div>
+      <table class="table">
+        <thead><tr><th>Fração</th><th>Condómino</th><th>Meses</th><th>Dívida</th><th>Juros moratórios</th><th>Próximo passo</th></tr></thead>
+        <tbody>
+          ${devs.map(d => `
+            <tr>
+              <td class="mono">${d.piso} ${d.lado}</td>
+              <td>${d.nome}</td>
+              <td class="mono">${d.mesesAtraso}</td>
+              <td class="amount neg">${fmt(d.divida)}</td>
+              <td class="amount muted">${fmt(d.divida * 0.04).replace(/\./g,',')}</td>
+              <td><span class="status ready">${d.mesesAtraso >= 3 ? 'AVISO FORMAL' : 'LEMBRETE'}</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pull">Dívidas superiores a 3 meses abrem caminho a injunção judicial. <em>Melhor falar antes disso.</em></div>
+
+    <div class="flex gap-4">
+      <button class="btn btn-signal">Enviar avisos formais</button>
+      <button class="btn btn-secondary">Exportar relatório</button>
+    </div>
+  `;
+};
+
+// ─── OS MEUS PAGAMENTOS (condómino) ──────────────────────────────────
+VIEWS['minhas-dividas'] = () => {
+  const me = FRACOES.find(f => f.id === CONDOMINO_ATUAL);
+  const pagamentos = [
+    { data: '2026-04-02', ref: 'Quota Abril 2026', valor: me.quota, estado: 'pago' },
+    { data: '2026-03-03', ref: 'Quota Março 2026', valor: me.quota, estado: 'pago' },
+    { data: '2026-02-02', ref: 'Quota Fevereiro 2026', valor: me.quota, estado: 'pago' },
+    { data: '2026-01-05', ref: 'Quota Janeiro 2026', valor: me.quota, estado: 'pago' },
+    { data: '2025-12-02', ref: 'Quota Dezembro 2025', valor: me.quota, estado: 'pago' }
+  ];
+  return `
+    <div class="page-header">
+      <div>
+        <div class="caption">${me.piso} ${me.lado} · ${me.nome}</div>
+        <h1 class="page-title mt-2">Os meus pagamentos</h1>
+        <p class="page-subtitle">Histórico completo e próximas obrigações. Recibos disponíveis para descarga.</p>
+      </div>
+      <span class="page-tag">CONDÓMINO</span>
+    </div>
+
+    <div class="grid-3">
+      <div class="card"><div class="card-label">Quota mensal</div><div class="stat-value">${me.quota}<span class="unit">€</span></div></div>
+      <div class="card"><div class="card-label">Situação</div><div class="stat-value" style="color:var(--success);font-size:28px;">EM DIA</div></div>
+      <div class="card"><div class="card-label">Próxima</div><div class="stat-value" style="font-size:22px;">01.MAIO</div></div>
+    </div>
+
+    <div class="section">
+      <div class="section-header"><h2 class="section-title">Histórico</h2></div>
+      <table class="table">
+        <thead><tr><th>Data</th><th>Referência</th><th>Valor</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
+          ${pagamentos.map(p => `
+            <tr>
+              <td class="mono">${p.data}</td>
+              <td>${p.ref}</td>
+              <td class="amount">${fmt(p.valor)}</td>
+              <td><span class="status approved">PAGO</span></td>
+              <td><button class="btn btn-secondary" style="font-size:10px;padding:6px 10px;">RECIBO</button></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+};
+
+// ─── A MINHA FRAÇÃO (condómino) ──────────────────────────────────────
+VIEWS['minha-fracao'] = () => {
+  const me = FRACOES.find(f => f.id === CONDOMINO_ATUAL);
+  return `
+    <div class="page-header">
+      <div>
+        <div class="caption">FRAÇÃO ${me.piso} ${me.lado}</div>
+        <h1 class="page-title mt-2">A minha fração</h1>
+      </div>
+      <span class="page-tag">CONDÓMINO</span>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Identificação</div>
+        <div class="big-num mb-4">${me.piso} ${me.lado}</div>
+        <div class="muted" style="font-size:13px;line-height:1.8;">
+          ${EDIFICIO.morada}<br>
+          ${EDIFICIO.postal}<br>
+          Proprietário: <strong style="color:var(--paper);">${me.nome}</strong>${me.admin ? ' · Administrador' : ''}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Parâmetros de condomínio</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div><div class="caption">PERMILAGEM</div><div style="font-family:var(--font-display);font-weight:900;font-size:28px;margin-top:4px;">${me.permilagem}‰</div></div>
+          <div><div class="caption">QUOTA MENSAL</div><div style="font-family:var(--font-display);font-weight:900;font-size:28px;margin-top:4px;">${fmt(me.quota)}</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+// ─── OBRAS ───────────────────────────────────────────────────────────
+VIEWS.obras = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">INTERVENÇÕES NO EDIFÍCIO</div>
+      <h1 class="page-title mt-2">Obras & intervenções</h1>
+      <p class="page-subtitle">Tudo o que está a ser feito ou planeado. Estado, orçamento, empreiteiro, prazo.</p>
+    </div>
+    <span class="page-tag">${state.role.toUpperCase()}</span>
+  </div>
+
+  ${OBRAS.map(o => `
+    <div class="card mb-6 ${o.estado === 'em-curso' ? 'card-signal' : ''}">
+      <div class="flex justify-between items-center mb-4">
+        <span class="status ${o.estado === 'em-curso' ? 'ready' : o.estado === 'concluida' ? 'approved' : 'draft'}">${o.statusTexto}</span>
+        <span class="caption mono">${o.inicio} → ${o.fimPrevisto}</span>
+      </div>
+      <h3 style="font-family:var(--font-display);font-weight:900;font-size:24px;letter-spacing:-0.02em;margin-bottom:10px;">${o.titulo}</h3>
+      ${o.descricao ? `<p class="muted mb-4" style="font-size:14px;max-width:720px;">${o.descricao}</p>` : ''}
+      <div class="grid-3 mt-6">
+        <div><div class="caption">EMPREITEIRO</div><div class="mt-2" style="font-size:14px;font-weight:500;">${o.empreiteiro}</div></div>
+        <div><div class="caption">ORÇAMENTO</div><div class="mt-2" style="font-family:var(--font-display);font-weight:700;font-size:18px;">${fmt(o.orcamento)}</div></div>
+        <div><div class="caption">EXECUTADO</div><div class="mt-2" style="font-family:var(--font-display);font-weight:700;font-size:18px;">${fmt(o.executado)}</div></div>
+      </div>
+      <div class="progress mt-6"><div class="progress-fill ${o.estado === 'em-curso' ? 'signal' : o.estado === 'concluida' ? 'success' : ''}" style="width:${Math.round(o.executado/o.orcamento*100)}%;"></div></div>
+      <div class="flex justify-between mt-2 mono" style="font-size:10px;color:var(--grey-2);letter-spacing:0.1em;text-transform:uppercase;">
+        <span>${Math.round(o.executado/o.orcamento*100)}% executado</span>
+        <span>${Math.round((o.orcamento-o.executado))}€ restante</span>
+      </div>
+    </div>
+  `).join('')}
+`;
+
+// ─── SERVIÇOS EXTERNOS ───────────────────────────────────────────────
+VIEWS.servicos = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">FORNECEDORES CONTRATADOS</div>
+      <h1 class="page-title mt-2">Serviços externos</h1>
+      <p class="page-subtitle">Todos os contratos activos de manutenção, limpeza, seguros e apoio administrativo.</p>
+    </div>
+    <span class="page-tag">${state.role.toUpperCase()}</span>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr><th>Fornecedor</th><th>Tipo</th><th>Periodicidade</th><th>Custo</th><th>Vigência</th>${state.role === 'admin' ? '<th>Contacto</th>' : ''}</tr>
+    </thead>
+    <tbody>
+      ${SERVICOS.map(s => `
+        <tr>
+          <td><strong>${s.nome}</strong></td>
+          <td>${s.tipo}</td>
+          <td class="mono" style="font-size:12px;">${s.periodicidade}</td>
+          <td class="amount">${fmt(s.valor)}<span class="muted" style="font-size:10px;">${s.unidade}</span></td>
+          <td class="mono" style="font-size:12px;">${s.contrato}</td>
+          ${state.role === 'admin' ? `<td class="mono" style="font-size:11px;">${s.contacto}</td>` : ''}
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">Custo total mensal recorrente</h2></div>
+    <div class="card">
+      <div class="big-num">${fmt(SERVICOS.filter(s => s.unidade === '/mês').reduce((a,s) => a + s.valor, 0))}</div>
+      <div class="muted mt-2">+ ${fmt(SERVICOS.filter(s => s.unidade === '/ano').reduce((a,s) => a + s.valor, 0))} anuais</div>
+    </div>
+  </div>
+`;
+
+// ─── INQUILINOS (admin) ──────────────────────────────────────────────
+VIEWS.inquilinos = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">FRAÇÕES COMUNS ARRENDADAS</div>
+      <h1 class="page-title mt-2">Inquilinos</h1>
+      <p class="page-subtitle">Neste edifício há ${EDIFICIO.comuns} fração comum arrendada. Os rendimentos entram directamente no orçamento do condomínio.</p>
+    </div>
+    <span class="page-tag">ADMIN</span>
+  </div>
+
+  <div class="card card-signal">
+    <div class="card-label">C/V DTO · FRAÇÃO COMUM</div>
+    <h3 style="font-family:var(--font-display);font-weight:900;font-size:24px;margin-bottom:6px;">${INQUILINO_ATUAL.nome}</h3>
+    <div class="muted" style="font-size:13px;">Contrato de arrendamento activo</div>
+    <div class="grid-4 mt-6">
+      <div><div class="caption">INÍCIO</div><div class="mt-2 mono" style="font-size:14px;">${INQUILINO_ATUAL.inicioContrato}</div></div>
+      <div><div class="caption">RENDA</div><div class="mt-2" style="font-family:var(--font-display);font-weight:700;font-size:20px;">${fmt(INQUILINO_ATUAL.renda)}</div></div>
+      <div><div class="caption">CAUÇÃO</div><div class="mt-2 mono" style="font-size:14px;">${fmt(INQUILINO_ATUAL.caucao)}</div></div>
+      <div><div class="caption">ESTADO</div><div class="mt-2"><span class="status approved">EM DIA</span></div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">Contribuição anual para o orçamento</h2></div>
+    <div class="card">
+      <div class="big-num">${fmt(INQUILINO_ATUAL.renda * 12)}</div>
+      <div class="muted mt-2">Equivale a ${Math.round(INQUILINO_ATUAL.renda * 12 / totalReceitas * 100)}% das receitas totais do prédio — sem esta renda, cada fração privada pagaria mais ${fmt(INQUILINO_ATUAL.renda * 12 / 9 / 12)}/mês.</div>
+    </div>
+  </div>
+`;
+
+// ─── ADMINISTRAÇÃO ───────────────────────────────────────────────────
+VIEWS.administracao = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">ÓRGÃO DE GESTÃO DO CONDOMÍNIO</div>
+      <h1 class="page-title mt-2">Administração</h1>
+      <p class="page-subtitle">Eleita em AG de 2024.03. Mandato de 2 anos renovável. Próxima eleição prevista para AG Ordinária de 2026.03.</p>
+    </div>
+    <span class="page-tag">PÚBLICO</span>
+  </div>
+
+  <div class="grid-3">
+    ${ADMINISTRADORES.map(a => `
+      <div class="card ${a.papel.includes('executiva') ? 'card-signal' : ''}">
+        <div class="card-label">${a.papel.toUpperCase()}</div>
+        <h3 style="font-family:var(--font-display);font-weight:900;font-size:20px;letter-spacing:-0.02em;margin-bottom:4px;">${a.nome}</h3>
+        <div class="muted mono" style="font-size:11px;letter-spacing:0.1em;">${a.fracao === '—' ? 'EXTERNO' : `FRAÇÃO ${a.fracao}`} · DESDE ${a.desde}</div>
+        <div class="mt-6" style="font-size:13px;">${a.contacto}</div>
+        ${a.telemovel ? `<div class="mono muted mt-2" style="font-size:12px;">${a.telemovel}</div>` : ''}
+      </div>
+    `).join('')}
+  </div>
+
+  <div class="pull">A administração <em>representa</em> o condomínio. Não o governa. Todas as decisões estruturais passam pela assembleia.</div>
+
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">Competências</h2></div>
+    <table class="table">
+      <tbody>
+        <tr><td style="width:40%;"><strong>Executar decisões da AG</strong></td><td class="muted">Implementar aquilo que foi aprovado em assembleia</td></tr>
+        <tr><td><strong>Gerir tesouraria corrente</strong></td><td class="muted">Pagamento de despesas, cobrança de quotas, conta bancária</td></tr>
+        <tr><td><strong>Contratar e fiscalizar serviços</strong></td><td class="muted">Dentro dos limites do orçamento aprovado</td></tr>
+        <tr><td><strong>Convocar assembleias</strong></td><td class="muted">Uma ordinária anual + extraordinárias quando necessário</td></tr>
+        <tr><td><strong>Representar o condomínio</strong></td><td class="muted">Perante terceiros, autoridades e em juízo</td></tr>
+      </tbody>
+    </table>
+  </div>
+`;
+
+// ─── MURAL / COMUNICAÇÕES ────────────────────────────────────────────
+VIEWS.mural = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">COMUNICAÇÕES DO CONDOMÍNIO</div>
+      <h1 class="page-title mt-2">Mural & comunicações</h1>
+      <p class="page-subtitle">Convocatórias, actas, relatórios e avisos. ${state.role === 'admin' ? 'Só a administração publica.' : 'Para reportar problemas, usa o canal "Reportar ao admin".'}</p>
+    </div>
+    ${state.role === 'admin' ? '<button class="btn btn-signal">Nova publicação</button>' : `<span class="page-tag">SÓ LEITURA</span>`}
+  </div>
+
+  <div class="section">
+    ${ASSUNTOS.map(a => mural(a)).join('')}
+  </div>
+`;
+
+VIEWS.assuntos = VIEWS.mural;
+
+// ─── REPORTAR PROBLEMA ───────────────────────────────────────────────
+VIEWS.reportar = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">CANAL DIRECTO COM A ADMINISTRAÇÃO</div>
+      <h1 class="page-title mt-2">Reportar problema</h1>
+      <p class="page-subtitle">Avarias nas partes comuns, questões de segurança, ocorrências. Chega directamente à Sofia Costa e ao Miguel Rodrigues.</p>
+    </div>
+    <span class="page-tag">${state.role.toUpperCase()}</span>
+  </div>
+
+  <div class="card" style="max-width:680px;">
+    <div class="form-group">
+      <label class="form-label">Tipo de ocorrência</label>
+      <select class="select">
+        <option>Avaria em parte comum (elevador, luz, porta)</option>
+        <option>Limpeza / higiene</option>
+        <option>Barulho / conflito de vizinhança</option>
+        <option>Segurança / pessoa estranha no edifício</option>
+        <option>Infiltração / humidade</option>
+        <option>Outro</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Urgência</label>
+      <select class="select">
+        <option>Normal — pode esperar alguns dias</option>
+        <option>Elevada — resolver esta semana</option>
+        <option>Crítica — requer acção hoje</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Descrição</label>
+      <textarea class="textarea" placeholder="Descreve o que aconteceu. Sê directo: o que, onde, quando."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Localização no edifício</label>
+      <input class="input" placeholder="Ex: elevador entre o 1.º e o 2.º">
+    </div>
+    <div class="flex gap-4 mt-6">
+      <button class="btn btn-signal">Enviar reporte</button>
+      <button class="btn btn-secondary">Cancelar</button>
+    </div>
+  </div>
+
+  <div class="pull">Um reporte bem descrito vale mais do que dez reportes vagos. <em>Facto, local, hora.</em> Sem adjectivos.</div>
+`;
+
+// ─── CONTRATO (inquilino) ────────────────────────────────────────────
+VIEWS.contrato = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">ARRENDAMENTO · C/V DTO</div>
+      <h1 class="page-title mt-2">O meu contrato</h1>
+    </div>
+    <span class="page-tag">INQUILINO</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-label">Fração arrendada</div>
+      <div class="big-num">C/V DTO</div>
+      <div class="muted mt-4" style="font-size:13px;line-height:1.8;">
+        ${EDIFICIO.morada}<br>
+        ${EDIFICIO.postal}<br>
+        Fração comum do condomínio
+      </div>
+    </div>
+    <div class="card card-signal">
+      <div class="card-label">Locador</div>
+      <div style="font-family:var(--font-display);font-weight:900;font-size:22px;">Condomínio do edifício</div>
+      <div class="muted mt-4" style="font-size:13px;line-height:1.8;">
+        Representado pela administração<br>
+        <strong style="color:var(--paper);">Sofia Costa</strong><br>
+        admin@tojal48.pt
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">Condições do contrato</h2></div>
+    <table class="table">
+      <tbody>
+        <tr><td style="width:40%;"><strong>Início</strong></td><td class="mono">${INQUILINO_ATUAL.inicioContrato}</td></tr>
+        <tr><td><strong>Duração</strong></td><td>5 anos, com renovação automática</td></tr>
+        <tr><td><strong>Renda mensal</strong></td><td class="amount">${fmt(INQUILINO_ATUAL.renda)}</td></tr>
+        <tr><td><strong>Caução</strong></td><td class="amount">${fmt(INQUILINO_ATUAL.caucao)}</td></tr>
+        <tr><td><strong>Vencimento</strong></td><td>Dia 8 de cada mês</td></tr>
+        <tr><td><strong>IBAN para pagamento</strong></td><td class="mono">PT50 XXXX XXXX XXXX XXXX XXXX X</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section flex gap-4">
+    <button class="btn">Descarregar contrato (PDF)</button>
+    <button class="btn btn-secondary">Recibos de renda</button>
+  </div>
+`;
+
+// ─── CONTACTOS ÚTEIS (inquilino) ─────────────────────────────────────
+VIEWS.contactos = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">TUDO O QUE PRECISAS</div>
+      <h1 class="page-title mt-2">Contactos úteis</h1>
+    </div>
+    <span class="page-tag">INQUILINO</span>
+  </div>
+
+  <div class="grid-2">
+    <div class="card card-signal">
+      <div class="card-label">ADMINISTRAÇÃO · PRIMEIRO CONTACTO</div>
+      <h3 style="font-family:var(--font-display);font-weight:900;font-size:22px;">Sofia Costa</h3>
+      <div class="muted mt-2">Administradora executiva · 1.º Dto</div>
+      <div class="mt-4">admin@tojal48.pt</div>
+      <div class="mono muted mt-2">+351 9XX XXX XXX</div>
+    </div>
+    <div class="card">
+      <div class="card-label">EMERGÊNCIAS GERAIS</div>
+      <h3 style="font-family:var(--font-display);font-weight:900;font-size:22px;">112</h3>
+      <div class="muted mt-2">Bombeiros · INEM · PSP</div>
+    </div>
+    <div class="card">
+      <div class="card-label">ELEVADOR · AVARIAS</div>
+      <h3 style="font-family:var(--font-display);font-weight:700;font-size:18px;">Otis Elevadores</h3>
+      <div class="muted mt-2">Linha 24h</div>
+      <div class="mono mt-2">808 20 80 80</div>
+    </div>
+    <div class="card">
+      <div class="card-label">ÁGUAS DE LISBOA</div>
+      <h3 style="font-family:var(--font-display);font-weight:700;font-size:18px;">Avarias EPAL</h3>
+      <div class="mono mt-2">800 201 600</div>
+    </div>
+    <div class="card">
+      <div class="card-label">E-REDES (EDP DISTRIBUIÇÃO)</div>
+      <h3 style="font-family:var(--font-display);font-weight:700;font-size:18px;">Avarias de electricidade</h3>
+      <div class="mono mt-2">800 506 506</div>
+    </div>
+    <div class="card">
+      <div class="card-label">GÁS · AVARIAS</div>
+      <h3 style="font-family:var(--font-display);font-weight:700;font-size:18px;">Lisboagás</h3>
+      <div class="mono mt-2">800 201 722</div>
+    </div>
+  </div>
+`;
+
+// ─── COMUNICADOS (inquilino — filtrados) ─────────────────────────────
+VIEWS['comunicados-inq'] = () => `
+  <div class="page-header">
+    <div>
+      <div class="caption">O QUE TE DIZ RESPEITO</div>
+      <h1 class="page-title mt-2">Comunicados</h1>
+      <p class="page-subtitle">Vês apenas assuntos relevantes para quem vive no edifício: manutenção, obras que afectam o acesso, emergências.</p>
+    </div>
+    <span class="page-tag">INQUILINO</span>
+  </div>
+
+  ${ASSUNTOS.filter(a => ['MANUTENÇÃO','OBRAS'].includes(a.tag)).map(a => mural(a)).join('')}
+`;
+
+// ─── Helper: render mural post ───────────────────────────────────────
+function mural(a) {
+  return `
+    <article class="mural-post ${a.pinned ? 'pinned' : ''}">
+      <header class="post-header">
+        <span class="post-author">${a.autor}</span>
+        <span class="post-date">${a.data.replace(/-/g,'.')}</span>
+        <span class="post-tag ${a.urgent ? 'urgent' : ''}">${a.tag}</span>
+      </header>
+      <h3 style="font-family:var(--font-display);font-weight:700;font-size:17px;margin-bottom:10px;letter-spacing:-0.01em;">${a.titulo}</h3>
+      <div class="post-body">${a.body}</div>
+    </article>
+  `;
+}
+
+/* ───────────────────────────────────────────── RENDER ────────────── */
+function renderView() {
+  const v = VIEWS[state.view];
+  const html = v ? v() : `<div class="page-header"><h1 class="page-title">Em construção</h1></div>`;
+  document.getElementById('content').innerHTML = html;
+}
+
+/* ───────────────────────────────────────────── INIT ──────────────── */
+document.querySelectorAll('.role-select button').forEach(b => {
+  b.addEventListener('click', () => setRole(b.dataset.role));
+});
+
+renderSidebar();
+renderView();
+</script>
+</body>
+</html>

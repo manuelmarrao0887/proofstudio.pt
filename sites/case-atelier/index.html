@@ -1,0 +1,1908 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASE. — A PROOF. PRODUCT · Atelier OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* ===== Eclipse design tokens (dark — app is built dark-only) ===== */
+    --bg: #06080c;
+    --surface: #0b0f17;
+    --elevated: #11161f;
+    --border: #1c2230;
+    --border-strong: #262e3e;
+    --fg: #f5f7fb;
+    --fg-muted: #8b95a8;
+    --fg-subtle: #4a5366;
+    --accent: #c8d4ea;
+
+    /* State (feedback only) */
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #94a3c4;
+
+    /* ===== Legacy token names REMAPPED to Eclipse (markup inline styles depend on these) ===== */
+    --ink: var(--bg);
+    --ink-2: var(--surface);
+    --ink-3: var(--elevated);
+    --paper: var(--fg);
+    --paper-2: var(--fg);
+    --grey: var(--border);
+    --grey-2: var(--fg-muted);
+    --grey-3: var(--fg-subtle);
+    --ink-muted: var(--border-strong);
+    --ink-soft: var(--border-strong);
+    --signal: var(--accent);
+    --signal-2: var(--accent);
+
+    /* Tipografia — Eclipse */
+    --font-display: 'Geist', sans-serif;
+    --font-body: 'Geist', sans-serif;
+    --font-mono: 'Geist Mono', monospace;
+    --font-accent: 'Geist', sans-serif;
+
+    /* Espaçamento base 4px */
+    --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px;
+    --s-6: 24px; --s-8: 32px; --s-12: 48px; --s-16: 64px;
+
+    /* Radii */
+    --r-sm: 6px; --r-md: 10px; --r-lg: 12px; --r-xl: 18px; --r-pill: 999px;
+
+    /* Motion */
+    --ease-out: cubic-bezier(0.2, 0, 0, 1);
+    --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+    --dur-fast: 120ms;
+    --dur-base: 200ms;
+    --dur-slow: 400ms;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { color-scheme: dark; background: var(--bg); }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ========= HEADER ========= */
+  .topbar {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: stretch;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    padding: 22px 36px;
+    border-right: 1px solid var(--border);
+    gap: 16px;
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--fg);
+  }
+  .wordmark .dot { color: var(--fg-muted); }
+  .brand-meta {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    line-height: 1.4;
+  }
+  .brand-meta span { color: var(--fg-muted); }
+
+  .role-switch {
+    display: flex;
+    flex: 1;
+  }
+  .role-btn {
+    flex: 1;
+    padding: 20px 26px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border);
+    color: var(--fg-muted);
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out);
+    position: relative;
+  }
+  .role-btn:hover {
+    background: var(--surface);
+    color: var(--fg);
+  }
+  .role-btn.active {
+    background: var(--surface);
+    color: var(--fg);
+  }
+  .role-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--fg);
+  }
+  .role-btn-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    margin-bottom: 5px;
+    display: block;
+  }
+  .role-btn.active .role-btn-label { color: var(--fg-muted); }
+  .role-btn-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+
+  .user-box {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 36px;
+    border-left: 1px solid var(--border);
+  }
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--fg);
+  }
+  .user-details { line-height: 1.3; }
+  .user-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--fg);
+  }
+  .user-role {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-subtle);
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  /* ========= MAIN ========= */
+  .main {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 64px 36px 140px;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ========= SECTION HEADERS ========= */
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-head-left { flex: 1; min-width: 0; }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 14px;
+  }
+  .eyebrow .sep { color: var(--fg-subtle); margin: 0 6px; }
+  h1.page-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(32px, 4.5vw, 52px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+  }
+  .section-head-right {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    text-align: right;
+    line-height: 1.7;
+    padding-bottom: 6px;
+  }
+  .section-head-right .k { color: var(--fg); }
+
+  /* ========= STATUS INDICATORS ========= */
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  .status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: var(--r-pill);
+    background: var(--fg-muted);
+    display: inline-block;
+  }
+  .status.ready::before { background: var(--info); }
+  .status.ready { color: var(--fg); }
+  .status.approved::before { background: var(--success); }
+  .status.approved { color: var(--fg); }
+  .status.draft::before { background: var(--fg-subtle); }
+  .status.archived::before { background: var(--fg-subtle); }
+  .status.hold::before { background: var(--warning); }
+
+  /* ========= METRICS GRID ========= */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+  .metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 26px 28px;
+  }
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 18px;
+  }
+  .metric-value {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+    margin-bottom: 10px;
+  }
+  .metric-unit {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--fg-muted);
+    font-weight: 400;
+    margin-left: 6px;
+    letter-spacing: 0;
+  }
+  .metric-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--fg-muted);
+  }
+  .metric-sub .up { color: var(--success); }
+  .metric-sub .down { color: var(--danger); }
+
+  /* ========= GRID LAYOUTS ========= */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 32px;
+    margin-bottom: 56px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  /* ========= CARDS ========= */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 32px 36px;
+  }
+  .card.ghost {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+  }
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+  }
+  .card-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+  }
+
+  /* ========= TIMELINE (phases) ========= */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .phase {
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 18px 16px;
+    position: relative;
+  }
+  .phase.done { background: var(--elevated); }
+  .phase.active {
+    background: var(--elevated);
+    border-color: var(--border-strong);
+    border-top: 2px solid var(--fg);
+    padding-top: 17px;
+  }
+  .phase-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-subtle);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .phase.done .phase-num { color: var(--success); }
+  .phase.active .phase-num { color: var(--fg); }
+  .phase-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0;
+    color: var(--fg);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .phase.done .phase-name { color: var(--fg); }
+  .phase-date {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-muted);
+  }
+
+  /* ========= PROGRESS BAR ========= */
+  .prog-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: var(--r-pill);
+    margin: 24px 0 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    background: var(--fg);
+    border-radius: var(--r-pill);
+  }
+  .prog-fill.signal { background: var(--fg); }
+  .prog-legend {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--fg-muted);
+  }
+  .prog-legend .val { color: var(--fg); font-weight: 500; }
+
+  /* ========= LISTS ========= */
+  .list { list-style: none; }
+  .list-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+  .list-item:hover {
+    background: var(--elevated);
+    margin: 0 -16px;
+    padding: 16px 16px;
+    border-radius: var(--r-md);
+    border-bottom-color: transparent;
+  }
+  .list-item:last-child { border-bottom: none; }
+  .list-item-icon {
+    width: 34px;
+    height: 34px;
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-muted);
+    letter-spacing: 0;
+  }
+  .list-item-body { min-width: 0; }
+  .list-item-title {
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--fg);
+    line-height: 1.4;
+  }
+  .list-item-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-muted);
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+  .list-item-meta {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+  }
+
+  /* ========= BUTTONS ========= */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: var(--fg);
+    color: var(--bg);
+    border: 1px solid var(--fg);
+    border-radius: var(--r-pill);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0;
+    cursor: pointer;
+    transition: opacity var(--dur-fast) var(--ease-out),
+                background var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out);
+  }
+  .btn:hover {
+    opacity: 0.88;
+  }
+  .btn-secondary {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--fg);
+  }
+  .btn-secondary:hover {
+    border-color: var(--border-strong);
+    background: var(--surface);
+    color: var(--fg);
+    opacity: 1;
+  }
+  .btn-signal {
+    background: var(--fg);
+    border-color: var(--fg);
+    color: var(--bg);
+    font-weight: 500;
+  }
+  .btn-signal:hover {
+    opacity: 0.88;
+  }
+
+  /* ========= FINANCIAL ========= */
+  .fin-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .fin-cell {
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 20px 22px;
+  }
+  .fin-cell-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .fin-cell-value {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+  }
+  .fin-cell-value .cur {
+    font-family: var(--font-mono);
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--fg-muted);
+    margin-left: 4px;
+  }
+
+  /* ========= TABLE ========= */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 15px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  th {
+    background: var(--elevated);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  td {
+    background: var(--surface);
+    color: var(--fg-muted);
+  }
+  tbody tr:hover td { background: var(--elevated); }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num {
+    font-family: var(--font-mono);
+    text-align: right;
+    color: var(--fg);
+  }
+  td.proj-name {
+    font-weight: 400;
+    color: var(--fg);
+  }
+  td .tiny {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-top: 3px;
+  }
+
+  /* health bar inline */
+  .health {
+    display: inline-block;
+    width: 60px;
+    height: 6px;
+    background: var(--border);
+    border-radius: var(--r-pill);
+    vertical-align: middle;
+    margin-right: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .health > span {
+    display: block;
+    height: 100%;
+    border-radius: var(--r-pill);
+  }
+  .health .on-track { background: var(--success); width: 85%; }
+  .health .at-risk  { background: var(--warning); width: 55%; }
+  .health .off-track{ background: var(--danger); width: 30%; }
+
+  /* ========= BRIEFING BLOCK ========= */
+  .brief-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .brief-cell {
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 22px 24px;
+  }
+  .brief-cell-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .brief-cell-value {
+    font-size: 14px;
+    color: var(--fg);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* ========= QUOTE / PULL ========= */
+  .pull {
+    padding: 28px 32px;
+    border-left: 2px solid var(--border-strong);
+    background: var(--elevated);
+    border-radius: var(--r-md);
+    margin: 32px 0;
+  }
+  .pull p {
+    font-family: var(--font-accent);
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--fg);
+  }
+  .pull cite {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-top: 16px;
+    display: block;
+    font-style: normal;
+  }
+
+  /* ========= KANBAN MINI ========= */
+  .kanban {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .kan-col {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 0;
+    min-height: 280px;
+    overflow: hidden;
+  }
+  .kan-head {
+    padding: 16px 20px;
+    background: var(--elevated);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .kan-head .t {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+  .kan-head .c {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-muted);
+  }
+  .kan-body { padding: 14px; }
+  .kan-card {
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .kan-card:hover { border-color: var(--border-strong); }
+  .kan-card-proj {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .kan-card-title {
+    font-size: 13px;
+    color: var(--fg);
+    line-height: 1.4;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .kan-card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--fg-muted);
+    letter-spacing: 0.04em;
+  }
+  .kan-card.priority { border-left: 2px solid var(--border-strong); }
+
+  /* ========= ALERTS ========= */
+  .alert-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .alert-item:last-child { border-bottom: none; }
+  .alert-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--r-pill);
+    background: var(--danger);
+    margin-top: 7px;
+  }
+  .alert-dot.warn { background: var(--warning); }
+  .alert-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--fg);
+    margin-bottom: 5px;
+  }
+  .alert-desc {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--fg-muted);
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+  }
+  .alert-time {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+
+  /* ========= HEATMAP (team allocation) ========= */
+  .heatmap {
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    overflow: hidden;
+    overflow-x: auto;
+  }
+  .heat-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .heat-table th {
+    background: var(--elevated);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 13px 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+  }
+  .heat-table th:first-child { text-align: left; }
+  .heat-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .heat-table td:first-child {
+    text-align: left;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--fg);
+    background: var(--surface);
+  }
+  .heat-cell-1 { background: var(--surface); color: var(--fg-subtle); }
+  .heat-cell-2 { background: var(--elevated); color: var(--fg-muted); }
+  .heat-cell-3 { background: var(--border); color: var(--fg); }
+  .heat-cell-4 { background: var(--border-strong); color: var(--fg); }
+  .heat-cell-over { background: var(--danger); color: #ffffff; font-weight: 500; }
+
+  /* ========= FOOTER ========= */
+  .footer {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 44px 36px 52px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-brand {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+  }
+  .footer-brand .dot { color: var(--fg-muted); }
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+  }
+  .footer-meta .sep { color: var(--fg-subtle); margin: 0 10px; }
+  .footer-lineage {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fg-subtle);
+    text-transform: uppercase;
+  }
+  .footer-lineage strong { color: var(--fg-muted); font-weight: 500; }
+
+  /* ========= RESPONSIVE ========= */
+  @media (max-width: 960px) {
+    .topbar-inner { flex-wrap: wrap; }
+    .brand { width: 100%; justify-content: space-between; padding: 14px 20px; }
+    .role-switch { width: 100%; border-top: 1px solid var(--border); }
+    .role-btn { padding: 14px 16px; }
+    .user-box { display: none; }
+    .main { padding: 40px 20px 80px; }
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: repeat(2, 1fr); }
+    .kanban { grid-template-columns: 1fr; }
+    .brief-grid { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; gap: 16px; align-items: flex-start; padding: 24px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========================================================= -->
+<!-- TOPBAR                                                    -->
+<!-- ========================================================= -->
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <div class="brand">
+      <div class="wordmark">CASE<span class="dot">.</span></div>
+      <div class="brand-meta">
+        <div>A <span>PROOF.</span> PRODUCT</div>
+        <div>ATELIER&nbsp;OS · v0.3.1</div>
+      </div>
+    </div>
+
+    <div class="role-switch" role="tablist">
+      <button class="role-btn active" data-view="client" role="tab">
+        <span class="role-btn-label">01 · VISTA</span>
+        <span class="role-btn-name">Cliente</span>
+      </button>
+      <button class="role-btn" data-view="design" role="tab">
+        <span class="role-btn-label">02 · VISTA</span>
+        <span class="role-btn-name">Design Team</span>
+      </button>
+      <button class="role-btn" data-view="ops" role="tab">
+        <span class="role-btn-label">03 · VISTA</span>
+        <span class="role-btn-name">Operações</span>
+      </button>
+    </div>
+
+    <div class="user-box" id="userBox">
+      <div class="user-avatar" id="uAv">FM</div>
+      <div class="user-details">
+        <div class="user-name" id="uNm">Família Martins</div>
+        <div class="user-role" id="uRl">CASE 018 · CLIENTE</div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- ============================================== -->
+  <!-- VIEW 01 · CLIENTE                              -->
+  <!-- ============================================== -->
+  <section class="view active" id="view-client">
+
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="eyebrow">
+          CASE 018 <span class="sep">/</span> RESIDENCIAL <span class="sep">/</span> COMPORTA · PT
+        </div>
+        <h1 class="page-title">Villa<br/>Comporta</h1>
+      </div>
+      <div class="section-head-right">
+        <div><span class="status ready">READY FOR REVIEW</span></div>
+        <div style="margin-top:10px">ABERTO EM <span class="k">2025.09.14</span></div>
+        <div>ENTREGA <span class="k">2026.11.22</span></div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="card" style="margin-bottom:32px">
+      <div class="card-head">
+        <div class="card-title">Fases do Projecto</div>
+        <div class="card-meta">5 FASES · 3 CONCLUÍDAS</div>
+      </div>
+
+      <div class="timeline">
+        <div class="phase done">
+          <div class="phase-num">01 · DONE</div>
+          <div class="phase-name">Briefing &amp; Levantamento</div>
+          <div class="phase-date">2025.09.14 — 10.03</div>
+        </div>
+        <div class="phase done">
+          <div class="phase-num">02 · DONE</div>
+          <div class="phase-name">Estudo Prévio</div>
+          <div class="phase-date">2025.10.04 — 11.18</div>
+        </div>
+        <div class="phase done">
+          <div class="phase-num">03 · DONE</div>
+          <div class="phase-name">Projecto Base</div>
+          <div class="phase-date">2025.11.19 — 2026.02.10</div>
+        </div>
+        <div class="phase active">
+          <div class="phase-num">04 · EM CURSO</div>
+          <div class="phase-name">Projecto de Execução</div>
+          <div class="phase-date">2026.02.11 — 06.30</div>
+        </div>
+        <div class="phase">
+          <div class="phase-num">05 · PENDENTE</div>
+          <div class="phase-name">Obra &amp; Styling</div>
+          <div class="phase-date">2026.07.01 — 11.22</div>
+        </div>
+      </div>
+
+      <div class="prog-track">
+        <div class="prog-fill signal" style="width: 62%"></div>
+      </div>
+      <div class="prog-legend">
+        <div>PROGRESSO TOTAL · <span class="val">62%</span></div>
+        <div>218 DIAS ATÉ ENTREGA</div>
+      </div>
+    </div>
+
+    <!-- 2 cols: Files + Financial -->
+    <div class="grid-2">
+
+      <!-- Files -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Entregas Recentes</div>
+          <div class="card-meta">ÚLTIMOS 30 DIAS</div>
+        </div>
+        <ul class="list">
+
+          <li class="list-item">
+            <div class="list-item-icon">PDF</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Plantas de Execução — Piso 0 &amp; Piso 1</div>
+              <div class="list-item-sub">v2.1 · 18 PÁGINAS · 24.3 MB</div>
+            </div>
+            <div class="list-item-meta">
+              <span class="status ready">READY</span><br/>
+              <span style="color:var(--grey-3);margin-top:4px;display:inline-block">2026.04.15</span>
+            </div>
+          </li>
+
+          <li class="list-item">
+            <div class="list-item-icon">JPG</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Renders 3D — Sala Comum &amp; Cozinha</div>
+              <div class="list-item-sub">v1.4 · 12 FICHEIROS · 186 MB</div>
+            </div>
+            <div class="list-item-meta">
+              <span class="status approved">APPROVED</span><br/>
+              <span style="color:var(--grey-3);margin-top:4px;display:inline-block">2026.04.02</span>
+            </div>
+          </li>
+
+          <li class="list-item">
+            <div class="list-item-icon">PDF</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Moodboard Final · Zona Social</div>
+              <div class="list-item-sub">v3.0 · 32 PÁGINAS · 47.1 MB</div>
+            </div>
+            <div class="list-item-meta">
+              <span class="status approved">APPROVED</span><br/>
+              <span style="color:var(--grey-3);margin-top:4px;display:inline-block">2026.03.28</span>
+            </div>
+          </li>
+
+          <li class="list-item">
+            <div class="list-item-icon">XLS</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Mapa de Materiais &amp; Acabamentos</div>
+              <div class="list-item-sub">v1.0 · 142 ITENS · 2.8 MB</div>
+            </div>
+            <div class="list-item-meta">
+              <span class="status draft">DRAFT</span><br/>
+              <span style="color:var(--grey-3);margin-top:4px;display:inline-block">2026.03.21</span>
+            </div>
+          </li>
+
+          <li class="list-item">
+            <div class="list-item-icon">DWG</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Levantamento Topográfico Revisto</div>
+              <div class="list-item-sub">v1.1 · 4 FICHEIROS · 12.5 MB</div>
+            </div>
+            <div class="list-item-meta">
+              <span class="status approved">APPROVED</span><br/>
+              <span style="color:var(--grey-3);margin-top:4px;display:inline-block">2026.03.09</span>
+            </div>
+          </li>
+
+        </ul>
+
+        <div style="margin-top:20px; display:flex; gap:12px">
+          <button class="btn btn-secondary">Ver Arquivo Completo</button>
+          <button class="btn btn-signal">Assinar 1 Pendente</button>
+        </div>
+      </div>
+
+      <!-- Financial -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Financeiro</div>
+          <div class="card-meta">RESUMO</div>
+        </div>
+
+        <div class="fin-summary">
+          <div class="fin-cell">
+            <div class="fin-cell-label">Valor Total</div>
+            <div class="fin-cell-value">485.000<span class="cur">EUR</span></div>
+          </div>
+          <div class="fin-cell">
+            <div class="fin-cell-label">Pago</div>
+            <div class="fin-cell-value">291.000<span class="cur">EUR</span></div>
+          </div>
+          <div class="fin-cell">
+            <div class="fin-cell-label">Pendente</div>
+            <div class="fin-cell-value">194.000<span class="cur">EUR</span></div>
+          </div>
+          <div class="fin-cell">
+            <div class="fin-cell-label">Próxima Fatura</div>
+            <div class="fin-cell-value">72.750<span class="cur">EUR</span></div>
+          </div>
+        </div>
+
+        <div style="padding:16px 0; border-top:1px solid var(--grey); margin-top:8px">
+          <div style="font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; color:var(--grey-2); text-transform:uppercase; margin-bottom:10px">
+            Próximo Pagamento
+          </div>
+          <div style="font-family:var(--font-display); font-weight:700; font-size:18px; color:var(--paper); margin-bottom:4px">
+            2026.05.15 · Fase 04/05 (Exec.)
+          </div>
+          <div style="font-family:var(--font-mono); font-size:11px; color:var(--grey-2)">
+            Faturação emitida em 2026.04.30 · 15 dias
+          </div>
+        </div>
+
+        <button class="btn" style="width:100%; justify-content:center; margin-top:16px">Ver Histórico Financeiro</button>
+      </div>
+
+    </div>
+
+    <!-- Briefing -->
+    <div class="card" style="margin-bottom:32px">
+      <div class="card-head">
+        <div class="card-title">Briefing Submetido</div>
+        <div class="card-meta">ÚLTIMA REV · 2025.10.03</div>
+      </div>
+
+      <div class="brief-grid">
+        <div class="brief-cell">
+          <div class="brief-cell-label">Tipologia</div>
+          <div class="brief-cell-value">Moradia unifamiliar T5<br/>2 pisos + cave técnica</div>
+        </div>
+        <div class="brief-cell">
+          <div class="brief-cell-label">Área Bruta</div>
+          <div class="brief-cell-value">ABI 620 m²<br/>Terreno 2.400 m²</div>
+        </div>
+        <div class="brief-cell">
+          <div class="brief-cell-label">Orçamento Obra</div>
+          <div class="brief-cell-value">1.8M — 2.2M EUR<br/>Chave-na-mão</div>
+        </div>
+        <div class="brief-cell">
+          <div class="brief-cell-label">Programa</div>
+          <div class="brief-cell-value">5 suites · office · wine cellar · piscina infinity · anexo hóspedes</div>
+        </div>
+        <div class="brief-cell">
+          <div class="brief-cell-label">Referências</div>
+          <div class="brief-cell-value">John Pawson · Tadao Ando · Vincent Van Duysen</div>
+        </div>
+        <div class="brief-cell">
+          <div class="brief-cell-label">Vocabulário</div>
+          <div class="brief-cell-value">Madeiras claras · pedra natural · betão aparente · paisagismo autóctone</div>
+        </div>
+      </div>
+
+      <div class="pull">
+        <p>"Queremos uma casa que desapareça na paisagem. Sem ostentação — mas sem compromisso em materiais. O silêncio é o luxo."</p>
+        <cite>Cliente · entrevista 2025.09.18</cite>
+      </div>
+    </div>
+
+    <!-- Client data -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Dados do Cliente</div>
+        <div class="card-meta">CONFIDENCIAL</div>
+      </div>
+      <div class="brief-grid">
+        <div class="brief-cell">
+          <div class="brief-cell-label">Principal</div>
+          <div class="brief-cell-value">Manuel Martins<br/>manuel@martins.pt</div>
+        </div>
+        <div class="brief-cell">
+          <div class="brief-cell-label">Secundário</div>
+          <div class="brief-cell-value">Luísa Martins<br/>luisa@martins.pt</div>
+        </div>
+        <div class="brief-cell">
+          <div class="brief-cell-label">Contacto Ops</div>
+          <div class="brief-cell-value">+351 96X XXX XX2<br/>Preferência: WhatsApp</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================== -->
+  <!-- VIEW 02 · DESIGN TEAM                          -->
+  <!-- ============================================== -->
+  <section class="view" id="view-design">
+
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="eyebrow">
+          WORKBENCH <span class="sep">/</span> JOANA LOUREIRO <span class="sep">/</span> DESIGNER
+        </div>
+        <h1 class="page-title">Bom dia,<br/>Joana.</h1>
+      </div>
+      <div class="section-head-right">
+        <div>SEMANA 16 · <span class="k">2026</span></div>
+        <div style="margin-top:10px">HOJE <span class="k">2026.04.18</span></div>
+        <div>14:32 WEST</div>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">Tarefas Abertas</div>
+        <div class="metric-value">14</div>
+        <div class="metric-sub">3 <span class="down">críticas</span> · 11 standard</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Proofs em Review</div>
+        <div class="metric-value">3</div>
+        <div class="metric-sub">2 cliente · 1 PM · 18h média</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Horas · Semana</div>
+        <div class="metric-value">32<span class="metric-unit">/ 40h</span></div>
+        <div class="metric-sub">80% imputado · 4 projectos</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Projectos Activos</div>
+        <div class="metric-value">4</div>
+        <div class="metric-sub">Villa Comporta · Seteais · +2</div>
+      </div>
+    </div>
+
+    <!-- Tasks kanban -->
+    <div class="card ghost" style="padding:0; margin-bottom:48px">
+      <div class="card-head" style="padding: 0 0 16px; margin-bottom:20px">
+        <div class="card-title">Tarefas · Minha Fila</div>
+        <div class="card-meta">DRAG TO MOVE · MOCK</div>
+      </div>
+
+      <div class="kanban">
+
+        <div class="kan-col">
+          <div class="kan-head">
+            <div class="t">A Fazer</div>
+            <div class="c">06</div>
+          </div>
+          <div class="kan-body">
+            <div class="kan-card priority">
+              <div class="kan-card-proj">CASE 018 · COMPORTA</div>
+              <div class="kan-card-title">Rever selecção de pedras naturais com fornecedor Estremoz</div>
+              <div class="kan-card-foot">
+                <span>DUE 2026.04.22</span>
+                <span class="status ready"></span>
+              </div>
+            </div>
+            <div class="kan-card priority">
+              <div class="kan-card-proj">CASE 015 · SETEAIS</div>
+              <div class="kan-card-title">Entrega de moodboard revisto — Zona SPA</div>
+              <div class="kan-card-foot">
+                <span>DUE 2026.04.24</span>
+                <span>HS 6</span>
+              </div>
+            </div>
+            <div class="kan-card">
+              <div class="kan-card-proj">CASE 021 · P. REAL</div>
+              <div class="kan-card-title">Detalhes de marcenaria — cozinha &amp; office</div>
+              <div class="kan-card-foot">
+                <span>DUE 2026.04.28</span>
+                <span>HS 8</span>
+              </div>
+            </div>
+            <div class="kan-card">
+              <div class="kan-card-proj">CASE 018 · COMPORTA</div>
+              <div class="kan-card-title">Paleta têxtil suites 03 &amp; 04</div>
+              <div class="kan-card-foot">
+                <span>DUE 2026.04.30</span>
+                <span>HS 4</span>
+              </div>
+            </div>
+            <div class="kan-card">
+              <div class="kan-card-proj">CASE 022 · YACHT</div>
+              <div class="kan-card-title">Especificações iluminação cabine principal</div>
+              <div class="kan-card-foot">
+                <span>DUE 2026.05.03</span>
+                <span>HS 5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="kan-col">
+          <div class="kan-head">
+            <div class="t">Em Curso</div>
+            <div class="c">03</div>
+          </div>
+          <div class="kan-body">
+            <div class="kan-card priority">
+              <div class="kan-card-proj">CASE 018 · COMPORTA</div>
+              <div class="kan-card-title">Plantas execução — piso 1 · casa de banho principal</div>
+              <div class="kan-card-foot">
+                <span>PROG 65%</span>
+                <span>HS 12/16</span>
+              </div>
+            </div>
+            <div class="kan-card">
+              <div class="kan-card-proj">CASE 015 · SETEAIS</div>
+              <div class="kan-card-title">Curadoria de arte — lobby principal</div>
+              <div class="kan-card-foot">
+                <span>PROG 40%</span>
+                <span>HS 4/10</span>
+              </div>
+            </div>
+            <div class="kan-card">
+              <div class="kan-card-proj">CASE 021 · P. REAL</div>
+              <div class="kan-card-title">Renders — sala de jantar, 3 vistas</div>
+              <div class="kan-card-foot">
+                <span>PROG 80%</span>
+                <span>HS 14/18</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="kan-col">
+          <div class="kan-head">
+            <div class="t">Em Review</div>
+            <div class="c">03</div>
+          </div>
+          <div class="kan-body">
+            <div class="kan-card">
+              <div class="kan-card-proj">CASE 018 · COMPORTA</div>
+              <div class="kan-card-title">Mapa de acabamentos v1.0 → PM</div>
+              <div class="kan-card-foot">
+                <span class="status ready"></span>
+                <span>HÁ 2 DIAS</span>
+              </div>
+            </div>
+            <div class="kan-card">
+              <div class="kan-card-proj">CASE 015 · SETEAIS</div>
+              <div class="kan-card-title">Moodboard zona restaurante → cliente</div>
+              <div class="kan-card-foot">
+                <span class="status ready"></span>
+                <span>HÁ 5 DIAS</span>
+              </div>
+            </div>
+            <div class="kan-card">
+              <div class="kan-card-proj">CASE 021 · P. REAL</div>
+              <div class="kan-card-title">Plantas base → cliente</div>
+              <div class="kan-card-foot">
+                <span class="status ready"></span>
+                <span>HÁ 1 DIA</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Sub sections 2 cols -->
+    <div class="grid-2">
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Comentários · Por Responder</div>
+          <div class="card-meta">5 ABERTOS</div>
+        </div>
+        <ul class="list">
+          <li class="list-item">
+            <div class="list-item-icon">MM</div>
+            <div class="list-item-body">
+              <div class="list-item-title">"Podemos testar o lambril num tom mais quente? Achei o cinza frio demais."</div>
+              <div class="list-item-sub">MANUEL MARTINS · CASE 018 · COMPORTA · SALA COMUM</div>
+            </div>
+            <div class="list-item-meta">HÁ 3H</div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">AC</div>
+            <div class="list-item-body">
+              <div class="list-item-title">"Confirma se a pedra da bancada cabe no novo orçamento revisto."</div>
+              <div class="list-item-sub">ANA COSTA · PM · CASE 018 · COMPORTA</div>
+            </div>
+            <div class="list-item-meta">HÁ 1D</div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">JA</div>
+            <div class="list-item-body">
+              <div class="list-item-title">"Gostei da proposta. Avança para execução."</div>
+              <div class="list-item-sub">JOANA ARANHA · CASE 015 · SETEAIS · SPA</div>
+            </div>
+            <div class="list-item-meta">HÁ 2D</div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">LM</div>
+            <div class="list-item-body">
+              <div class="list-item-title">"Posso receber duas variantes para a cabeceira da suite principal?"</div>
+              <div class="list-item-sub">LUÍSA MARTINS · CASE 018 · COMPORTA</div>
+            </div>
+            <div class="list-item-meta">HÁ 2D</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Biblioteca · Últimos Pedidos</div>
+          <div class="card-meta">FORNECEDORES</div>
+        </div>
+        <ul class="list">
+          <li class="list-item">
+            <div class="list-item-icon">ES</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Estremoz Mármores · amostras 04 tons</div>
+              <div class="list-item-sub">PEDIDO HÁ 5D · COMPORTA</div>
+            </div>
+            <div class="list-item-meta"><span class="status ready">TRÂNSITO</span></div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">LI</div>
+            <div class="list-item-body">
+              <div class="list-item-title">LINA · linho pesado natural, 12 swatches</div>
+              <div class="list-item-sub">PEDIDO HÁ 8D · SETEAIS</div>
+            </div>
+            <div class="list-item-meta"><span class="status approved">RECEBIDO</span></div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">FL</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Flos · catálogo suspensos DCW · 2026</div>
+              <div class="list-item-sub">PEDIDO HÁ 2D · P. REAL</div>
+            </div>
+            <div class="list-item-meta"><span class="status draft">PEND.</span></div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">BR</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Brajak · amostras pele náutica cor areia</div>
+              <div class="list-item-sub">PEDIDO HÁ 10D · YACHT</div>
+            </div>
+            <div class="list-item-meta"><span class="status approved">RECEBIDO</span></div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">CP</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Carpintarias Pires · protótipo de parede</div>
+              <div class="list-item-sub">PEDIDO HÁ 1D · P. REAL</div>
+            </div>
+            <div class="list-item-meta"><span class="status draft">PEND.</span></div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div style="display:flex; gap:12px">
+      <button class="btn btn-signal">Submeter Proof</button>
+      <button class="btn">Nova Tarefa</button>
+      <button class="btn btn-secondary">Pedir Amostras</button>
+      <button class="btn btn-secondary">Log de Horas</button>
+    </div>
+
+  </section>
+
+  <!-- ============================================== -->
+  <!-- VIEW 03 · OPERAÇÕES                            -->
+  <!-- ============================================== -->
+  <section class="view" id="view-ops">
+
+    <div class="section-head">
+      <div class="section-head-left">
+        <div class="eyebrow">
+          COMMAND <span class="sep">/</span> GESTÃO DE PROJETOS <span class="sep">/</span> DIR. OPERAÇÕES
+        </div>
+        <h1 class="page-title">Visão Geral<br/>do Atelier</h1>
+      </div>
+      <div class="section-head-right">
+        <div>SEMANA 16 · <span class="k">2026</span></div>
+        <div style="margin-top:10px">ÚLTIMA SYNC <span class="k">14:12 WEST</span></div>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">Projectos Activos</div>
+        <div class="metric-value">09</div>
+        <div class="metric-sub">7 residencial · 1 hospitality · 1 yacht</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Margem Média</div>
+        <div class="metric-value">34<span class="metric-unit">%</span></div>
+        <div class="metric-sub"><span class="up">+2.1pp</span> vs. trimestre anterior</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Alertas Abertos</div>
+        <div class="metric-value">03</div>
+        <div class="metric-sub">2 críticos · 1 atenção</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Capacidade Equipa</div>
+        <div class="metric-value">87<span class="metric-unit">%</span></div>
+        <div class="metric-sub">14 pessoas · 2 em reforço pontual</div>
+      </div>
+    </div>
+
+    <!-- Portfolio -->
+    <div class="card ghost" style="padding:0; margin-bottom:48px">
+      <div class="card-head" style="padding: 0 0 16px; margin-bottom: 16px">
+        <div class="card-title">Portfolio · Projectos Activos</div>
+        <div class="card-meta">09 CASES · ORDEM: ENTREGA</div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:50px">CASE</th>
+              <th>Projecto</th>
+              <th>PM</th>
+              <th>Fase</th>
+              <th>Health</th>
+              <th class="num">Contracto</th>
+              <th class="num">Facturado</th>
+              <th class="num">Margem</th>
+              <th>Entrega</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">015</td>
+              <td class="proj-name">Tivoli Seteais · Refurbish
+                <span class="tiny">Hospitality · Sintra</span>
+              </td>
+              <td>Ana Costa</td>
+              <td>Obra</td>
+              <td><span class="health"><span class="on-track"></span></span> ON TRACK</td>
+              <td class="num">2.8M €</td>
+              <td class="num">1.96M €</td>
+              <td class="num">38%</td>
+              <td>2026.09.30</td>
+            </tr>
+            <tr>
+              <td class="num">018</td>
+              <td class="proj-name">Villa Comporta
+                <span class="tiny">Residencial · Martins</span>
+              </td>
+              <td>Ana Costa</td>
+              <td>Exec.</td>
+              <td><span class="health"><span class="on-track"></span></span> ON TRACK</td>
+              <td class="num">485K €</td>
+              <td class="num">291K €</td>
+              <td class="num">36%</td>
+              <td>2026.11.22</td>
+            </tr>
+            <tr>
+              <td class="num">019</td>
+              <td class="proj-name">Quinta da Marinha
+                <span class="tiny">Residencial · Cascais</span>
+              </td>
+              <td>Ricardo Sá</td>
+              <td>Base</td>
+              <td><span class="health"><span class="at-risk"></span></span> ATENÇÃO</td>
+              <td class="num">720K €</td>
+              <td class="num">180K €</td>
+              <td class="num">31%</td>
+              <td>2027.02.15</td>
+            </tr>
+            <tr>
+              <td class="num">020</td>
+              <td class="proj-name">Herdade do Alentejo
+                <span class="tiny">Residencial · Évora</span>
+              </td>
+              <td>Ricardo Sá</td>
+              <td>Estudo</td>
+              <td><span class="health"><span class="on-track"></span></span> ON TRACK</td>
+              <td class="num">980K €</td>
+              <td class="num">98K €</td>
+              <td class="num">—</td>
+              <td>2027.06.10</td>
+            </tr>
+            <tr>
+              <td class="num">021</td>
+              <td class="proj-name">Penthouse Príncipe Real
+                <span class="tiny">Residencial · Lisboa</span>
+              </td>
+              <td>Ana Costa</td>
+              <td>Exec.</td>
+              <td><span class="health"><span class="on-track"></span></span> ON TRACK</td>
+              <td class="num">310K €</td>
+              <td class="num">186K €</td>
+              <td class="num">41%</td>
+              <td>2026.10.01</td>
+            </tr>
+            <tr>
+              <td class="num">022</td>
+              <td class="proj-name">Yacht Esmeralda · Refit
+                <span class="tiny">Nautical · 38m motor</span>
+              </td>
+              <td>Ricardo Sá</td>
+              <td>Exec.</td>
+              <td><span class="health"><span class="off-track"></span></span> ATRASADO</td>
+              <td class="num">1.4M €</td>
+              <td class="num">560K €</td>
+              <td class="num">28%</td>
+              <td>2026.08.15</td>
+            </tr>
+            <tr>
+              <td class="num">023</td>
+              <td class="proj-name">Apartamento Chiado
+                <span class="tiny">Residencial · Lisboa</span>
+              </td>
+              <td>Ana Costa</td>
+              <td>Base</td>
+              <td><span class="health"><span class="on-track"></span></span> ON TRACK</td>
+              <td class="num">265K €</td>
+              <td class="num">66K €</td>
+              <td class="num">34%</td>
+              <td>2026.12.20</td>
+            </tr>
+            <tr>
+              <td class="num">024</td>
+              <td class="proj-name">Moradia Sintra
+                <span class="tiny">Residencial · Colares</span>
+              </td>
+              <td>Ricardo Sá</td>
+              <td>Estudo</td>
+              <td><span class="health"><span class="on-track"></span></span> ON TRACK</td>
+              <td class="num">560K €</td>
+              <td class="num">42K €</td>
+              <td class="num">—</td>
+              <td>2027.03.30</td>
+            </tr>
+            <tr>
+              <td class="num">025</td>
+              <td class="proj-name">Villa Comporta II
+                <span class="tiny">Residencial · Lançamento</span>
+              </td>
+              <td>Ana Costa</td>
+              <td>Briefing</td>
+              <td><span class="health"><span class="on-track"></span></span> ON TRACK</td>
+              <td class="num">520K €</td>
+              <td class="num">—</td>
+              <td class="num">—</td>
+              <td>2027.07.15</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Alerts + Pipeline -->
+    <div class="grid-2">
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Alertas Críticos</div>
+          <div class="card-meta">03 ABERTOS · AUTO-DETECT</div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-dot"></div>
+          <div>
+            <div class="alert-title">CASE 022 · Yacht Esmeralda</div>
+            <div class="alert-desc">Milestone Fase 04 em atraso · 12 dias. Causa-raíz: fornecedor de pele marítima 2 semanas atrás do previsto. Impacto em entrega final.</div>
+          </div>
+          <div class="alert-time">HÁ 2D</div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-dot"></div>
+          <div>
+            <div class="alert-title">CASE 019 · Quinta da Marinha</div>
+            <div class="alert-desc">Orçamento de obra recalculado — +8% vs. estimativa inicial. Conversa necessária com cliente antes de avançar para execução.</div>
+          </div>
+          <div class="alert-time">HÁ 5D</div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-dot warn"></div>
+          <div>
+            <div class="alert-title">Joana Loureiro · sobrecarga</div>
+            <div class="alert-desc">4 projectos activos, 32h semana alocadas em apenas 3 dias. Sugere-se redistribuição de Yacht para outro designer.</div>
+          </div>
+          <div class="alert-time">HOJE</div>
+        </div>
+
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Pipeline · Comercial</div>
+          <div class="card-meta">5 PROPOSTAS ABERTAS</div>
+        </div>
+        <ul class="list">
+          <li class="list-item">
+            <div class="list-item-icon">P1</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Villa Estoril · cliente referenciado</div>
+              <div class="list-item-sub">PROPOSTA ENVIADA 2026.04.08 · 850K €</div>
+            </div>
+            <div class="list-item-meta"><span class="status ready">AG. RESP.</span></div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">P2</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Hotel Boutique · Alfama</div>
+              <div class="list-item-sub">REUNIÃO 1 · 2026.04.15 · 1.5M € est.</div>
+            </div>
+            <div class="list-item-meta"><span class="status draft">BRIEFING</span></div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">P3</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Apartamento Foz · Porto</div>
+              <div class="list-item-sub">PROPOSTA ENVIADA 2026.04.02 · 220K €</div>
+            </div>
+            <div class="list-item-meta"><span class="status ready">NEGOC.</span></div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">P4</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Jet privado · cabine VIP</div>
+              <div class="list-item-sub">PROPOSTA EM ELABORAÇÃO · 900K € est.</div>
+            </div>
+            <div class="list-item-meta"><span class="status draft">DRAFT</span></div>
+          </li>
+          <li class="list-item">
+            <div class="list-item-icon">P5</div>
+            <div class="list-item-body">
+              <div class="list-item-title">Restaurante Príncipe Real</div>
+              <div class="list-item-sub">PROPOSTA 2026.03.25 · 180K €</div>
+            </div>
+            <div class="list-item-meta"><span class="status archived">PERDIDO</span></div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Team heatmap -->
+    <div class="card ghost" style="padding:0">
+      <div class="card-head" style="padding:0 0 16px; margin-bottom:16px">
+        <div class="card-title">Alocação de Equipa · Próximas 4 Semanas</div>
+        <div class="card-meta">HORAS / SEMANA · CAP 40H</div>
+      </div>
+
+      <div class="heatmap">
+        <table class="heat-table">
+          <thead>
+            <tr>
+              <th>Pessoa</th>
+              <th>W16</th>
+              <th>W17</th>
+              <th>W18</th>
+              <th>W19</th>
+              <th>Média</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Joana Aranha <span style="font-family:var(--font-mono);font-size:10px;color:var(--grey-2);display:block">PRINCIPAL</span></td>
+              <td class="heat-cell-3">32h</td>
+              <td class="heat-cell-3">30h</td>
+              <td class="heat-cell-4">38h</td>
+              <td class="heat-cell-3">34h</td>
+              <td class="heat-cell-3">33.5h</td>
+            </tr>
+            <tr>
+              <td>Marta Aranha <span style="font-family:var(--font-mono);font-size:10px;color:var(--grey-2);display:block">PRINCIPAL</span></td>
+              <td class="heat-cell-3">30h</td>
+              <td class="heat-cell-4">36h</td>
+              <td class="heat-cell-3">32h</td>
+              <td class="heat-cell-3">28h</td>
+              <td class="heat-cell-3">31.5h</td>
+            </tr>
+            <tr>
+              <td>Joana Loureiro <span style="font-family:var(--font-mono);font-size:10px;color:var(--grey-2);display:block">DESIGNER</span></td>
+              <td class="heat-cell-over">44h</td>
+              <td class="heat-cell-over">42h</td>
+              <td class="heat-cell-4">38h</td>
+              <td class="heat-cell-3">34h</td>
+              <td class="heat-cell-4">39.5h</td>
+            </tr>
+            <tr>
+              <td>Rodrigo Silva <span style="font-family:var(--font-mono);font-size:10px;color:var(--grey-2);display:block">ARQUITECTO</span></td>
+              <td class="heat-cell-4">38h</td>
+              <td class="heat-cell-3">32h</td>
+              <td class="heat-cell-3">30h</td>
+              <td class="heat-cell-4">36h</td>
+              <td class="heat-cell-3">34h</td>
+            </tr>
+            <tr>
+              <td>Maria Tavares <span style="font-family:var(--font-mono);font-size:10px;color:var(--grey-2);display:block">DESIGNER JR.</span></td>
+              <td class="heat-cell-2">22h</td>
+              <td class="heat-cell-3">28h</td>
+              <td class="heat-cell-3">32h</td>
+              <td class="heat-cell-3">30h</td>
+              <td class="heat-cell-2">28h</td>
+            </tr>
+            <tr>
+              <td>Ana Costa <span style="font-family:var(--font-mono);font-size:10px;color:var(--grey-2);display:block">PM</span></td>
+              <td class="heat-cell-4">36h</td>
+              <td class="heat-cell-3">34h</td>
+              <td class="heat-cell-4">38h</td>
+              <td class="heat-cell-4">40h</td>
+              <td class="heat-cell-4">37h</td>
+            </tr>
+            <tr>
+              <td>Ricardo Sá <span style="font-family:var(--font-mono);font-size:10px;color:var(--grey-2);display:block">PM</span></td>
+              <td class="heat-cell-3">32h</td>
+              <td class="heat-cell-3">34h</td>
+              <td class="heat-cell-2">26h</td>
+              <td class="heat-cell-3">30h</td>
+              <td class="heat-cell-3">30.5h</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap">
+        <button class="btn btn-signal">Redistribuir Joana L.</button>
+        <button class="btn btn-secondary">Exportar Relatório Semanal</button>
+        <button class="btn btn-secondary">Nova Proposta</button>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ========================================================= -->
+<!-- FOOTER                                                    -->
+<!-- ========================================================= -->
+<footer class="footer">
+  <div class="footer-brand">CASE<span class="dot">.</span></div>
+  <div class="footer-meta">
+    ATELIER OS <span class="sep">/</span> v0.3.1 <span class="sep">/</span> 2026.04.18
+  </div>
+  <div class="footer-lineage">
+    A <strong>PROOF.</strong> PRODUCT
+  </div>
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll('.role-btn');
+  const views   = document.querySelectorAll('.view');
+  const uAv = document.getElementById('uAv');
+  const uNm = document.getElementById('uNm');
+  const uRl = document.getElementById('uRl');
+
+  const profiles = {
+    client: { av: 'FM', nm: 'Família Martins', rl: 'CASE 018 · CLIENTE' },
+    design: { av: 'JL', nm: 'Joana Loureiro',  rl: 'DESIGNER · ATELIER' },
+    ops:    { av: 'PF', nm: 'Pedro Ferreira',  rl: 'DIR. OPERAÇÕES' }
+  };
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.view;
+      buttons.forEach(b => b.classList.toggle('active', b === btn));
+      views.forEach(view => {
+        view.classList.toggle('active', view.id === 'view-' + v);
+      });
+      const p = profiles[v];
+      uAv.textContent = p.av;
+      uNm.textContent = p.nm;
+      uRl.textContent = p.rl;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>

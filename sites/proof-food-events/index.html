@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="FOOD EVENTS. — Operações de catering VIP para casamentos, galas e festas de empresa. Plataforma de gestão para responsáveis, gestores de evento, clientes e logística." />
+<meta name="theme-color" content="#06080c" />
+<meta name="color-scheme" content="dark" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="FOOD EVENTS. — Eventos que se provam." />
+<meta property="og:description" content="Operações de catering VIP para os eventos que não podem falhar. By PROOF." />
+<meta property="og:locale" content="pt_PT" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="FOOD EVENTS. — Eventos que se provam." />
+<meta name="twitter:description" content="Operações de catering VIP. By PROOF." />
+
+<!-- Favicons -->
+<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+
+<title>FOOD EVENTS. — Operações de Catering VIP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+:root{
+  /* Eclipse design system — Proof Studio brand.
+     This app is built dark-only; legacy variable NAMES are preserved and
+     REMAPPED to Eclipse tokens so inline JS styles keep working. */
+
+  /* Eclipse tokens (dark base) */
+  --bg:#06080c; --surface:#0b0f17; --elevated:#11161f;
+  --border:#1c2230; --border-strong:#262e3e;
+  --fg:#f5f7fb; --fg-muted:#8b95a8; --fg-subtle:#4a5366;
+  --accent:#c8d4ea;
+  /* Eclipse state colors (feedback only) */
+  --success:#22c55e; --warning:#f59e0b; --danger:#ef4444; --info:#94a3c4;
+
+  /* Legacy names remapped to Eclipse tokens */
+  --ink:var(--bg); --ink-2:var(--surface); --ink-3:var(--elevated);
+  --paper:var(--fg); --paper-2:var(--border-strong);
+  --grey:var(--border); --grey-2:var(--fg-muted); --grey-3:var(--fg-subtle);
+  --ink-muted:var(--elevated); --ink-soft:var(--border-strong);
+  --signal:var(--accent); --signal-2:#aebcd6;
+
+  /* Radii */
+  --r-sm:6px; --r-md:10px; --r-lg:12px; --r-xl:18px; --r-pill:999px;
+
+  --font-display:'Geist',system-ui,sans-serif;
+  --font-mono:'Geist Mono',ui-monospace,monospace;
+  --font-accent:'Geist',system-ui,sans-serif;
+  --ease-out:cubic-bezier(0.2,0,0,1);
+  --ease-enter:cubic-bezier(0.16,1,0.3,1);
+}
+:root[data-theme="dark"]{
+  --bg:#06080c; --surface:#0b0f17; --elevated:#11161f;
+  --border:#1c2230; --border-strong:#262e3e;
+  --fg:#f5f7fb; --fg-muted:#8b95a8; --fg-subtle:#4a5366;
+  --accent:#c8d4ea;
+}
+:root[data-theme="light"]{
+  --bg:#fbfcfe; --surface:#f3f6fb; --elevated:#eaeff7;
+  --border:#dde4ee; --border-strong:#c4cee0;
+  --fg:#0b1220; --fg-muted:#4a5366; --fg-subtle:#8b95a8;
+  --accent:#0b1220; --signal-2:#26324a;
+}
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+html{color-scheme:dark;background:var(--bg)}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:var(--font-display);font-weight:400;line-height:1.6;
+  -webkit-font-smoothing:antialiased;letter-spacing:-0.005em;
+  min-height:100vh;
+}
+/* Eclipse: titles weight 500 */
+h1,h2,h3,h4,h5,h6{font-weight:500;letter-spacing:-0.02em}
+#root{min-height:100vh}
+
+/* Typography utilities */
+.mono{font-family:var(--font-mono)}
+.caption{font-family:var(--font-mono);font-size:11px;line-height:1.4;letter-spacing:0.12em;text-transform:uppercase;color:var(--grey-2)}
+.caption-xs{font-family:var(--font-mono);font-size:9px;line-height:1.4;letter-spacing:0.15em;text-transform:uppercase;color:var(--grey-3)}
+.italic-quote{font-family:var(--font-accent);font-style:italic;font-weight:300}
+
+/* Buttons — Eclipse: secondary by default (transparent + 1px border, pill) */
+.btn{
+  background:transparent;color:var(--fg);border:1px solid var(--border);
+  padding:12px 22px;font:500 12px/1 var(--font-mono);
+  letter-spacing:0.1em;text-transform:uppercase;
+  cursor:pointer;transition:all 140ms var(--ease-out);
+  display:inline-flex;align-items:center;gap:8px;
+  border-radius:var(--r-pill)!important;
+}
+.btn:hover{border-color:var(--border-strong);color:var(--fg)}
+/* Primary — --fg bg + --bg text, pill */
+.btn-primary{background:var(--fg);color:var(--bg);border:1px solid var(--fg)}
+.btn-primary:hover{background:var(--border-strong);border-color:var(--border-strong);color:var(--bg)}
+/* Accent CTA */
+.btn-signal{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:500}
+.btn-signal:hover{background:var(--signal-2);border-color:var(--signal-2);color:var(--bg)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Inputs — Eclipse: --elevated bg + 1px border + radius 6 */
+input,select,textarea{
+  background:var(--elevated);border:1px solid var(--border);color:var(--fg);
+  padding:11px 14px;font:400 14px var(--font-display);width:100%;
+  border-radius:var(--r-sm)!important;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--border-strong);outline:none}
+
+/* Status dots */
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%!important;margin-right:8px;vertical-align:middle}
+.dot-signal{background:var(--accent);box-shadow:0 0 0 3px rgba(200,212,234,0.15)}
+.dot-success{background:var(--success)}
+.dot-grey{background:var(--grey-2)}
+.dot-muted{background:var(--grey-3)}
+
+/* Pulse */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.pulse{animation:pulse 2s ease-in-out infinite}
+
+/* Entrance */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp 400ms var(--ease-enter) both}
+
+/* Card — Eclipse: --surface + 1px border + radius 12, NO shadow */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg)!important}
+.card-hoverable{cursor:pointer;transition:all 140ms var(--ease-out)}
+.card-hoverable:hover{background:var(--elevated);border-color:var(--border-strong)}
+
+/* Divider */
+.divider{border-top:1px solid var(--border)}
+
+/* Wordmark */
+.wordmark{font-family:var(--font-display);font-weight:600;letter-spacing:-0.03em}
+.wordmark-dot{color:var(--accent)}
+
+/* Table */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:12px 16px;font:500 10px/1 var(--font-mono);letter-spacing:0.15em;text-transform:uppercase;color:var(--grey-2);border-bottom:1px solid var(--grey)}
+td{padding:14px 16px;font:400 14px var(--font-display);color:var(--paper);border-bottom:1px solid var(--grey)}
+tr:hover td{background:var(--ink-3)}
+
+/* Progress bar */
+.progress-track{height:2px;background:var(--border);width:100%;border-radius:var(--r-pill)!important}
+.progress-fill{height:100%;background:var(--accent);border-radius:var(--r-pill)!important}
+
+/* Scrollbars */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:var(--grey)}
+::-webkit-scrollbar-thumb:hover{background:var(--grey-3)}
+
+/* Sidebar */
+.nav-item{
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  color:var(--grey-2);font:500 13px var(--font-display);
+  letter-spacing:0.02em;cursor:pointer;border-left:3px solid transparent;
+  transition:all 120ms var(--ease-out);
+}
+.nav-item:hover{color:var(--fg);background:var(--surface)}
+.nav-item.active{color:var(--fg);border-left-color:var(--accent);background:var(--surface)}
+
+/* Stamp */
+@keyframes stampIn{from{opacity:0;transform:rotate(-12deg) scale(1.4)}to{opacity:1;transform:rotate(-12deg) scale(1)}}
+.stamp{
+  display:inline-flex;align-items:center;justify-content:center;
+  border:2px solid var(--accent);color:var(--accent);
+  font:500 11px/1 var(--font-mono);letter-spacing:0.15em;
+  padding:10px 18px;transform:rotate(-12deg);
+  border-radius:var(--r-pill)!important;
+  animation:stampIn 400ms var(--ease-enter) both;
+}
+
+/* Top bar */
+.topbar{border-bottom:1px solid var(--border);background:var(--bg)}
+
+/* Kbd */
+kbd{
+  font:500 10px var(--font-mono);background:var(--elevated);
+  border:1px solid var(--border);padding:2px 6px;color:var(--fg-muted);
+  letter-spacing:0.05em;border-radius:var(--r-sm)!important;
+}
+
+/* Dashboard metric */
+.metric-value{font:500 48px/0.95 var(--font-display);letter-spacing:-0.04em;color:var(--fg)}
+.metric-label{font:500 10px var(--font-mono);letter-spacing:0.15em;text-transform:uppercase;color:var(--grey-2);margin-top:8px}
+
+/* Grid lines background */
+.grid-bg{
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:48px 48px;background-position:-1px -1px;
+  opacity:0.4;
+}
+
+/* Signal borderline */
+.border-signal-l{border-left:3px solid var(--accent)}
+
+/* Label tag (mono pill) */
+.label-tag{
+  display:inline-block;padding:3px 10px;
+  font:500 10px var(--font-mono);letter-spacing:0.12em;
+  text-transform:uppercase;border:1px solid var(--border);color:var(--fg-muted);
+  border-radius:var(--r-pill)!important;
+}
+.label-tag-signal{border-color:var(--accent);color:var(--accent)}
+.label-tag-success{border-color:var(--success);color:var(--success)}
+.label-tag-paper{border-color:var(--border-strong);color:var(--fg)}
+
+/* Responsive helpers */
+.hide-mobile{display:block}
+.show-mobile{display:none}
+@media(max-width:768px){
+  .hide-mobile{display:none}
+  .show-mobile{display:block}
+  .metric-value{font-size:36px}
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+</style>
+</head>
+<body>
+<div id="root">
+  <div id="fallback" style="padding:40px;font-family:'Geist Mono',ui-monospace,monospace;color:#f5f7fb;background:#06080c;min-height:100vh;">
+    <div style="font-family:'Geist',system-ui,sans-serif;font-weight:600;font-size:28px;letter-spacing:-0.03em;">FOOD EVENTS<span style="color:#c8d4ea;">.</span></div>
+    <div style="margin-top:24px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#8b95a8;">A CARREGAR · SE PERSISTIR MAIS DE 5S, VERIFICAR CONSOLA</div>
+    <div id="fallback-error" style="margin-top:24px;font-size:12px;color:#ef4444;letter-spacing:0.05em;"></div>
+  </div>
+</div>
+
+<script>
+window.addEventListener('error', function(e){
+  var el = document.getElementById('fallback-error');
+  if(el){ el.textContent = 'ERRO: ' + (e.message || 'desconhecido'); }
+});
+</script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useMemo, useRef } = React;
+
+/* ============================================================
+   DATA MODEL — dados fictícios realistas, PT-PT
+   ============================================================ */
+const EVENTS = [
+  {
+    id:'EV024', code:'CASE 024', type:'Casamento',
+    client:'Ricardo Lemos & Sofia Mendes',
+    date:'2026.06.14', time:'17:30',
+    venue:'Quinta do Torneiro, Mafra',
+    guests:180, vipGuests:42,
+    budget:68400, spent:41230,
+    status:'ready', statusLabel:'READY FOR SIGN-OFF',
+    progress:72, manager:'Inês Falcão',
+    daysLeft:56,
+    menu:'Degustação 7 momentos',
+    notes:'Noiva com restrição gluten. Pai da noiva — cadeira de rodas; mesa T1 acessível.',
+  },
+  {
+    id:'EV025', code:'CASE 025', type:'Gala Corporativa',
+    client:'Grupo Pestana — Gala Anual',
+    date:'2026.05.09', time:'20:00',
+    venue:'Casino Estoril — Salão Preto e Prata',
+    guests:420, vipGuests:80,
+    budget:124000, spent:98500,
+    status:'approved', statusLabel:'APPROVED',
+    progress:94, manager:'João Vasques',
+    daysLeft:20,
+    menu:'Jantar 4 pratos + cocktail prévio',
+    notes:'Mesa presidencial — 12 lugares, protocolo estrito.',
+  },
+  {
+    id:'EV026', code:'CASE 026', type:'Festa de Empresa',
+    client:'Fundação Calouste Gulbenkian',
+    date:'2026.07.03', time:'19:00',
+    venue:'Jardim da Fundação',
+    guests:260, vipGuests:35,
+    budget:42000, spent:8200,
+    status:'draft', statusLabel:'DRAFT',
+    progress:22, manager:'Inês Falcão',
+    daysLeft:75,
+    menu:'Finger food + estações',
+    notes:'Evento ao ar livre — contingência chuva com tendas Sperry.',
+  },
+  {
+    id:'EV023', code:'CASE 023', type:'Casamento',
+    client:'Mariana Costa & André Pinto',
+    date:'2026.03.22', time:'18:00',
+    venue:'Palácio de Seteais, Sintra',
+    guests:120, vipGuests:30,
+    budget:52000, spent:51840,
+    status:'archived', statusLabel:'ARCHIVED',
+    progress:100, manager:'Inês Falcão',
+    daysLeft:-28,
+    menu:'Menu Primavera 5 momentos',
+    notes:'Evento concluído. NPS cliente: 9/10.',
+  },
+];
+
+const TEAM = [
+  { id:'T01', name:'Inês Falcão', role:'Gestora Sénior', events:2, avatar:'IF', availability:'load-high' },
+  { id:'T02', name:'João Vasques', role:'Gestor Sénior', events:1, avatar:'JV', availability:'load-med' },
+  { id:'T03', name:'Rita Noronha', role:'Chef Executiva', events:3, avatar:'RN', availability:'load-high' },
+  { id:'T04', name:'Tomás Aires', role:'Maître de Sala', events:2, avatar:'TA', availability:'load-med' },
+  { id:'T05', name:'Clara Penha', role:'Sommelier', events:2, avatar:'CP', availability:'load-low' },
+];
+
+const SUPPLIERS = [
+  { id:'F01', name:'Herdade do Esporão', category:'Vinhos', lastOrder:'2026.04.12', rating:'A+', openOrders:2 },
+  { id:'F02', name:'Carnes Villa Real', category:'Carnes', lastOrder:'2026.04.15', rating:'A', openOrders:1 },
+  { id:'F03', name:'Peixaria Atlântica', category:'Pescado', lastOrder:'2026.04.17', rating:'A', openOrders:0 },
+  { id:'F04', name:'Hortas do Oeste', category:'Hortícolas', lastOrder:'2026.04.18', rating:'A+', openOrders:3 },
+  { id:'F05', name:'Louça & Cristal Lda.', category:'Mise en place', lastOrder:'2026.04.10', rating:'B+', openOrders:1 },
+  { id:'F06', name:'Rosas & Lírios Co.', category:'Floristry', lastOrder:'2026.04.11', rating:'A', openOrders:2 },
+  { id:'F07', name:'Staff PRO Portugal', category:'Staffing', lastOrder:'2026.04.16', rating:'A+', openOrders:2 },
+];
+
+const PURCHASE_ORDERS = [
+  { id:'PO-2026-081', event:'CASE 025', supplier:'Herdade do Esporão', items:'Reserva Tinto 2021 × 48, Branco 2023 × 36', amount:3240, status:'in-transit', eta:'2026.05.02' },
+  { id:'PO-2026-082', event:'CASE 025', supplier:'Carnes Villa Real', items:'Lombo Mirandesa 24kg, Pato 18un', amount:1890, status:'confirmed', eta:'2026.05.07' },
+  { id:'PO-2026-083', event:'CASE 024', supplier:'Hortas do Oeste', items:'Mix hortícolas sazonal', amount:620, status:'pending', eta:'2026.06.11' },
+  { id:'PO-2026-084', event:'CASE 025', supplier:'Rosas & Lírios Co.', items:'Centros mesa presidencial × 1, convidados × 42', amount:2840, status:'confirmed', eta:'2026.05.08' },
+  { id:'PO-2026-085', event:'CASE 024', supplier:'Staff PRO Portugal', items:'12 empregados mesa, 4 bar, 1 maître', amount:2650, status:'pending', eta:'2026.06.14' },
+];
+
+const CLIENT_TIMELINE = [
+  { date:'2026.02.10', title:'Briefing inicial', status:'done', note:'Reunião na Quinta do Torneiro.' },
+  { date:'2026.02.28', title:'Proposta aceite + sinal', status:'done', note:'30% pago. €20.520' },
+  { date:'2026.03.15', title:'Selecção menu (degustação)', status:'done', note:'7 momentos validados.' },
+  { date:'2026.04.02', title:'Validação dos vinhos', status:'done', note:'Aprovado — par de 4 vinhos + champanhe.' },
+  { date:'2026.04.19', title:'Aprovar planta de sala', status:'pending-client', note:'Requer a vossa assinatura.', highlight:true },
+  { date:'2026.05.02', title:'2º pagamento (40%)', status:'upcoming', note:'€27.360' },
+  { date:'2026.05.28', title:'Confirmação final convidados', status:'upcoming', note:'Lista definitiva + restrições.' },
+  { date:'2026.06.10', title:'Prova final de montagem', status:'upcoming', note:'Quinta do Torneiro, 15:00.' },
+  { date:'2026.06.13', title:'Pagamento final (30%)', status:'upcoming', note:'€20.520' },
+  { date:'2026.06.14', title:'Dia do evento', status:'upcoming', note:'Montagem a partir das 09:00.' },
+];
+
+const MENU = [
+  { id:'M1', moment:'Amuse-bouche', name:'Gaspacho de morango e tomate Coração de Boi', dietary:['GF','V'], approved:true },
+  { id:'M2', moment:'Entrada fria', name:'Atum marinado, citrinos, pepino e ervas do jardim', dietary:['GF'], approved:true },
+  { id:'M3', moment:'Entrada quente', name:'Ravioli de abóbora assada, salva e amêndoa', dietary:['V'], approved:true },
+  { id:'M4', moment:'Sorbet', name:'Limão e manjericão', dietary:['GF','VG'], approved:true },
+  { id:'M5', moment:'Prato principal', name:'Cabrito assado lentamente, puré de grão, grelos', dietary:['GF'], approved:true },
+  { id:'M6', moment:'Pré-sobremesa', name:'Queijos DOP portugueses + compotas da casa', dietary:[], approved:true },
+  { id:'M7', moment:'Sobremesa', name:'Tarte fina de maçã reineta, gelado de baunilha de Madagáscar', dietary:[], approved:true },
+];
+
+const ROLES = [
+  { id:'admin', title:'Responsável', subtitle:'Visão completa da operação', desc:'Eventos, equipa, financeiro, pipeline.', icon:'shield' },
+  { id:'manager', title:'Gestor de Evento', subtitle:'Operação de um evento', desc:'Timeline, checklist, equipa, fornecedores.', icon:'clipboard-list' },
+  { id:'client', title:'Cliente', subtitle:'Acesso ao vosso evento', desc:'Menu, timeline, pagamentos, assinaturas.', icon:'user' },
+  { id:'logistics', title:'Logística', subtitle:'Compras e fornecedores', desc:'Ordens de compra, stock, rotas.', icon:'truck' },
+];
+
+/* ============================================================
+   ICONS — via lucide
+   ============================================================ */
+const Icon = ({ name, size=18, className='' }) => {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (ref.current && window.lucide) {
+      ref.current.innerHTML = '';
+      const el = document.createElement('i');
+      el.setAttribute('data-lucide', name);
+      ref.current.appendChild(el);
+      window.lucide.createIcons({
+        attrs: { 'stroke-width': 1.5, width: size, height: size },
+      });
+    }
+  }, [name, size]);
+  return <span ref={ref} className={className} style={{display:'inline-flex', lineHeight:0}} />;
+};
+
+/* ============================================================
+   SHARED COMPONENTS
+   ============================================================ */
+const Wordmark = ({ size=28 }) => (
+  <div className="wordmark" style={{fontSize:size, lineHeight:1, whiteSpace:'nowrap'}}>
+    FOOD EVENTS<span className="wordmark-dot">.</span>
+  </div>
+);
+
+const Footer = ({ caseCode='CASE 000' }) => (
+  <div style={{
+    borderTop:'1px solid var(--grey)', marginTop:48, padding:'20px 0',
+    display:'flex', justifyContent:'space-between', alignItems:'center',
+    flexWrap:'wrap', gap:12, fontFamily:'var(--font-mono)', fontSize:11,
+    color:'var(--grey-2)', letterSpacing:'0.1em', textTransform:'uppercase'
+  }}>
+    <div style={{display:'flex', alignItems:'center', gap:16}}>
+      <span style={{fontFamily:'var(--font-display)', fontWeight:900, color:'var(--paper)', letterSpacing:'-0.04em', textTransform:'none', fontSize:13, whiteSpace:'nowrap'}}>
+        FOOD EVENTS<span style={{color:'var(--signal)'}}>.</span>
+      </span>
+      <span>·</span>
+      <span>{caseCode}</span>
+      <span>·</span>
+      <span>v0.1.0</span>
+      <span>·</span>
+      <span>2026.04.19</span>
+    </div>
+    <div style={{display:'flex', alignItems:'center', gap:12}} className="hide-mobile">
+      <span>by</span>
+      <span style={{fontFamily:'var(--font-display)', fontWeight:900, color:'var(--paper)', letterSpacing:'-0.04em', textTransform:'none', fontSize:13}}>
+        PROOF<span style={{color:'var(--signal)'}}>.</span>
+      </span>
+    </div>
+  </div>
+);
+
+const Status = ({ status, label }) => {
+  const map = {
+    ready: 'dot-signal', approved:'dot-success',
+    draft:'dot-grey', archived:'dot-muted',
+    'in-transit':'dot-signal', confirmed:'dot-success',
+    pending:'dot-grey', 'pending-client':'dot-signal',
+    done:'dot-success', upcoming:'dot-grey',
+  };
+  const cls = map[status] || 'dot-grey';
+  return (
+    <span className="mono" style={{fontSize:10, letterSpacing:'0.15em', textTransform:'uppercase', color:'var(--paper-2)'}}>
+      <span className={`dot ${cls}`}></span>{label}
+    </span>
+  );
+};
+
+const Metric = ({ value, label, unit, trend }) => (
+  <div style={{padding:'24px 24px 24px 28px', borderLeft:'1px solid var(--grey)'}}>
+    <div className="metric-value">
+      {value}{unit && <span style={{fontSize:'0.4em', color:'var(--grey-2)', marginLeft:6, fontWeight:500}}>{unit}</span>}
+    </div>
+    <div className="metric-label">{label}</div>
+    {trend && (
+      <div className="mono" style={{fontSize:11, color: trend.startsWith('+') ? 'var(--success)' : 'var(--grey-2)', marginTop:6}}>
+        {trend}
+      </div>
+    )}
+  </div>
+);
+
+/* ============================================================
+   LANDING — selecção de perfil
+   ============================================================ */
+const Landing = ({ onSelect }) => {
+  return (
+    <div style={{minHeight:'100vh', display:'flex', flexDirection:'column', position:'relative', overflow:'hidden'}}>
+      {/* grid background */}
+      <div className="grid-bg" style={{position:'absolute', inset:0, pointerEvents:'none'}}></div>
+
+      {/* topbar */}
+      <div style={{padding:'24px 32px', display:'flex', justifyContent:'space-between', alignItems:'center', position:'relative', zIndex:2}}>
+        <Wordmark size={22} />
+        <div style={{display:'flex', alignItems:'center', gap:16}}>
+          <span className="caption-xs">v0.1 · BETA</span>
+          <span className="caption-xs hide-mobile">2026.04.19 · 14:32 WEST</span>
+        </div>
+      </div>
+
+      {/* hero */}
+      <div style={{padding:'40px 32px 24px', position:'relative', zIndex:2}}>
+        <div style={{maxWidth:1440, margin:'0 auto'}}>
+          <div style={{display:'flex', alignItems:'center', gap:16, marginBottom:32}}>
+            <span className="caption" style={{color:'var(--signal)'}}>● PLATAFORMA DE OPERAÇÕES</span>
+            <span className="caption">CASE 000 / ENTRY</span>
+          </div>
+
+          <h1 style={{
+            fontFamily:'var(--font-display)', fontWeight:900,
+            fontSize:'clamp(48px, 10vw, 128px)', lineHeight:0.85,
+            letterSpacing:'-0.055em', textTransform:'uppercase', marginBottom:32,
+          }} className="fade-up">
+            EVENTOS<br/>
+            QUE SE PROVAM<span style={{color:'var(--signal)'}}>.</span>
+          </h1>
+
+          <p className="italic-quote fade-up" style={{
+            fontSize:20, lineHeight:1.5, color:'var(--paper-2)', maxWidth:640,
+            animationDelay:'120ms'
+          }}>
+            Operações de catering VIP para os eventos que não podem falhar. Zonas VIP,
+            casamentos de alta gama, galas corporativas. Cada entrega é uma prova, não um ensaio.
+          </p>
+        </div>
+      </div>
+
+      {/* role select */}
+      <div style={{padding:'40px 32px', position:'relative', zIndex:2, flex:1}}>
+        <div style={{maxWidth:1440, margin:'0 auto'}}>
+          <div style={{display:'flex', alignItems:'center', gap:12, marginBottom:24}}>
+            <span className="caption">SELECCIONAR ACESSO</span>
+            <div style={{flex:1, height:1, background:'var(--grey)'}}></div>
+          </div>
+
+          <div style={{
+            display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(240px, 1fr))',
+            gap:0, border:'1px solid var(--grey)'
+          }}>
+            {ROLES.map((r, i) => (
+              <button
+                key={r.id}
+                onClick={() => onSelect(r.id)}
+                className="fade-up"
+                style={{
+                  background:'var(--ink-2)', border:'none', borderRight:'1px solid var(--grey)',
+                  padding:'32px 28px', textAlign:'left', cursor:'pointer',
+                  transition:'all 200ms var(--ease-out)', color:'var(--paper)',
+                  animationDelay: `${200 + i*80}ms`, position:'relative',
+                  minHeight:280, display:'flex', flexDirection:'column',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--ink-3)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--ink-2)'; }}
+              >
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:32}}>
+                  <span className="caption-xs">{String(i+1).padStart(2,'0')} / 04</span>
+                  <Icon name={r.icon} size={24} />
+                </div>
+                <div style={{marginBottom:'auto'}}>
+                  <div style={{
+                    fontFamily:'var(--font-display)', fontWeight:900,
+                    fontSize:28, lineHeight:1, letterSpacing:'-0.035em',
+                    textTransform:'uppercase', marginBottom:6,
+                  }}>
+                    {r.title}
+                  </div>
+                  <div className="caption" style={{marginBottom:14}}>{r.subtitle}</div>
+                  <div style={{fontSize:13, color:'var(--grey-2)', lineHeight:1.5}}>{r.desc}</div>
+                </div>
+                <div style={{
+                  marginTop:24, paddingTop:16, borderTop:'1px solid var(--grey)',
+                  display:'flex', justifyContent:'space-between', alignItems:'center',
+                  fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'0.15em',
+                  textTransform:'uppercase', color:'var(--grey-2)',
+                }}>
+                  <span>ENTRAR</span>
+                  <Icon name="arrow-right" size={16} />
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* strip */}
+          <div style={{
+            marginTop:32, padding:'16px 20px', border:'1px solid var(--grey)',
+            borderLeft:'3px solid var(--signal)',
+            display:'flex', alignItems:'center', gap:16, flexWrap:'wrap',
+          }}>
+            <span className="caption" style={{color:'var(--signal)'}}>● AVISO</span>
+            <span style={{fontSize:13, color:'var(--paper-2)'}}>
+              Este é um protótipo de alta-fidelidade. Dados fictícios. Sem persistência entre sessões.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div style={{padding:'0 32px'}}>
+        <div style={{maxWidth:1440, margin:'0 auto'}}>
+          <Footer caseCode="CASE 000" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ============================================================
+   LAYOUT — sidebar + topbar para perfis
+   ============================================================ */
+const Shell = ({ role, onBack, children, navItems, active, setActive, caseCode }) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const roleLabels = { admin:'RESPONSÁVEL', manager:'GESTOR DE EVENTO', client:'CLIENTE', logistics:'LOGÍSTICA' };
+
+  return (
+    <div style={{display:'flex', minHeight:'100vh'}}>
+      {/* Sidebar */}
+      <aside style={{
+        width:240, borderRight:'1px solid var(--grey)', background:'var(--ink)',
+        display:'flex', flexDirection:'column', position:'sticky', top:0, height:'100vh',
+      }} className="hide-mobile">
+        <div style={{padding:'24px 20px', borderBottom:'1px solid var(--grey)'}}>
+          <Wordmark size={20} />
+          <div className="caption-xs" style={{marginTop:8}}>{roleLabels[role]}</div>
+        </div>
+        <nav style={{flex:1, padding:'12px 0'}}>
+          {navItems.map(n => (
+            <div
+              key={n.id}
+              className={`nav-item ${active === n.id ? 'active' : ''}`}
+              onClick={() => setActive(n.id)}
+            >
+              <Icon name={n.icon} size={16} />
+              <span>{n.label}</span>
+              {n.badge && (
+                <span style={{
+                  marginLeft:'auto', background:'var(--signal)', color:'var(--paper)',
+                  fontFamily:'var(--font-mono)', fontSize:9, padding:'2px 6px', fontWeight:600,
+                }}>{n.badge}</span>
+              )}
+            </div>
+          ))}
+        </nav>
+        <div style={{padding:'16px 20px', borderTop:'1px solid var(--grey)'}}>
+          <button onClick={onBack} className="btn" style={{width:'100%', justifyContent:'center', fontSize:11}}>
+            <Icon name="log-out" size={14} /> TROCAR ACESSO
+          </button>
+        </div>
+      </aside>
+
+      {/* Mobile sidebar */}
+      {mobileOpen && (
+        <div className="show-mobile" style={{
+          position:'fixed', inset:0, background:'var(--ink)', zIndex:100,
+          display:'flex', flexDirection:'column'
+        }}>
+          <div style={{padding:'24px 20px', borderBottom:'1px solid var(--grey)', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <div>
+              <Wordmark size={20} />
+              <div className="caption-xs" style={{marginTop:8}}>{roleLabels[role]}</div>
+            </div>
+            <button onClick={() => setMobileOpen(false)} className="btn" style={{padding:8}}>
+              <Icon name="x" size={16} />
+            </button>
+          </div>
+          <nav style={{flex:1, padding:'12px 0'}}>
+            {navItems.map(n => (
+              <div
+                key={n.id}
+                className={`nav-item ${active === n.id ? 'active' : ''}`}
+                onClick={() => { setActive(n.id); setMobileOpen(false); }}
+              >
+                <Icon name={n.icon} size={16} />
+                <span>{n.label}</span>
+              </div>
+            ))}
+          </nav>
+          <div style={{padding:'16px 20px', borderTop:'1px solid var(--grey)'}}>
+            <button onClick={onBack} className="btn" style={{width:'100%', justifyContent:'center'}}>
+              <Icon name="log-out" size={14} /> TROCAR ACESSO
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Main */}
+      <div style={{flex:1, minWidth:0, display:'flex', flexDirection:'column'}}>
+        {/* Topbar */}
+        <div className="topbar" style={{padding:'16px 24px', display:'flex', alignItems:'center', justifyContent:'space-between', gap:12, position:'sticky', top:0, zIndex:10}}>
+          <div style={{display:'flex', alignItems:'center', gap:16}}>
+            <button onClick={() => setMobileOpen(true)} className="btn show-mobile" style={{padding:10}}>
+              <Icon name="menu" size={16} />
+            </button>
+            <div className="show-mobile">
+              <Wordmark size={18} />
+            </div>
+            <div className="caption hide-mobile">
+              {navItems.find(n => n.id === active)?.label || ''}
+            </div>
+          </div>
+          <div style={{display:'flex', alignItems:'center', gap:12}}>
+            <span className="caption hide-mobile">{caseCode}</span>
+            <span className="caption hide-mobile">v0.1</span>
+            <span className="caption hide-mobile">2026.04.19 · 14:32</span>
+          </div>
+        </div>
+
+        {/* Content */}
+        <main style={{flex:1, padding:'32px 24px 24px', background:'var(--ink)'}}>
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+};
+
+/* ============================================================
+   ADMIN VIEW — Responsável da empresa
+   ============================================================ */
+const AdminView = ({ onBack }) => {
+  const nav = [
+    { id:'overview', label:'Vista geral', icon:'layout-dashboard' },
+    { id:'events', label:'Eventos', icon:'calendar-days', badge:4 },
+    { id:'team', label:'Equipa', icon:'users' },
+    { id:'financials', label:'Financeiro', icon:'line-chart' },
+    { id:'clients', label:'Clientes', icon:'contact' },
+  ];
+  const [active, setActive] = useState('overview');
+
+  return (
+    <Shell role="admin" onBack={onBack} navItems={nav} active={active} setActive={setActive} caseCode="CASE 000">
+      {active === 'overview' && <AdminOverview />}
+      {active === 'events' && <AdminEvents />}
+      {active === 'team' && <AdminTeam />}
+      {active === 'financials' && <AdminFinancials />}
+      {active === 'clients' && <AdminClients />}
+      <Footer caseCode="CASE 000" />
+    </Shell>
+  );
+};
+
+const AdminOverview = () => {
+  const activeEvents = EVENTS.filter(e => e.status !== 'archived');
+  const totalBudget = activeEvents.reduce((s,e) => s + e.budget, 0);
+  const totalSpent = activeEvents.reduce((s,e) => s + e.spent, 0);
+  const totalGuests = activeEvents.reduce((s,e) => s + e.guests, 0);
+
+  return (
+    <div>
+      <div style={{marginBottom:32}}>
+        <div className="caption" style={{color:'var(--signal)', marginBottom:12}}>● OPERAÇÃO EM TEMPO REAL</div>
+        <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+          VISTA GERAL<span style={{color:'var(--signal)'}}>.</span>
+        </h1>
+        <p style={{color:'var(--grey-2)', marginTop:12, fontSize:14}}>
+          3 eventos activos · próxima entrega em <span style={{color:'var(--paper)'}}>20 dias</span>
+        </p>
+      </div>
+
+      {/* Metrics */}
+      <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', marginBottom:32}}>
+        <Metric value={activeEvents.length} label="Eventos activos" trend="+1 vs mês anterior" />
+        <Metric value={totalGuests} label="Convidados totais" />
+        <Metric value={`€${(totalBudget/1000).toFixed(0)}`} unit="k" label="Budget consolidado" trend="+12.4%" />
+        <Metric value={`${Math.round(totalSpent/totalBudget*100)}`} unit="%" label="Execução orçamental" />
+      </div>
+
+      {/* Two columns */}
+      <div style={{display:'grid', gridTemplateColumns:'2fr 1fr', gap:24}} className="admin-grid">
+        <style>{`@media(max-width:960px){.admin-grid{grid-template-columns:1fr!important}}`}</style>
+
+        {/* Events table */}
+        <div className="card">
+          <div style={{padding:'20px 24px', borderBottom:'1px solid var(--grey)', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <div className="caption">EVENTOS ACTIVOS</div>
+            <div className="caption-xs">{activeEvents.length} RESULTADOS</div>
+          </div>
+          <div style={{overflowX:'auto'}}>
+            <table>
+              <thead>
+                <tr>
+                  <th>CASE</th>
+                  <th>Cliente</th>
+                  <th>Data</th>
+                  <th className="hide-mobile">Gestor</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {activeEvents.map(e => (
+                  <tr key={e.id} style={{cursor:'pointer'}}>
+                    <td className="mono" style={{color:'var(--grey-2)', fontSize:12}}>{e.code}</td>
+                    <td>
+                      <div style={{fontWeight:500}}>{e.client}</div>
+                      <div className="caption-xs" style={{marginTop:4}}>{e.type.toUpperCase()} · {e.venue}</div>
+                    </td>
+                    <td className="mono" style={{fontSize:13}}>
+                      {e.date}
+                      <div className="caption-xs" style={{marginTop:4}}>
+                        {e.daysLeft >= 0 ? `T-${e.daysLeft} DIAS` : 'CONCLUÍDO'}
+                      </div>
+                    </td>
+                    <td className="hide-mobile" style={{fontSize:13}}>{e.manager}</td>
+                    <td><Status status={e.status} label={e.statusLabel} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Signal column */}
+        <div style={{display:'flex', flexDirection:'column', gap:24}}>
+          <div className="card border-signal-l" style={{padding:24}}>
+            <div className="caption" style={{color:'var(--signal)', marginBottom:12}}>● AGUARDA SIGN-OFF</div>
+            <div style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:24, letterSpacing:'-0.03em', lineHeight:1.1, marginBottom:8}}>
+              Casamento Ricardo & Sofia
+            </div>
+            <div className="mono" style={{fontSize:11, color:'var(--grey-2)', letterSpacing:'0.1em', textTransform:'uppercase', marginBottom:16}}>
+              CASE 024 · T-56 DIAS
+            </div>
+            <div style={{fontSize:13, color:'var(--grey-2)', marginBottom:20}}>
+              Planta de sala enviada ao cliente a aguardar aprovação desde 2026.04.19.
+            </div>
+            <button className="btn btn-signal" style={{width:'100%', justifyContent:'center'}}>
+              REVISÃO · GESTOR
+            </button>
+          </div>
+
+          <div className="card" style={{padding:24}}>
+            <div className="caption" style={{marginBottom:16}}>SEMANA EM CURSO</div>
+            <div style={{display:'flex', flexDirection:'column', gap:16}}>
+              {[
+                {d:'SEG 14', t:'Prova vinhos Pestana', s:'done'},
+                {d:'TER 15', t:'Reunião Gulbenkian', s:'done'},
+                {d:'QUA 16', t:'Prova menu — CASE 024', s:'done'},
+                {d:'QUI 17', t:'Validação orçamento Q2', s:'done'},
+                {d:'SEX 18', t:'Apresentação planta — CASE 024', s:'done'},
+                {d:'SÁB 19', t:'—', s:'pending', today:true},
+                {d:'DOM 20', t:'—', s:'pending'},
+              ].map((d,i) => (
+                <div key={i} style={{display:'flex', justifyContent:'space-between', alignItems:'center', paddingBottom:8, borderBottom: i < 6 ? '1px solid var(--grey)' : 'none'}}>
+                  <div>
+                    <div className="mono" style={{fontSize:11, color:d.today ? 'var(--signal)' : 'var(--grey-2)', letterSpacing:'0.1em'}}>
+                      {d.d}{d.today && ' · HOJE'}
+                    </div>
+                    <div style={{fontSize:13, marginTop:4, color: d.t === '—' ? 'var(--grey-3)' : 'var(--paper)'}}>{d.t}</div>
+                  </div>
+                  <span className={`dot ${d.s === 'done' ? 'dot-success' : 'dot-muted'}`}></span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AdminEvents = () => (
+  <div>
+    <div style={{marginBottom:32, display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', gap:16}}>
+      <div>
+        <div className="caption" style={{marginBottom:12}}>GESTÃO DE EVENTOS</div>
+        <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+          EVENTOS
+        </h1>
+      </div>
+      <button className="btn btn-primary">
+        <Icon name="plus" size={14} /> NOVO EVENTO
+      </button>
+    </div>
+
+    <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(320px, 1fr))', gap:16}}>
+      {EVENTS.map(e => (
+        <div key={e.id} className="card card-hoverable" style={{padding:24, display:'flex', flexDirection:'column'}}>
+          <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:16}}>
+            <div className="mono" style={{fontSize:11, color:'var(--grey-2)', letterSpacing:'0.12em'}}>{e.code}</div>
+            <Status status={e.status} label={e.statusLabel} />
+          </div>
+          <div style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:22, letterSpacing:'-0.035em', lineHeight:1.1, marginBottom:8}}>
+            {e.client}
+          </div>
+          <div className="caption-xs" style={{marginBottom:20}}>
+            {e.type.toUpperCase()} · {e.venue}
+          </div>
+
+          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:20}}>
+            <div>
+              <div className="caption-xs">DATA</div>
+              <div className="mono" style={{fontSize:13, marginTop:4}}>{e.date}</div>
+            </div>
+            <div>
+              <div className="caption-xs">CONVIDADOS</div>
+              <div className="mono" style={{fontSize:13, marginTop:4}}>{e.guests} · {e.vipGuests} VIP</div>
+            </div>
+            <div>
+              <div className="caption-xs">GESTOR</div>
+              <div style={{fontSize:13, marginTop:4}}>{e.manager}</div>
+            </div>
+            <div>
+              <div className="caption-xs">T-MINUS</div>
+              <div className="mono" style={{fontSize:13, marginTop:4, color: e.daysLeft < 30 && e.daysLeft >= 0 ? 'var(--signal)':'var(--paper)'}}>
+                {e.daysLeft >= 0 ? `${e.daysLeft} DIAS` : 'CONCLUÍDO'}
+              </div>
+            </div>
+          </div>
+
+          <div style={{marginTop:'auto'}}>
+            <div style={{display:'flex', justifyContent:'space-between', marginBottom:8}}>
+              <span className="caption-xs">EXECUÇÃO</span>
+              <span className="mono" style={{fontSize:11, color:'var(--paper)'}}>{e.progress}%</span>
+            </div>
+            <div className="progress-track">
+              <div className="progress-fill" style={{width:`${e.progress}%`, background: e.status === 'ready' ? 'var(--signal)' : 'var(--paper)'}}></div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const AdminTeam = () => {
+  const loadColor = (a) => a === 'load-high' ? 'var(--signal)' : a === 'load-med' ? 'var(--paper-2)' : 'var(--success)';
+  const loadLabel = (a) => a === 'load-high' ? 'CARGA ALTA' : a === 'load-med' ? 'CARGA MÉDIA' : 'DISPONÍVEL';
+
+  return (
+    <div>
+      <div style={{marginBottom:32}}>
+        <div className="caption" style={{marginBottom:12}}>RECURSOS HUMANOS</div>
+        <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+          EQUIPA
+        </h1>
+        <p style={{color:'var(--grey-2)', marginTop:12, fontSize:14}}>
+          5 membros · 2 em carga alta · atribuição manual
+        </p>
+      </div>
+
+      <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)'}}>
+        {TEAM.map((m,i) => (
+          <div key={m.id} style={{
+            display:'grid', gridTemplateColumns:'auto 1fr auto auto auto', gap:24,
+            padding:'20px 24px', alignItems:'center',
+            borderBottom: i < TEAM.length - 1 ? '1px solid var(--grey)' : 'none',
+          }}>
+            <div style={{
+              width:48, height:48, border:'1px solid var(--grey)',
+              display:'flex', alignItems:'center', justifyContent:'center',
+              fontFamily:'var(--font-mono)', fontSize:14, fontWeight:500,
+              background:'var(--ink)', color:'var(--paper)',
+            }}>{m.avatar}</div>
+            <div>
+              <div style={{fontWeight:500, fontSize:15}}>{m.name}</div>
+              <div className="caption-xs" style={{marginTop:4}}>{m.role.toUpperCase()}</div>
+            </div>
+            <div className="hide-mobile" style={{fontSize:13, color:'var(--grey-2)'}}>
+              {m.events} eventos atribuídos
+            </div>
+            <div className="label-tag" style={{borderColor:loadColor(m.availability), color:loadColor(m.availability)}}>
+              {loadLabel(m.availability)}
+            </div>
+            <button className="btn" style={{padding:'8px 12px'}}>
+              <Icon name="more-horizontal" size={14} />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const AdminFinancials = () => {
+  const months = [
+    { m:'JAN', v:28 }, { m:'FEV', v:42 }, { m:'MAR', v:61 }, { m:'ABR', v:84 },
+    { m:'MAI', v:124 }, { m:'JUN', v:110 }, { m:'JUL', v:76 }, { m:'AGO', v:52 },
+    { m:'SET', v:88 }, { m:'OUT', v:124 }, { m:'NOV', v:96 }, { m:'DEZ', v:72 },
+  ];
+  const max = Math.max(...months.map(m => m.v));
+
+  return (
+    <div>
+      <div style={{marginBottom:32}}>
+        <div className="caption" style={{marginBottom:12}}>FINANCEIRO · 2026</div>
+        <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+          PIPELINE
+        </h1>
+      </div>
+
+      <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', marginBottom:32}}>
+        <Metric value="€842" unit="k" label="Receita YTD" trend="+18.2%" />
+        <Metric value="€334" unit="k" label="Em pipeline" />
+        <Metric value="€1.2" unit="M" label="Forecast 2026" trend="+11.4%" />
+        <Metric value="68" unit="%" label="Margem média" />
+      </div>
+
+      {/* Bar chart */}
+      <div className="card" style={{padding:32}}>
+        <div className="caption" style={{marginBottom:24}}>RECEITA MENSAL · K€</div>
+        <div style={{display:'grid', gridTemplateColumns:`repeat(12, 1fr)`, gap:8, alignItems:'end', height:240, marginBottom:16}}>
+          {months.map((m,i) => (
+            <div key={i} style={{display:'flex', flexDirection:'column', alignItems:'center', gap:8, height:'100%'}}>
+              <div style={{flex:1, display:'flex', alignItems:'flex-end', width:'100%'}}>
+                <div style={{
+                  width:'100%',
+                  height:`${(m.v/max)*100}%`,
+                  background: i === 3 ? 'var(--signal)' : 'var(--paper)',
+                  transition:'all 200ms var(--ease-out)',
+                }}></div>
+              </div>
+              <div className="mono" style={{fontSize:9, color: i === 3 ? 'var(--signal)' : 'var(--grey-2)', letterSpacing:'0.1em'}}>
+                {m.m}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mono" style={{fontSize:11, color:'var(--grey-2)', paddingTop:16, borderTop:'1px solid var(--grey)', letterSpacing:'0.12em'}}>
+          ● ACTUAL · ○ FORECAST
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AdminClients = () => (
+  <div>
+    <div style={{marginBottom:32}}>
+      <div className="caption" style={{marginBottom:12}}>CARTEIRA</div>
+      <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+        CLIENTES
+      </h1>
+    </div>
+    <div className="card" style={{padding:40, textAlign:'center'}}>
+      <div className="caption" style={{color:'var(--grey-2)'}}>SECÇÃO EM CONSTRUÇÃO — CASE 000 / v0.1</div>
+      <div style={{color:'var(--grey-2)', fontSize:14, marginTop:12}}>
+        CRM de clientes corporativos e privados.
+      </div>
+    </div>
+  </div>
+);
+
+/* ============================================================
+   MANAGER VIEW — Gestor de Evento
+   ============================================================ */
+const ManagerView = ({ onBack }) => {
+  const nav = [
+    { id:'overview', label:'Briefing', icon:'file-text' },
+    { id:'timeline', label:'Timeline', icon:'clock' },
+    { id:'checklist', label:'Checklist', icon:'check-square', badge:12 },
+    { id:'team', label:'Equipa', icon:'users' },
+    { id:'suppliers', label:'Fornecedores', icon:'truck' },
+    { id:'plan', label:'Planta de sala', icon:'layout-grid' },
+  ];
+  const [active, setActive] = useState('overview');
+  const event = EVENTS[0];
+
+  return (
+    <Shell role="manager" onBack={onBack} navItems={nav} active={active} setActive={setActive} caseCode={event.code}>
+      {active === 'overview' && <ManagerBriefing event={event} />}
+      {active === 'timeline' && <ManagerTimeline event={event} />}
+      {active === 'checklist' && <ManagerChecklist event={event} />}
+      {active === 'team' && <ManagerTeam event={event} />}
+      {active === 'suppliers' && <ManagerSuppliers event={event} />}
+      {active === 'plan' && <ManagerPlan event={event} />}
+      <Footer caseCode={event.code} />
+    </Shell>
+  );
+};
+
+const ManagerBriefing = ({ event }) => (
+  <div>
+    <div style={{marginBottom:32}}>
+      <div className="caption" style={{color:'var(--signal)', marginBottom:12}}>● {event.statusLabel}</div>
+      <div className="mono" style={{fontSize:11, color:'var(--grey-2)', letterSpacing:'0.12em', marginBottom:8}}>
+        {event.code} · {event.type.toUpperCase()}
+      </div>
+      <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,6vw,56px)', lineHeight:0.9, letterSpacing:'-0.04em', textTransform:'uppercase', marginBottom:16}}>
+        {event.client}<span style={{color:'var(--signal)'}}>.</span>
+      </h1>
+      <p style={{color:'var(--paper-2)', fontSize:16, maxWidth:640}}>
+        {event.venue} · {event.date} · {event.time} · T-{event.daysLeft} dias
+      </p>
+    </div>
+
+    {/* key data grid */}
+    <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', marginBottom:24}}>
+      <Metric value={event.guests} label="Convidados" />
+      <Metric value={event.vipGuests} label="Zona VIP" />
+      <Metric value={`€${(event.budget/1000).toFixed(1)}`} unit="k" label="Budget" />
+      <Metric value={`${Math.round(event.spent/event.budget*100)}`} unit="%" label="Executado" />
+    </div>
+
+    {/* notes + quick actions */}
+    <div style={{display:'grid', gridTemplateColumns:'2fr 1fr', gap:24}} className="brief-grid">
+      <style>{`@media(max-width:960px){.brief-grid{grid-template-columns:1fr!important}}`}</style>
+
+      <div className="card border-signal-l" style={{padding:24}}>
+        <div className="caption" style={{color:'var(--signal)', marginBottom:16}}>● NOTAS CRÍTICAS</div>
+        <p className="italic-quote" style={{fontSize:18, color:'var(--paper)'}}>
+          "{event.notes}"
+        </p>
+      </div>
+
+      <div style={{display:'flex', flexDirection:'column', gap:12}}>
+        <button className="btn btn-primary" style={{justifyContent:'space-between'}}>
+          ABRIR BEO COMPLETO <Icon name="external-link" size={14} />
+        </button>
+        <button className="btn">
+          EXPORTAR PDF CLIENTE <Icon name="download" size={14} />
+        </button>
+        <button className="btn">
+          RUN SHEET <Icon name="list-ordered" size={14} />
+        </button>
+        <button className="btn">
+          DUPLICAR PARA TEMPLATE <Icon name="copy" size={14} />
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+const ManagerTimeline = ({ event }) => (
+  <div>
+    <div style={{marginBottom:32}}>
+      <div className="caption" style={{marginBottom:12}}>FASEAMENTO</div>
+      <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+        Timeline
+      </h1>
+    </div>
+
+    <div style={{position:'relative', paddingLeft:32}}>
+      <div style={{position:'absolute', left:7, top:12, bottom:12, width:1, background:'var(--grey)'}}></div>
+      {CLIENT_TIMELINE.map((t,i) => {
+        const color = t.status === 'done' ? 'var(--success)' : t.highlight ? 'var(--signal)' : 'var(--grey-2)';
+        return (
+          <div key={i} style={{position:'relative', paddingBottom:24}}>
+            <div style={{
+              position:'absolute', left:-32, top:6,
+              width:15, height:15, borderRadius:'50%',
+              background: t.highlight ? 'var(--signal)' : t.status === 'done' ? 'var(--success)' : 'var(--ink-2)',
+              border:`2px solid ${color}`,
+              boxShadow: t.highlight ? '0 0 0 4px rgba(200,212,234,0.15)' : 'none',
+            }}></div>
+            <div className="mono" style={{fontSize:11, color, letterSpacing:'0.12em', marginBottom:4}}>
+              {t.date}
+            </div>
+            <div style={{fontWeight:500, fontSize:16, color: t.highlight ? 'var(--signal)' : 'var(--paper)', marginBottom:4}}>
+              {t.title}
+            </div>
+            <div style={{fontSize:13, color:'var(--grey-2)'}}>{t.note}</div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+);
+
+const CHECKLIST_ITEMS = [
+  { id:1, cat:'Menu', t:'Validar alergénios com noiva (gluten)', done:true },
+  { id:2, cat:'Menu', t:'Assinar ficha técnica com Chef Rita', done:true },
+  { id:3, cat:'Menu', t:'Sample tasting com casal (18/04)', done:true },
+  { id:4, cat:'Vinhos', t:'Par de 4 vinhos aprovado', done:true },
+  { id:5, cat:'Vinhos', t:'Encomenda Herdade Esporão confirmada', done:false },
+  { id:6, cat:'Sala', t:'Planta enviada ao cliente', done:true, highlight:true },
+  { id:7, cat:'Sala', t:'Confirmar planta final (T-21)', done:false },
+  { id:8, cat:'Sala', t:'Reserva cadeiras Chiavari × 180', done:false },
+  { id:9, cat:'Sala', t:'Mesa acessível — pai da noiva', done:false, crit:true },
+  { id:10, cat:'Equipa', t:'Escalar 12 empregados + 4 bar + maître', done:false },
+  { id:11, cat:'Flores', t:'Validar paleta com florista', done:true },
+  { id:12, cat:'Logística', t:'Agendar montagem — 09:00 dia D', done:false },
+  { id:13, cat:'Cliente', t:'2º pagamento (€27.360) a 2026.05.02', done:false },
+  { id:14, cat:'Qualidade', t:'Prova final de montagem 2026.06.10', done:false },
+];
+
+const ManagerChecklist = ({ event }) => {
+  const [items, setItems] = useState(CHECKLIST_ITEMS);
+  const toggle = (id) => setItems(items.map(i => i.id === id ? {...i, done: !i.done} : i));
+  const done = items.filter(i => i.done).length;
+  const cats = [...new Set(items.map(i => i.cat))];
+
+  return (
+    <div>
+      <div style={{marginBottom:32, display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', gap:16}}>
+        <div>
+          <div className="caption" style={{marginBottom:12}}>OPERAÇÃO</div>
+          <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+            Checklist
+          </h1>
+        </div>
+        <div className="mono" style={{fontSize:13, color:'var(--paper-2)', letterSpacing:'0.1em'}}>
+          <span style={{color:'var(--signal)', fontWeight:700, fontSize:16}}>{done}</span>
+          <span style={{color:'var(--grey-2)'}}> / {items.length} CONCLUÍDOS</span>
+        </div>
+      </div>
+
+      <div className="progress-track" style={{marginBottom:32}}>
+        <div className="progress-fill" style={{width:`${done/items.length*100}%`, background:'var(--signal)'}}></div>
+      </div>
+
+      {cats.map(cat => (
+        <div key={cat} style={{marginBottom:24}}>
+          <div className="caption" style={{marginBottom:12}}>{cat.toUpperCase()}</div>
+          <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)'}}>
+            {items.filter(i => i.cat === cat).map((item,i,arr) => (
+              <div
+                key={item.id}
+                onClick={() => toggle(item.id)}
+                style={{
+                  padding:'14px 20px', display:'flex', alignItems:'center', gap:14,
+                  cursor:'pointer', transition:'background 120ms',
+                  borderBottom: i < arr.length - 1 ? '1px solid var(--grey)' : 'none',
+                  borderLeft: item.crit ? '3px solid var(--signal)' : 'none',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'var(--ink-3)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+              >
+                <div style={{
+                  width:16, height:16, border:`1.5px solid ${item.done ? 'var(--signal)' : 'var(--grey-3)'}`,
+                  background: item.done ? 'var(--signal)' : 'transparent',
+                  display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0,
+                }}>
+                  {item.done && <Icon name="check" size={12} />}
+                </div>
+                <div style={{flex:1, fontSize:14, color: item.done ? 'var(--grey-2)' : 'var(--paper)', textDecoration: item.done ? 'line-through' : 'none'}}>
+                  {item.t}
+                </div>
+                {item.crit && <span className="label-tag label-tag-signal">CRÍTICO</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const ManagerTeam = ({ event }) => (
+  <div>
+    <div style={{marginBottom:32}}>
+      <div className="caption" style={{marginBottom:12}}>EQUIPA ATRIBUÍDA</div>
+      <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+        RH do Evento
+      </h1>
+    </div>
+    <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)'}}>
+      {TEAM.slice(0,4).map((m,i) => (
+        <div key={m.id} style={{
+          display:'grid', gridTemplateColumns:'auto 1fr auto', gap:24,
+          padding:'20px 24px', alignItems:'center',
+          borderBottom: i < 3 ? '1px solid var(--grey)' : 'none',
+        }}>
+          <div style={{
+            width:48, height:48, border:'1px solid var(--grey)',
+            display:'flex', alignItems:'center', justifyContent:'center',
+            fontFamily:'var(--font-mono)', fontSize:14, fontWeight:500,
+            background:'var(--ink)', color:'var(--paper)',
+          }}>{m.avatar}</div>
+          <div>
+            <div style={{fontWeight:500, fontSize:15}}>{m.name}</div>
+            <div className="caption-xs" style={{marginTop:4}}>{m.role.toUpperCase()}</div>
+          </div>
+          <Icon name="message-circle" size={16} />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const ManagerSuppliers = ({ event }) => (
+  <div>
+    <div style={{marginBottom:32}}>
+      <div className="caption" style={{marginBottom:12}}>FORNECEDORES DO EVENTO</div>
+      <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+        Fornecedores
+      </h1>
+    </div>
+    <div style={{overflowX:'auto', border:'1px solid var(--grey)', background:'var(--ink-2)'}}>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Fornecedor</th><th>Categoria</th><th className="hide-mobile">Rating</th><th>Encomendas</th>
+          </tr>
+        </thead>
+        <tbody>
+          {SUPPLIERS.filter(s => s.openOrders > 0).slice(0,6).map(s => (
+            <tr key={s.id}>
+              <td className="mono" style={{fontSize:12, color:'var(--grey-2)'}}>{s.id}</td>
+              <td style={{fontWeight:500}}>{s.name}</td>
+              <td style={{color:'var(--grey-2)'}}>{s.category}</td>
+              <td className="hide-mobile"><span className="label-tag label-tag-paper">{s.rating}</span></td>
+              <td className="mono">{s.openOrders}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
+const ManagerPlan = ({ event }) => (
+  <div>
+    <div style={{marginBottom:32}}>
+      <div className="caption" style={{color:'var(--signal)', marginBottom:12}}>● A AGUARDAR APROVAÇÃO</div>
+      <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+        Planta de sala
+      </h1>
+    </div>
+
+    {/* Mock room plan */}
+    <div className="card" style={{padding:40, position:'relative'}}>
+      <div className="caption-xs" style={{position:'absolute', top:16, left:24}}>QUINTA DO TORNEIRO · SALÃO NOBRE · 14×22M</div>
+      <div style={{display:'grid', gridTemplateColumns:'repeat(6, 1fr)', gap:16, paddingTop:40, paddingBottom:24}}>
+        {/* Top: VIP row */}
+        <div style={{gridColumn:'2 / 6', padding:'24px 16px', border:'2px solid var(--signal)', textAlign:'center'}}>
+          <div className="mono" style={{fontSize:10, color:'var(--signal)', letterSpacing:'0.15em'}}>● MESA PRINCIPAL · NOIVOS + PAIS</div>
+          <div style={{fontFamily:'var(--font-mono)', fontSize:11, color:'var(--grey-2)', marginTop:8}}>12 LUGARES</div>
+        </div>
+        {/* Guest tables grid */}
+        {[1,2,3,4,5,6,7,8,9,10,11,12].map(n => (
+          <div key={n} style={{
+            aspectRatio:'1/1', border:'1px solid var(--grey)', display:'flex',
+            alignItems:'center', justifyContent:'center', flexDirection:'column',
+            background: n === 1 ? 'rgba(200,212,234,0.08)' : 'var(--ink-2)',
+            borderColor: n === 1 ? 'var(--signal)' : 'var(--grey)',
+          }}>
+            <div className="mono" style={{fontSize:11, letterSpacing:'0.1em', color: n === 1 ? 'var(--signal)' : 'var(--paper)'}}>T{n.toString().padStart(2,'0')}</div>
+            <div className="mono" style={{fontSize:9, color:'var(--grey-2)', marginTop:4}}>
+              {n === 1 ? '10 · ACESSÍVEL' : '10 CONV.'}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{display:'flex', gap:16, alignItems:'center', paddingTop:16, borderTop:'1px solid var(--grey)', flexWrap:'wrap'}}>
+        <span className="caption-xs">LEGENDA:</span>
+        <span className="caption-xs">■ MESA REGULAR (10)</span>
+        <span className="caption-xs" style={{color:'var(--signal)'}}>■ MESA ACESSÍVEL (T01)</span>
+        <span className="caption-xs" style={{color:'var(--signal)'}}>■ MESA PRINCIPAL</span>
+        <span className="caption-xs" style={{marginLeft:'auto'}}>TOTAL: 180 CONV. · 12 VIP + 120 MESAS</span>
+      </div>
+    </div>
+  </div>
+);
+
+/* ============================================================
+   CLIENT VIEW — Zona do cliente
+   ============================================================ */
+const ClientView = ({ onBack }) => {
+  const nav = [
+    { id:'home', label:'Vista geral', icon:'home' },
+    { id:'menu', label:'Menu', icon:'utensils' },
+    { id:'timeline', label:'Próximos passos', icon:'clock', badge:'!' },
+    { id:'payments', label:'Pagamentos', icon:'credit-card' },
+    { id:'plan', label:'Planta', icon:'layout-grid' },
+    { id:'messages', label:'Conversa', icon:'message-circle' },
+  ];
+  const [active, setActive] = useState('home');
+  const event = EVENTS[0];
+
+  return (
+    <Shell role="client" onBack={onBack} navItems={nav} active={active} setActive={setActive} caseCode={event.code}>
+      {active === 'home' && <ClientHome event={event} setActive={setActive} />}
+      {active === 'menu' && <ClientMenu event={event} />}
+      {active === 'timeline' && <ManagerTimeline event={event} />}
+      {active === 'payments' && <ClientPayments event={event} />}
+      {active === 'plan' && <ManagerPlan event={event} />}
+      {active === 'messages' && <ClientMessages />}
+      <Footer caseCode={event.code} />
+    </Shell>
+  );
+};
+
+const ClientHome = ({ event, setActive }) => (
+  <div>
+    {/* Hero */}
+    <div style={{marginBottom:40, paddingBottom:32, borderBottom:'1px solid var(--grey)'}}>
+      <div className="caption" style={{marginBottom:12}}>ZONA CLIENTE · {event.code}</div>
+      <div style={{display:'flex', alignItems:'flex-end', justifyContent:'space-between', flexWrap:'wrap', gap:24}}>
+        <div>
+          <div className="italic-quote" style={{fontSize:18, color:'var(--paper-2)', marginBottom:8}}>
+            O vosso grande dia
+          </div>
+          <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(36px,7vw,72px)', lineHeight:0.85, letterSpacing:'-0.045em', textTransform:'uppercase'}}>
+            RICARDO<br/>& SOFIA<span style={{color:'var(--signal)'}}>.</span>
+          </h1>
+          <div className="mono" style={{fontSize:13, color:'var(--grey-2)', letterSpacing:'0.12em', marginTop:16, textTransform:'uppercase'}}>
+            {event.date} · {event.time} · {event.venue}
+          </div>
+        </div>
+        <div className="stamp">APPROVED</div>
+      </div>
+    </div>
+
+    {/* Countdown */}
+    <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)', display:'grid', gridTemplateColumns:'repeat(4, 1fr)', marginBottom:32}}>
+      <Metric value={event.daysLeft} label="Dias" />
+      <Metric value={event.guests} label="Convidados" />
+      <Metric value={event.vipGuests} label="Zona VIP" />
+      <Metric value="7" label="Momentos menu" />
+    </div>
+
+    {/* Action required */}
+    <div className="card border-signal-l" style={{padding:32, marginBottom:24}}>
+      <div style={{display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:24, flexWrap:'wrap'}}>
+        <div style={{flex:1, minWidth:240}}>
+          <div className="caption" style={{color:'var(--signal)', marginBottom:12}}>● ACÇÃO REQUERIDA</div>
+          <div style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:28, letterSpacing:'-0.035em', lineHeight:1.1, marginBottom:12, textTransform:'uppercase'}}>
+            Aprovar a planta de sala
+          </div>
+          <p style={{color:'var(--paper-2)', fontSize:15, maxWidth:520}}>
+            A Inês enviou a proposta de planta da sala com a mesa acessível para o
+            Sr. Lemos (T01). Peço que revejam e assinem.
+          </p>
+        </div>
+        <button className="btn btn-signal" onClick={() => setActive('plan')}>
+          REVER E ASSINAR <Icon name="arrow-right" size={14} />
+        </button>
+      </div>
+    </div>
+
+    {/* Próximos passos */}
+    <div className="card" style={{padding:32}}>
+      <div className="caption" style={{marginBottom:20}}>PRÓXIMOS PASSOS</div>
+      <div style={{display:'flex', flexDirection:'column', gap:16}}>
+        {CLIENT_TIMELINE.filter(t => t.status !== 'done').slice(0,4).map((t,i,arr) => (
+          <div key={i} style={{
+            display:'grid', gridTemplateColumns:'auto 1fr auto', gap:20, alignItems:'center',
+            paddingBottom: i < arr.length - 1 ? 16 : 0,
+            borderBottom: i < arr.length - 1 ? '1px solid var(--grey)' : 'none',
+          }}>
+            <div className="mono" style={{fontSize:11, color: t.highlight ? 'var(--signal)' : 'var(--grey-2)', letterSpacing:'0.12em'}}>
+              {t.date}
+            </div>
+            <div>
+              <div style={{fontWeight:500, fontSize:14, color: t.highlight ? 'var(--signal)' : 'var(--paper)'}}>{t.title}</div>
+              <div style={{fontSize:12, color:'var(--grey-2)', marginTop:4}}>{t.note}</div>
+            </div>
+            {t.highlight && <span className="label-tag label-tag-signal">PENDENTE</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
+
+const ClientMenu = ({ event }) => (
+  <div>
+    <div style={{marginBottom:32}}>
+      <div className="caption" style={{color:'var(--success)', marginBottom:12}}>● APROVADO 2026.03.15</div>
+      <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+        Menu Degustação<span style={{color:'var(--signal)'}}>.</span>
+      </h1>
+      <p className="italic-quote" style={{marginTop:12, fontSize:16, color:'var(--paper-2)'}}>
+        Sete momentos compostos pela Chef Rita Noronha para o vosso dia.
+      </p>
+    </div>
+
+    {MENU.map((m,i) => (
+      <div key={m.id} style={{
+        display:'grid', gridTemplateColumns:'auto 1fr auto', gap:24, alignItems:'flex-start',
+        padding:'24px 0', borderBottom: i < MENU.length - 1 ? '1px solid var(--grey)' : 'none',
+      }}>
+        <div style={{
+          width:48, height:48, border:'1px solid var(--grey)',
+          display:'flex', alignItems:'center', justifyContent:'center',
+          fontFamily:'var(--font-mono)', fontSize:14, fontWeight:500,
+          flexShrink:0,
+        }}>
+          {String(i+1).padStart(2,'0')}
+        </div>
+        <div>
+          <div className="caption-xs" style={{marginBottom:8}}>{m.moment}</div>
+          <div className="italic-quote" style={{fontSize:20, color:'var(--paper)', lineHeight:1.3}}>
+            {m.name}
+          </div>
+        </div>
+        <div style={{display:'flex', gap:6, flexWrap:'wrap'}}>
+          {m.dietary.map(d => <span key={d} className="label-tag">{d}</span>)}
+          {m.approved && <span className="label-tag label-tag-success">✓</span>}
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+const PAYMENTS = [
+  { date:'2026.02.28', label:'Sinal (30%)', amount:20520, status:'paid', method:'Transferência SEPA' },
+  { date:'2026.05.02', label:'2º pagamento (40%)', amount:27360, status:'upcoming', method:'—' },
+  { date:'2026.06.13', label:'Pagamento final (30%)', amount:20520, status:'upcoming', method:'—' },
+];
+
+const ClientPayments = ({ event }) => {
+  const total = PAYMENTS.reduce((s,p) => s + p.amount, 0);
+  const paid = PAYMENTS.filter(p => p.status === 'paid').reduce((s,p) => s + p.amount, 0);
+  return (
+    <div>
+      <div style={{marginBottom:32}}>
+        <div className="caption" style={{marginBottom:12}}>FINANCEIRO</div>
+        <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+          Pagamentos
+        </h1>
+      </div>
+
+      <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)', display:'grid', gridTemplateColumns:'repeat(3, 1fr)', marginBottom:32}}>
+        <Metric value={`€${total.toLocaleString('pt-PT')}`} label="Total" />
+        <Metric value={`€${paid.toLocaleString('pt-PT')}`} label="Pago" />
+        <Metric value={`€${(total-paid).toLocaleString('pt-PT')}`} label="Em falta" />
+      </div>
+
+      <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)'}}>
+        {PAYMENTS.map((p,i) => (
+          <div key={i} style={{
+            display:'grid', gridTemplateColumns:'1fr auto auto', gap:24, alignItems:'center',
+            padding:'20px 24px',
+            borderBottom: i < PAYMENTS.length - 1 ? '1px solid var(--grey)' : 'none',
+          }}>
+            <div>
+              <div style={{fontWeight:500, fontSize:16}}>{p.label}</div>
+              <div className="mono" style={{fontSize:11, color:'var(--grey-2)', letterSpacing:'0.1em', marginTop:4}}>
+                {p.date} · {p.method.toUpperCase()}
+              </div>
+            </div>
+            <div className="mono" style={{fontSize:18, fontWeight:500, color:'var(--paper)'}}>
+              €{p.amount.toLocaleString('pt-PT')}
+            </div>
+            {p.status === 'paid'
+              ? <span className="label-tag label-tag-success">✓ PAGO</span>
+              : <span className="label-tag label-tag-paper">A PAGAR</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const ClientMessages = () => (
+  <div>
+    <div style={{marginBottom:32}}>
+      <div className="caption" style={{marginBottom:12}}>COMUNICAÇÃO DIRECTA</div>
+      <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+        Conversa
+      </h1>
+    </div>
+
+    <div className="card" style={{padding:32}}>
+      <div style={{display:'flex', flexDirection:'column', gap:24}}>
+        <div style={{display:'flex', gap:16, alignItems:'flex-start'}}>
+          <div style={{width:40, height:40, border:'1px solid var(--grey)', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-mono)', fontSize:12, flexShrink:0}}>IF</div>
+          <div style={{flex:1}}>
+            <div className="caption-xs" style={{marginBottom:6}}>INÊS FALCÃO · GESTORA · 18.04 · 16:42</div>
+            <div style={{fontSize:14, color:'var(--paper)', lineHeight:1.55}}>
+              Olá Ricardo. Enviei a proposta final de planta de sala. A mesa T01
+              é acessível e fica mais próxima do palco para o seu pai. Aguardo
+              confirmação.
+            </div>
+          </div>
+        </div>
+        <div style={{display:'flex', gap:16, alignItems:'flex-start'}}>
+          <div style={{width:40, height:40, border:'1px solid var(--grey)', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'var(--font-mono)', fontSize:12, flexShrink:0, background:'var(--signal)', color:'var(--paper)'}}>RL</div>
+          <div style={{flex:1}}>
+            <div className="caption-xs" style={{marginBottom:6}}>RICARDO (VÓS) · 18.04 · 18:15</div>
+            <div style={{fontSize:14, color:'var(--paper)', lineHeight:1.55}}>
+              Perfeito. Vou rever com a Sofia hoje à noite e confirmo amanhã.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{marginTop:32, paddingTop:24, borderTop:'1px solid var(--grey)'}}>
+        <textarea placeholder="Escrever mensagem…" rows={3} style={{resize:'none'}}></textarea>
+        <div style={{display:'flex', justifyContent:'flex-end', marginTop:12}}>
+          <button className="btn btn-primary">ENVIAR <Icon name="send" size={14} /></button>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+/* ============================================================
+   LOGISTICS VIEW — Compras / stock / fornecedores
+   ============================================================ */
+const LogisticsView = ({ onBack }) => {
+  const nav = [
+    { id:'overview', label:'Vista geral', icon:'layout-dashboard' },
+    { id:'orders', label:'Ordens de compra', icon:'shopping-cart', badge:5 },
+    { id:'suppliers', label:'Fornecedores', icon:'handshake' },
+    { id:'stock', label:'Stock & louça', icon:'package' },
+    { id:'routes', label:'Rotas de entrega', icon:'map' },
+  ];
+  const [active, setActive] = useState('overview');
+
+  return (
+    <Shell role="logistics" onBack={onBack} navItems={nav} active={active} setActive={setActive} caseCode="HUB 01">
+      {active === 'overview' && <LogisticsOverview />}
+      {active === 'orders' && <LogisticsOrders />}
+      {active === 'suppliers' && <LogisticsSuppliers />}
+      {active === 'stock' && <LogisticsStock />}
+      {active === 'routes' && <LogisticsRoutes />}
+      <Footer caseCode="HUB 01" />
+    </Shell>
+  );
+};
+
+const LogisticsOverview = () => {
+  const totalOrders = PURCHASE_ORDERS.length;
+  const pending = PURCHASE_ORDERS.filter(o => o.status === 'pending').length;
+  const inTransit = PURCHASE_ORDERS.filter(o => o.status === 'in-transit').length;
+  const totalValue = PURCHASE_ORDERS.reduce((s,o) => s + o.amount, 0);
+
+  return (
+    <div>
+      <div style={{marginBottom:32}}>
+        <div className="caption" style={{marginBottom:12}}>HUB DE LOGÍSTICA · LISBOA</div>
+        <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+          Operações<span style={{color:'var(--signal)'}}>.</span>
+        </h1>
+      </div>
+
+      <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', marginBottom:32}}>
+        <Metric value={totalOrders} label="POs activas" />
+        <Metric value={pending} label="Pendentes" />
+        <Metric value={inTransit} label="Em trânsito" />
+        <Metric value={`€${totalValue.toLocaleString('pt-PT')}`} label="Valor consolidado" />
+      </div>
+
+      {/* Urgent POs */}
+      <div className="card" style={{marginBottom:24}}>
+        <div style={{padding:'20px 24px', borderBottom:'1px solid var(--grey)', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+          <div className="caption" style={{color:'var(--signal)'}}>● URGENTE — A ACTUAR NAS PRÓXIMAS 48H</div>
+        </div>
+        <div style={{overflowX:'auto'}}>
+          <table>
+            <thead>
+              <tr>
+                <th>PO</th><th>Evento</th><th>Fornecedor</th><th className="hide-mobile">Items</th><th>Valor</th><th>ETA</th><th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {PURCHASE_ORDERS.filter(o => o.status === 'pending').map(o => (
+                <tr key={o.id}>
+                  <td className="mono" style={{fontSize:12, color:'var(--grey-2)'}}>{o.id}</td>
+                  <td className="mono" style={{fontSize:12}}>{o.event}</td>
+                  <td>{o.supplier}</td>
+                  <td className="hide-mobile" style={{fontSize:12, color:'var(--grey-2)'}}>{o.items}</td>
+                  <td className="mono">€{o.amount.toLocaleString('pt-PT')}</td>
+                  <td className="mono" style={{fontSize:12}}>{o.eta}</td>
+                  <td><Status status={o.status} label="PENDING" /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LogisticsOrders = () => (
+  <div>
+    <div style={{marginBottom:32, display:'flex', justifyContent:'space-between', alignItems:'flex-end', flexWrap:'wrap', gap:16}}>
+      <div>
+        <div className="caption" style={{marginBottom:12}}>COMPRAS</div>
+        <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+          Ordens de Compra
+        </h1>
+      </div>
+      <button className="btn btn-primary">
+        <Icon name="plus" size={14} /> NOVA PO
+      </button>
+    </div>
+    <div style={{overflowX:'auto', border:'1px solid var(--grey)', background:'var(--ink-2)'}}>
+      <table>
+        <thead>
+          <tr>
+            <th>PO</th><th>Evento</th><th>Fornecedor</th><th className="hide-mobile">Items</th><th>Valor</th><th>ETA</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {PURCHASE_ORDERS.map(o => (
+            <tr key={o.id}>
+              <td className="mono" style={{fontSize:12, color:'var(--grey-2)'}}>{o.id}</td>
+              <td className="mono" style={{fontSize:12}}>{o.event}</td>
+              <td>{o.supplier}</td>
+              <td className="hide-mobile" style={{fontSize:12, color:'var(--grey-2)'}}>{o.items}</td>
+              <td className="mono">€{o.amount.toLocaleString('pt-PT')}</td>
+              <td className="mono" style={{fontSize:12}}>{o.eta}</td>
+              <td><Status status={o.status} label={o.status.replace('-',' ').toUpperCase()} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
+const LogisticsSuppliers = () => (
+  <div>
+    <div style={{marginBottom:32}}>
+      <div className="caption" style={{marginBottom:12}}>REDE DE FORNECEDORES</div>
+      <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+        Fornecedores
+      </h1>
+    </div>
+    <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(280px,1fr))', gap:16}}>
+      {SUPPLIERS.map(s => (
+        <div key={s.id} className="card card-hoverable" style={{padding:20}}>
+          <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:16}}>
+            <div className="mono" style={{fontSize:11, color:'var(--grey-2)', letterSpacing:'0.12em'}}>{s.id}</div>
+            <span className="label-tag label-tag-paper">{s.rating}</span>
+          </div>
+          <div style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:18, letterSpacing:'-0.03em', lineHeight:1.2, marginBottom:6, textTransform:'uppercase'}}>
+            {s.name}
+          </div>
+          <div className="caption-xs" style={{marginBottom:16}}>{s.category.toUpperCase()}</div>
+          <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', paddingTop:12, borderTop:'1px solid var(--grey)'}}>
+            <div>
+              <div className="caption-xs">ÚLT. ORDEM</div>
+              <div className="mono" style={{fontSize:12, marginTop:2}}>{s.lastOrder}</div>
+            </div>
+            <div style={{textAlign:'right'}}>
+              <div className="caption-xs">ABERTAS</div>
+              <div className="mono" style={{fontSize:18, color: s.openOrders > 0 ? 'var(--signal)' : 'var(--grey-2)', marginTop:2}}>
+                {s.openOrders}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const LogisticsStock = () => {
+  const stock = [
+    { it:'Pratos Bone China 32cm', qt:340, max:400, status:'ok' },
+    { it:'Taças cristal Bordeaux', qt:210, max:320, status:'ok' },
+    { it:'Taças champagne flute', qt:180, max:320, status:'low' },
+    { it:'Talheres ouro (set 5 peças)', qt:68, max:100, status:'ok' },
+    { it:'Guardanapos linho branco', qt:420, max:600, status:'ok' },
+    { it:'Toalhas mesa redonda 3m', qt:18, max:40, status:'low' },
+    { it:'Cadeiras Chiavari douradas', qt:64, max:200, status:'critical' },
+  ];
+  return (
+    <div>
+      <div style={{marginBottom:32}}>
+        <div className="caption" style={{marginBottom:12}}>INVENTÁRIO · HUB 01 LISBOA</div>
+        <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+          Stock
+        </h1>
+      </div>
+      <div style={{border:'1px solid var(--grey)', background:'var(--ink-2)'}}>
+        {stock.map((s,i) => {
+          const pct = (s.qt/s.max)*100;
+          const color = s.status === 'critical' ? 'var(--signal)' : s.status === 'low' ? 'var(--paper-2)' : 'var(--success)';
+          return (
+            <div key={i} style={{padding:'20px 24px', borderBottom: i < stock.length-1 ? '1px solid var(--grey)' : 'none'}}>
+              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10}}>
+                <div style={{fontSize:14, fontWeight:500}}>{s.it}</div>
+                <div style={{display:'flex', alignItems:'center', gap:16}}>
+                  <span className="mono" style={{fontSize:13, color}}>{s.qt} / {s.max}</span>
+                  {s.status === 'critical' && <span className="label-tag label-tag-signal">REPOR JÁ</span>}
+                  {s.status === 'low' && <span className="label-tag">ATENÇÃO</span>}
+                </div>
+              </div>
+              <div className="progress-track">
+                <div className="progress-fill" style={{width:`${pct}%`, background:color}}></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const LogisticsRoutes = () => {
+  const routes = [
+    { id:'R-2026.05.09', dest:'Casino Estoril — CASE 025', dep:'08:00', arr:'08:45', vehicles:3, kg:480, status:'planned' },
+    { id:'R-2026.06.14', dest:'Quinta do Torneiro — CASE 024', dep:'06:30', arr:'07:30', vehicles:2, kg:320, status:'planned' },
+    { id:'R-2026.07.03', dest:'Fundação Gulbenkian — CASE 026', dep:'09:00', arr:'09:20', vehicles:2, kg:280, status:'draft' },
+  ];
+  return (
+    <div>
+      <div style={{marginBottom:32}}>
+        <div className="caption" style={{marginBottom:12}}>DISTRIBUIÇÃO</div>
+        <h1 style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:'clamp(32px,5vw,48px)', lineHeight:0.95, letterSpacing:'-0.035em', textTransform:'uppercase'}}>
+          Rotas
+        </h1>
+      </div>
+      {routes.map((r,i) => (
+        <div key={r.id} className="card" style={{padding:24, marginBottom:12, display:'grid', gridTemplateColumns:'1fr auto', gap:24, alignItems:'center'}}>
+          <div>
+            <div className="mono" style={{fontSize:11, color:'var(--grey-2)', letterSpacing:'0.12em', marginBottom:8}}>{r.id}</div>
+            <div style={{fontFamily:'var(--font-display)', fontWeight:900, fontSize:20, letterSpacing:'-0.03em', textTransform:'uppercase', marginBottom:8}}>
+              {r.dest}
+            </div>
+            <div className="mono" style={{fontSize:12, color:'var(--grey-2)', letterSpacing:'0.08em'}}>
+              PARTIDA {r.dep} · CHEGADA {r.arr} · {r.vehicles} VIATURAS · {r.kg}KG
+            </div>
+          </div>
+          <Icon name="truck" size={32} />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+/* ============================================================
+   ROOT
+   ============================================================ */
+const App = () => {
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    if (window.lucide) window.lucide.createIcons({ attrs: { 'stroke-width': 1.5 } });
+  }, [role]);
+
+  if (!role) return <Landing onSelect={setRole} />;
+  if (role === 'admin') return <AdminView onBack={() => setRole(null)} />;
+  if (role === 'manager') return <ManagerView onBack={() => setRole(null)} />;
+  if (role === 'client') return <ClientView onBack={() => setRole(null)} />;
+  if (role === 'logistics') return <LogisticsView onBack={() => setRole(null)} />;
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
