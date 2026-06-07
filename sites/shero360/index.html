@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SHERO360 PRIME — Get in Shape in Dubai Without Sacrificing Your Life</title>
+<meta name="description" content="Premium online fitness coaching for busy women in Dubai. Personalized training and nutrition built around your real schedule. Apply for coaching in under 60 seconds." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="SHERO360 PRIME — Premium Coaching for Busy Women in Dubai" />
+<meta property="og:description" content="Get in shape without sacrificing your social life. Personalized coaching built around your real schedule." />
+<meta property="og:type" content="website" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink:    '#15130F',
+          ink2:   '#211D17',
+          canvas: '#F6F1E9',
+          cream:  '#FBF8F2',
+          gold:   '#C5A35A',
+          goldL:  '#E0C588',
+          ember:  '#E2603F',
+          muted:  '#6B6256',
+          line:   '#E7DFD2',
+        },
+        fontFamily: {
+          display: ['"Barlow Condensed"', 'sans-serif'],
+          sans:    ['Inter', 'sans-serif'],
+        },
+        maxWidth: { '7xl': '80rem' },
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  }
+  body { background: #F6F1E9; color: #15130F; -webkit-font-smoothing: antialiased; }
+
+  .font-display { letter-spacing: .005em; }
+  .eyebrow { letter-spacing: .22em; }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* Gradient text */
+  .text-gold-grad { background: linear-gradient(95deg,#E0C588,#C5A35A 55%,#B98E45); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+  /* Glass nav */
+  .glass { background: rgba(251,248,242,.72); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px); }
+
+  /* Buttons */
+  .btn-primary { background: linear-gradient(95deg,#E2603F,#C5A35A); color:#fff; box-shadow: 0 10px 28px -10px rgba(226,96,63,.55); }
+  .btn-primary:hover { filter: brightness(1.05); box-shadow: 0 14px 34px -10px rgba(226,96,63,.65); }
+
+  /* Marquee */
+  .marquee { animation: marquee 32s linear infinite; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+  .marquee-wrap:hover .marquee { animation-play-state: paused; }
+
+  /* Before/After slider */
+  .ba { position: relative; overflow: hidden; touch-action: none; user-select: none; }
+  .ba img { display:block; width:100%; height:100%; object-fit: cover; pointer-events:none; }
+  .ba-after { position:absolute; inset:0; width:100%; clip-path: inset(0 0 0 50%); }
+  .ba-handle { position:absolute; top:0; bottom:0; left:50%; width:2px; background:#FBF8F2; transform: translateX(-1px); }
+  .ba-knob { position:absolute; top:50%; left:50%; transform: translate(-50%,-50%); width:46px; height:46px; border-radius:9999px; background:#FBF8F2; display:grid; place-items:center; box-shadow:0 6px 18px rgba(0,0,0,.3); cursor: ew-resize; }
+  .ba-tag { position:absolute; bottom:14px; padding:6px 12px; font-size:11px; letter-spacing:.16em; font-weight:600; border-radius:9999px; background:rgba(21,19,15,.62); color:#FBF8F2; backdrop-filter: blur(4px); }
+
+  /* FAQ */
+  .faq-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+  .faq.open .faq-body { grid-template-rows: 1fr; }
+  .faq-body > div { overflow: hidden; }
+  .faq.open .faq-icon { transform: rotate(45deg); }
+
+  .noise:before { content:''; position:absolute; inset:0; opacity:.5; pointer-events:none;
+    background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px); background-size: 4px 4px; }
+
+  a, button { -webkit-tap-highlight-color: transparent; }
+  :focus-visible { outline: 2px solid #C5A35A; outline-offset: 3px; border-radius: 4px; }
+</style>
+</head>
+
+<body class="font-sans antialiased selection:bg-gold/30">
+
+<!-- Skip link -->
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-[60] focus:top-3 focus:left-3 focus:bg-ink focus:text-cream focus:px-4 focus:py-2 focus:rounded-lg">Skip to content</a>
+
+<!-- ===================== NAV ===================== -->
+<header class="fixed inset-x-0 top-0 z-50 px-3 sm:px-5 pt-3 sm:pt-4">
+  <nav class="glass mx-auto max-w-7xl rounded-2xl border border-line/80 px-4 sm:px-6 h-16 flex items-center justify-between shadow-[0_8px_30px_-18px_rgba(21,19,15,.4)]">
+    <a href="#" class="flex items-center gap-2.5 group" aria-label="SHERO360 PRIME home">
+      <span class="grid place-items-center w-9 h-9 rounded-xl bg-ink text-cream font-display font-700 text-lg leading-none">S</span>
+      <span class="font-display font-700 text-xl tracking-wide leading-none">SHERO<span class="text-gold">360</span> <span class="text-muted font-600 text-sm align-middle">PRIME</span></span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-8 text-sm font-500 text-ink/80">
+      <a href="#approach" class="hover:text-ink transition-colors">Approach</a>
+      <a href="#results" class="hover:text-ink transition-colors">Results</a>
+      <a href="#coaching" class="hover:text-ink transition-colors">What You Get</a>
+      <a href="#coaches" class="hover:text-ink transition-colors">Coaches</a>
+      <a href="#faq" class="hover:text-ink transition-colors">FAQ</a>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a href="#apply" class="hidden sm:inline-flex btn-primary items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-600 transition-all cursor-pointer">
+        Apply for Coaching
+      </a>
+      <button id="menuBtn" class="md:hidden grid place-items-center w-10 h-10 rounded-xl border border-line cursor-pointer" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="md:hidden hidden mx-auto max-w-7xl mt-2 glass rounded-2xl border border-line p-2">
+    <a href="#approach" class="block px-4 py-3 rounded-xl hover:bg-ink/5 font-500">Approach</a>
+    <a href="#results" class="block px-4 py-3 rounded-xl hover:bg-ink/5 font-500">Results</a>
+    <a href="#coaching" class="block px-4 py-3 rounded-xl hover:bg-ink/5 font-500">What You Get</a>
+    <a href="#coaches" class="block px-4 py-3 rounded-xl hover:bg-ink/5 font-500">Coaches</a>
+    <a href="#faq" class="block px-4 py-3 rounded-xl hover:bg-ink/5 font-500">FAQ</a>
+    <a href="#apply" class="btn-primary block text-center px-4 py-3 rounded-xl font-600 mt-1">Apply for Coaching</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===================== HERO ===================== -->
+<section class="relative overflow-hidden bg-ink text-cream noise">
+  <!-- background image -->
+  <div class="absolute inset-0">
+    <img src="https://images.unsplash.com/photo-1517344884509-a0c97ec11bcc?w=1600&q=80&auto=format&fit=crop"
+         alt="" aria-hidden="true" class="w-full h-full object-cover object-center opacity-40" />
+    <div class="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/85 to-ink"></div>
+    <div class="absolute -top-40 -right-32 w-[34rem] h-[34rem] rounded-full bg-ember/20 blur-3xl"></div>
+    <div class="absolute -bottom-48 -left-24 w-[34rem] h-[34rem] rounded-full bg-gold/15 blur-3xl"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-5 sm:px-8 pt-36 sm:pt-44 pb-20 sm:pb-28">
+    <div class="grid lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-7">
+        <p class="eyebrow text-[11px] sm:text-xs font-600 text-gold mb-5 reveal">ONLINE COACHING · DUBAI</p>
+        <h1 class="font-display font-700 leading-[.92] text-5xl sm:text-6xl lg:text-7xl uppercase tracking-tight reveal">
+          Get in shape in Dubai
+          <span class="block text-gold-grad">without sacrificing</span>
+          your social life.
+        </h1>
+        <p class="mt-7 text-base sm:text-lg text-cream/70 max-w-xl leading-relaxed reveal">
+          For busy women who are tired of restrictive plans that never stick. We build your training and nutrition around your <span class="text-cream font-600">real schedule</span> — dinners, travel, work and all.
+        </p>
+
+        <div class="mt-9 flex flex-col sm:flex-row gap-3 sm:items-center reveal">
+          <a href="#apply" class="btn-primary inline-flex items-center justify-center gap-2 rounded-xl px-7 py-4 font-600 text-base transition-all cursor-pointer">
+            Apply for Coaching
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#results" class="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-4 font-600 text-base border border-cream/25 text-cream hover:bg-cream/10 transition-colors cursor-pointer">
+            See real results
+          </a>
+        </div>
+        <p class="mt-4 text-sm text-cream/55 flex items-center gap-2 reveal">
+          <svg class="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          Takes under 60 seconds · No obligation
+        </p>
+      </div>
+
+      <!-- Stat card -->
+      <div class="lg:col-span-5 reveal">
+        <div class="relative rounded-3xl overflow-hidden border border-cream/15 bg-ink2/60 backdrop-blur">
+          <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=900&q=80&auto=format&fit=crop"
+               alt="Woman strength training in a bright studio" class="w-full h-72 sm:h-80 object-cover" loading="lazy" />
+          <div class="grid grid-cols-3 divide-x divide-cream/10 border-t border-cream/10">
+            <div class="p-4 text-center">
+              <div class="font-display font-700 text-3xl text-gold">500+</div>
+              <div class="text-[11px] uppercase tracking-wider text-cream/55 mt-1">Women coached</div>
+            </div>
+            <div class="p-4 text-center">
+              <div class="font-display font-700 text-3xl text-gold">4–27<span class="text-lg">kg</span></div>
+              <div class="text-[11px] uppercase tracking-wider text-cream/55 mt-1">Lost & kept off</div>
+            </div>
+            <div class="p-4 text-center">
+              <div class="font-display font-700 text-3xl text-gold inline-flex items-center gap-1">5<svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg></div>
+              <div class="text-[11px] uppercase tracking-wider text-cream/55 mt-1">Average rating</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TRUST MARQUEE ===================== -->
+<section class="bg-ink2 text-cream/70 py-5 border-y border-cream/10 overflow-hidden marquee-wrap" aria-label="What our clients are">
+  <div class="flex w-max marquee">
+    <ul class="flex items-center gap-10 px-5 text-sm font-500 uppercase tracking-wider whitespace-nowrap">
+      <li class="text-gold">★ Busy professionals</li><li>Mothers</li><li class="text-gold">★ Pilots & cabin crew</li><li>Nurses</li><li class="text-gold">★ Expats</li><li>Entrepreneurs</li><li class="text-gold">★ Women 50+</li><li>First-timers</li>
+    </ul>
+    <ul class="flex items-center gap-10 px-5 text-sm font-500 uppercase tracking-wider whitespace-nowrap" aria-hidden="true">
+      <li class="text-gold">★ Busy professionals</li><li>Mothers</li><li class="text-gold">★ Pilots & cabin crew</li><li>Nurses</li><li class="text-gold">★ Expats</li><li>Entrepreneurs</li><li class="text-gold">★ Women 50+</li><li>First-timers</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===================== PROBLEM ===================== -->
+<section class="py-20 sm:py-28 bg-canvas">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-3xl reveal">
+      <p class="eyebrow text-xs font-600 text-ember mb-4">SOUND FAMILIAR?</p>
+      <h2 class="font-display font-700 uppercase text-4xl sm:text-5xl leading-[.95] tracking-tight">
+        You don't have a willpower problem.<br><span class="text-muted">You have a system problem.</span>
+      </h2>
+    </div>
+
+    <div class="mt-12 grid md:grid-cols-3 gap-5">
+      <article class="reveal rounded-2xl bg-cream border border-line p-7">
+        <div class="text-ember font-display font-700 text-2xl">“I don't have time.”</div>
+        <p class="mt-3 text-muted leading-relaxed">You don't need more hours — you need a plan that fits the hours you already have. We design around 3–4 focused sessions, not your whole life.</p>
+      </article>
+      <article class="reveal rounded-2xl bg-cream border border-line p-7">
+        <div class="text-ember font-display font-700 text-2xl">“I've tried everything.”</div>
+        <p class="mt-3 text-muted leading-relaxed">Crash diets fail by design. We rebuild the structure underneath your habits so progress keeps going long after the “motivation” runs out.</p>
+      </article>
+      <article class="reveal rounded-2xl bg-cream border border-line p-7">
+        <div class="text-ember font-display font-700 text-2xl">“I can't stay consistent.”</div>
+        <p class="mt-3 text-muted leading-relaxed">Consistency isn't a personality trait — it's accountability. With weekly check-ins and a coach in your pocket, you simply don't drift.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== APPROACH ===================== -->
+<section id="approach" class="py-20 sm:py-28 bg-ink text-cream noise relative scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 relative">
+    <div class="grid lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-4 reveal">
+        <p class="eyebrow text-xs font-600 text-gold mb-4">THE METHOD</p>
+        <h2 class="font-display font-700 uppercase text-4xl sm:text-5xl leading-[.95] tracking-tight">A simple system, built around <span class="text-gold-grad">you</span>.</h2>
+        <p class="mt-5 text-cream/65 leading-relaxed">No guesswork, no generic PDFs. Three pillars that turn “someday” into a body and energy you actually keep.</p>
+        <a href="#apply" class="mt-8 inline-flex items-center gap-2 text-gold font-600 hover:gap-3 transition-all cursor-pointer">
+          Start with a strategy call
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="lg:col-span-8 grid sm:grid-cols-1 gap-4">
+        <!-- step 1 -->
+        <div class="reveal group flex gap-5 rounded-2xl border border-cream/12 bg-ink2/60 p-6 sm:p-7 hover:border-gold/40 transition-colors">
+          <div class="shrink-0 grid place-items-center w-12 h-12 rounded-xl bg-gold/15 text-gold">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-3"><span class="font-display text-gold/70 font-700 text-xl">01</span><h3 class="font-display font-700 uppercase text-2xl tracking-tight">Clarity & Strategy</h3></div>
+            <p class="mt-2 text-cream/65 leading-relaxed">We start by understanding your lifestyle, history and goals — then map the shortest realistic path to get there. You'll finally know exactly what to do and why.</p>
+          </div>
+        </div>
+        <!-- step 2 -->
+        <div class="reveal group flex gap-5 rounded-2xl border border-cream/12 bg-ink2/60 p-6 sm:p-7 hover:border-gold/40 transition-colors">
+          <div class="shrink-0 grid place-items-center w-12 h-12 rounded-xl bg-gold/15 text-gold">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-3"><span class="font-display text-gold/70 font-700 text-xl">02</span><h3 class="font-display font-700 uppercase text-2xl tracking-tight">Your Custom Plan</h3></div>
+            <p class="mt-2 text-cream/65 leading-relaxed">Training and nutrition designed for your body and your week — not someone else's. Flexible, non-restrictive, and built to survive dinners out and travel.</p>
+          </div>
+        </div>
+        <!-- step 3 -->
+        <div class="reveal group flex gap-5 rounded-2xl border border-cream/12 bg-ink2/60 p-6 sm:p-7 hover:border-gold/40 transition-colors">
+          <div class="shrink-0 grid place-items-center w-12 h-12 rounded-xl bg-gold/15 text-gold">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-3"><span class="font-display text-gold/70 font-700 text-xl">03</span><h3 class="font-display font-700 uppercase text-2xl tracking-tight">Real Accountability</h3></div>
+            <p class="mt-2 text-cream/65 leading-relaxed">Weekly check-ins, progress tracking and direct access to your coach. We adjust as life happens — so you keep moving forward instead of starting over.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESULTS / TRANSFORMATIONS ===================== -->
+<section id="results" class="py-20 sm:py-28 bg-canvas scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 reveal">
+      <div class="max-w-2xl">
+        <p class="eyebrow text-xs font-600 text-ember mb-4">REAL WOMEN · REAL RESULTS</p>
+        <h2 class="font-display font-700 uppercase text-4xl sm:text-5xl leading-[.95] tracking-tight">Transformations that lasted.</h2>
+        <p class="mt-4 text-muted leading-relaxed">Drag the slider. Every result below was achieved while keeping a full social life, family and career intact.</p>
+      </div>
+    </div>
+
+    <!-- Before/After interactive -->
+    <div class="mt-12 grid lg:grid-cols-2 gap-6">
+      <figure class="reveal rounded-3xl overflow-hidden border border-line bg-cream shadow-sm">
+        <div class="ba aspect-[4/3]" data-ba>
+          <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&q=80&auto=format&fit=crop" alt="Sofia before her coaching program" loading="lazy" />
+          <div class="ba-after"><img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=900&q=80&auto=format&fit=crop" alt="Sofia after losing 12kg with SHERO360 PRIME" loading="lazy" /></div>
+          <span class="ba-tag left-3.5">BEFORE</span>
+          <span class="ba-tag right-3.5">AFTER</span>
+          <div class="ba-handle"><div class="ba-knob"><svg class="w-5 h-5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 7-5 5 5 5M15 7l5 5-5 5"/></svg></div></div>
+        </div>
+        <figcaption class="p-5 flex items-center justify-between">
+          <div><div class="font-600">Sofia, 34 · Marketing Director</div><div class="text-sm text-muted">Lost 12 kg in 5 months</div></div>
+          <div class="font-display font-700 text-2xl text-ember">−12kg</div>
+        </figcaption>
+      </figure>
+
+      <figure class="reveal rounded-3xl overflow-hidden border border-line bg-cream shadow-sm">
+        <div class="ba aspect-[4/3]" data-ba>
+          <img src="https://images.unsplash.com/photo-1550345332-09e3ac987658?w=900&q=80&auto=format&fit=crop" alt="Mariam before her coaching program" loading="lazy" />
+          <div class="ba-after"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=900&q=80&auto=format&fit=crop" alt="Mariam after her transformation with SHERO360 PRIME" loading="lazy" /></div>
+          <span class="ba-tag left-3.5">BEFORE</span>
+          <span class="ba-tag right-3.5">AFTER</span>
+          <div class="ba-handle"><div class="ba-knob"><svg class="w-5 h-5 text-ink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 7-5 5 5 5M15 7l5 5-5 5"/></svg></div></div>
+        </div>
+        <figcaption class="p-5 flex items-center justify-between">
+          <div><div class="font-600">Mariam, 41 · Mother of two</div><div class="text-sm text-muted">Lost 9 kg & regained energy</div></div>
+          <div class="font-display font-700 text-2xl text-ember">−9kg</div>
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="mt-8 grid md:grid-cols-3 gap-5">
+      <blockquote class="reveal rounded-2xl bg-cream border border-line p-6 flex flex-col">
+        <div class="flex gap-0.5 text-gold mb-3" aria-label="5 out of 5 stars">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg>
+        </div>
+        <p class="text-ink/90 leading-relaxed flex-1">“I'm a pilot with the most chaotic schedule imaginable. Filipa built a plan that actually works across time zones. Down 14kg and I've never felt stronger.”</p>
+        <footer class="mt-4 pt-4 border-t border-line text-sm"><span class="font-600">Joana R.</span> <span class="text-muted">· Airline Pilot</span></footer>
+      </blockquote>
+
+      <blockquote class="reveal rounded-2xl bg-cream border border-line p-6 flex flex-col">
+        <div class="flex gap-0.5 text-gold mb-3" aria-label="5 out of 5 stars">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg>
+        </div>
+        <p class="text-ink/90 leading-relaxed flex-1">“At 52 I thought it was too late. Carla proved me wrong. The support and the community kept me going — best decision I've made for myself in years.”</p>
+        <footer class="mt-4 pt-4 border-t border-line text-sm"><span class="font-600">Helena M.</span> <span class="text-muted">· 52, Entrepreneur</span></footer>
+      </blockquote>
+
+      <blockquote class="reveal rounded-2xl bg-cream border border-line p-6 flex flex-col">
+        <div class="flex gap-0.5 text-gold mb-3" aria-label="5 out of 5 stars">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.5 7 .6-5.3 4.6 1.6 6.8L12 17l-6.3 3.5L7.3 13.7 2 9.1l7-.6z"/></svg>
+        </div>
+        <p class="text-ink/90 leading-relaxed flex-1">“As a nurse doing night shifts, eating well felt impossible. Now I have a plan that bends around my roster. Lost 8kg and kept every bit of my social life.”</p>
+        <footer class="mt-4 pt-4 border-t border-line text-sm"><span class="font-600">Rita S.</span> <span class="text-muted">· ICU Nurse</span></footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WHAT YOU GET ===================== -->
+<section id="coaching" class="py-20 sm:py-28 bg-cream scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl reveal">
+      <p class="eyebrow text-xs font-600 text-ember mb-4">YOUR COACHING INCLUDES</p>
+      <h2 class="font-display font-700 uppercase text-4xl sm:text-5xl leading-[.95] tracking-tight">Everything you need.<br>Nothing you don't.</h2>
+    </div>
+
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- card -->
+      <div class="reveal rounded-2xl border border-line bg-canvas p-7 hover:shadow-lg hover:-translate-y-0.5 transition-all">
+        <div class="grid place-items-center w-12 h-12 rounded-xl bg-ink text-gold mb-5"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 6.5 17.5 17.5M14 3l7 7M3 14l7 7M5 9l4-4M15 19l4-4"/></svg></div>
+        <h3 class="font-display font-700 uppercase text-xl tracking-tight">Personalized Training</h3>
+        <p class="mt-2 text-muted leading-relaxed">A program matched to your level, equipment and goals — at home, in the gym, or on the road.</p>
+      </div>
+      <div class="reveal rounded-2xl border border-line bg-canvas p-7 hover:shadow-lg hover:-translate-y-0.5 transition-all">
+        <div class="grid place-items-center w-12 h-12 rounded-xl bg-ink text-gold mb-5"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 0 0 2-2V2M5 11v11M11 2c-1.7 0-3 2.5-3 5.5S8 13 11 13m0-11v20"/></svg></div>
+        <h3 class="font-display font-700 uppercase text-xl tracking-tight">Flexible Nutrition</h3>
+        <p class="mt-2 text-muted leading-relaxed">No banned foods, no misery. Practical guidance that survives brunches, business dinners and travel.</p>
+      </div>
+      <div class="reveal rounded-2xl border border-line bg-canvas p-7 hover:shadow-lg hover:-translate-y-0.5 transition-all">
+        <div class="grid place-items-center w-12 h-12 rounded-xl bg-ink text-gold mb-5"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="m7 14 3-3 3 3 5-6"/></svg></div>
+        <h3 class="font-display font-700 uppercase text-xl tracking-tight">Progress Tracking</h3>
+        <p class="mt-2 text-muted leading-relaxed">Clear metrics beyond the scale, so you can actually see momentum and stay motivated.</p>
+      </div>
+      <div class="reveal rounded-2xl border border-line bg-canvas p-7 hover:shadow-lg hover:-translate-y-0.5 transition-all">
+        <div class="grid place-items-center w-12 h-12 rounded-xl bg-ink text-gold mb-5"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3 class="font-display font-700 uppercase text-xl tracking-tight">Direct Coach Access</h3>
+        <p class="mt-2 text-muted leading-relaxed">Message your coach when life throws a curveball. Real answers, fast — not a generic chatbot.</p>
+      </div>
+      <div class="reveal rounded-2xl border border-line bg-canvas p-7 hover:shadow-lg hover:-translate-y-0.5 transition-all">
+        <div class="grid place-items-center w-12 h-12 rounded-xl bg-ink text-gold mb-5"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg></div>
+        <h3 class="font-display font-700 uppercase text-xl tracking-tight">A Real Community</h3>
+        <p class="mt-2 text-muted leading-relaxed">Train alongside women who get it. Accountability, wins and support — never judgment.</p>
+      </div>
+      <div class="reveal rounded-2xl border border-line bg-canvas p-7 hover:shadow-lg hover:-translate-y-0.5 transition-all">
+        <div class="grid place-items-center w-12 h-12 rounded-xl bg-ink text-gold mb-5"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h3 class="font-display font-700 uppercase text-xl tracking-tight">Weekly Adjustments</h3>
+        <p class="mt-2 text-muted leading-relaxed">Your plan evolves with you. We review every week and fine-tune so progress never stalls.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== COACHES ===================== -->
+<section id="coaches" class="py-20 sm:py-28 bg-canvas scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="max-w-2xl reveal">
+      <p class="eyebrow text-xs font-600 text-ember mb-4">MEET YOUR COACHES</p>
+      <h2 class="font-display font-700 uppercase text-4xl sm:text-5xl leading-[.95] tracking-tight">Coached by women<br>who've been there.</h2>
+    </div>
+
+    <div class="mt-12 grid sm:grid-cols-2 gap-6">
+      <article class="reveal group rounded-3xl overflow-hidden border border-line bg-cream">
+        <div class="relative h-80 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=900&q=80&auto=format&fit=crop" alt="Filipa, head coach at SHERO360 PRIME" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink/70 to-transparent"></div>
+        </div>
+        <div class="p-7">
+          <h3 class="font-display font-700 uppercase text-2xl tracking-tight">Filipa</h3>
+          <p class="text-gold font-600 text-sm mb-3">Head Coach · Training & Strategy</p>
+          <p class="text-muted leading-relaxed">Specialist in building strength and confidence for women with demanding careers. Filipa designs programs that flex around real life — not the other way around.</p>
+        </div>
+      </article>
+
+      <article class="reveal group rounded-3xl overflow-hidden border border-line bg-cream">
+        <div class="relative h-80 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=900&q=80&auto=format&fit=crop" alt="Carla, nutrition coach at SHERO360 PRIME" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink/70 to-transparent"></div>
+        </div>
+        <div class="p-7">
+          <h3 class="font-display font-700 uppercase text-2xl tracking-tight">Carla</h3>
+          <p class="text-gold font-600 text-sm mb-3">Nutrition & Accountability Coach</p>
+          <p class="text-muted leading-relaxed">Carla makes nutrition feel simple and sustainable. Her warm, no-judgment approach is why clients stay consistent long after the program ends.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== APPLY / CTA ===================== -->
+<section id="apply" class="py-20 sm:py-28 bg-ink text-cream relative overflow-hidden noise scroll-mt-24">
+  <div class="absolute -top-32 left-1/2 -translate-x-1/2 w-[40rem] h-[40rem] rounded-full bg-ember/15 blur-3xl"></div>
+  <div class="max-w-3xl mx-auto px-5 sm:px-8 text-center relative reveal">
+    <p class="eyebrow text-xs font-600 text-gold mb-5">LIMITED SPOTS EACH MONTH</p>
+    <h2 class="font-display font-700 uppercase text-4xl sm:text-6xl leading-[.92] tracking-tight">I want to be<br><span class="text-gold-grad">next.</span></h2>
+    <p class="mt-6 text-cream/70 text-lg leading-relaxed max-w-xl mx-auto">Apply now and we'll review your goals to see if SHERO360 PRIME is the right fit. It takes under 60 seconds — and there's zero obligation.</p>
+
+    <a href="mailto:hello@shero360.com?subject=Coaching%20Application" class="btn-primary mt-9 inline-flex items-center justify-center gap-2 rounded-xl px-9 py-4 font-600 text-lg transition-all cursor-pointer">
+      Apply for Coaching
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-cream/60">
+      <span class="inline-flex items-center gap-2"><svg class="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> No obligation</span>
+      <span class="inline-flex items-center gap-2"><svg class="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Under 60 seconds</span>
+      <span class="inline-flex items-center gap-2"><svg class="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Built for busy women</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="py-20 sm:py-28 bg-canvas scroll-mt-24">
+  <div class="max-w-3xl mx-auto px-5 sm:px-8">
+    <div class="text-center reveal mb-12">
+      <p class="eyebrow text-xs font-600 text-ember mb-4">QUESTIONS</p>
+      <h2 class="font-display font-700 uppercase text-4xl sm:text-5xl leading-[.95] tracking-tight">Before you apply</h2>
+    </div>
+
+    <div class="space-y-3" id="faqList">
+      <div class="faq reveal rounded-2xl border border-line bg-cream overflow-hidden">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left px-6 py-5 cursor-pointer" aria-expanded="false">
+          <span class="font-600 text-lg">I genuinely have no time. Will this work for me?</span>
+          <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-body"><div><p class="px-6 pb-6 text-muted leading-relaxed">Yes — that's exactly who we build for. Most clients train 3–4 times a week in focused sessions, and our nutrition approach fits around your existing routine rather than replacing it.</p></div></div>
+      </div>
+
+      <div class="faq reveal rounded-2xl border border-line bg-cream overflow-hidden">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left px-6 py-5 cursor-pointer" aria-expanded="false">
+          <span class="font-600 text-lg">Do I need a gym membership?</span>
+          <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-body"><div><p class="px-6 pb-6 text-muted leading-relaxed">No. Your plan is built around the equipment you have — whether that's a full gym, a few dumbbells at home, or nothing at all. We adapt as your access changes.</p></div></div>
+      </div>
+
+      <div class="faq reveal rounded-2xl border border-line bg-cream overflow-hidden">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left px-6 py-5 cursor-pointer" aria-expanded="false">
+          <span class="font-600 text-lg">Will I have to give up eating out and social events?</span>
+          <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-body"><div><p class="px-6 pb-6 text-muted leading-relaxed">Absolutely not — that's the whole point. We teach you how to enjoy Dubai's restaurants, travel and social life while still hitting your goals. Sustainable, not restrictive.</p></div></div>
+      </div>
+
+      <div class="faq reveal rounded-2xl border border-line bg-cream overflow-hidden">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left px-6 py-5 cursor-pointer" aria-expanded="false">
+          <span class="font-600 text-lg">I'm over 50 / a total beginner. Is this for me?</span>
+          <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-body"><div><p class="px-6 pb-6 text-muted leading-relaxed">Definitely. We coach women of every age and starting point, and many of our best transformations are first-timers and women 50+. Everything is tailored to where you are today.</p></div></div>
+      </div>
+
+      <div class="faq reveal rounded-2xl border border-line bg-cream overflow-hidden">
+        <button class="faq-q w-full flex items-center justify-between gap-4 text-left px-6 py-5 cursor-pointer" aria-expanded="false">
+          <span class="font-600 text-lg">What happens after I apply?</span>
+          <svg class="faq-icon w-5 h-5 text-gold shrink-0 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-body"><div><p class="px-6 pb-6 text-muted leading-relaxed">We review your answers and reach out to book a short strategy call. There's no pressure — we only take you on if we're confident we can get you results.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="bg-ink text-cream/70 pt-16 pb-8">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="grid md:grid-cols-12 gap-10 pb-12 border-b border-cream/10">
+      <div class="md:col-span-5">
+        <a href="#" class="flex items-center gap-2.5 mb-4">
+          <span class="grid place-items-center w-9 h-9 rounded-xl bg-cream text-ink font-display font-700 text-lg leading-none">S</span>
+          <span class="font-display font-700 text-xl tracking-wide text-cream leading-none">SHERO<span class="text-gold">360</span> PRIME</span>
+        </a>
+        <p class="max-w-sm leading-relaxed">Premium online coaching for busy women in Dubai. Get in shape without sacrificing the life you love.</p>
+        <div class="flex gap-3 mt-6">
+          <a href="#" aria-label="Instagram" class="grid place-items-center w-10 h-10 rounded-xl border border-cream/15 hover:bg-cream/10 transition-colors cursor-pointer"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="Facebook" class="grid place-items-center w-10 h-10 rounded-xl border border-cream/15 hover:bg-cream/10 transition-colors cursor-pointer"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="md:col-span-3">
+        <h4 class="font-display font-600 uppercase tracking-wider text-cream text-sm mb-4">Explore</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="#approach" class="hover:text-gold transition-colors">Approach</a></li>
+          <li><a href="#results" class="hover:text-gold transition-colors">Results</a></li>
+          <li><a href="#coaching" class="hover:text-gold transition-colors">What You Get</a></li>
+          <li><a href="#coaches" class="hover:text-gold transition-colors">Coaches</a></li>
+          <li><a href="#faq" class="hover:text-gold transition-colors">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-4">
+        <h4 class="font-display font-600 uppercase tracking-wider text-cream text-sm mb-4">Get in touch</h4>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="mailto:hello@shero360.com" class="inline-flex items-center gap-2 hover:text-gold transition-colors"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg> hello@shero360.com</a></li>
+          <li><a href="tel:+971589068816" class="inline-flex items-center gap-2 hover:text-gold transition-colors"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg> +971 58 906 8816</a></li>
+          <li class="inline-flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Dubai, United Arab Emirates</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pt-7 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream/45">
+      <p>© 2026 SHERO360 PRIME. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-cream transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-cream transition-colors">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('hidden') === false;
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.add('hidden');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const faq = btn.closest('.faq');
+      const isOpen = faq.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Before / After sliders
+  document.querySelectorAll('[data-ba]').forEach(ba => {
+    const after = ba.querySelector('.ba-after');
+    const handle = ba.querySelector('.ba-handle');
+    let dragging = false;
+    const setPos = (clientX) => {
+      const r = ba.getBoundingClientRect();
+      let p = ((clientX - r.left) / r.width) * 100;
+      p = Math.max(2, Math.min(98, p));
+      after.style.clipPath = `inset(0 0 0 ${p}%)`;
+      handle.style.left = p + '%';
+    };
+    const start = (e) => { dragging = true; setPos((e.touches ? e.touches[0] : e).clientX); };
+    const move  = (e) => { if (!dragging) return; setPos((e.touches ? e.touches[0] : e).clientX); };
+    const end   = () => { dragging = false; };
+    ba.addEventListener('mousedown', start);
+    ba.addEventListener('touchstart', start, { passive: true });
+    window.addEventListener('mousemove', move);
+    window.addEventListener('touchmove', move, { passive: true });
+    window.addEventListener('mouseup', end);
+    window.addEventListener('touchend', end);
+  });
+</script>
+</body>
+</html>
