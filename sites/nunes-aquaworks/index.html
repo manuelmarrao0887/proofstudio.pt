@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; img-src 'self' data: https://images.unsplash.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Nunes Aquaworks — Manutenção e equipamentos de piscina no Algarve</title>
+<meta name="description" content="Venda, instalação e manutenção de equipamentos de piscina no Algarve. Água cristalina o ano inteiro — de Portimão para todo o Algarve. Orçamento grátis.">
+<meta property="og:title" content="Nunes Aquaworks — Piscinas no Algarve">
+<meta property="og:description" content="Manutenção, tratamento de água e equipamentos de piscina. Orçamento grátis, resposta rápida, todo o Algarve.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="brand/icon-512.png">
+<meta name="theme-color" content="#0A3D5C">
+<link rel="icon" href="brand/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Nunes Aquaworks",
+  "description": "Venda, instalação e manutenção de equipamentos de piscina no Algarve.",
+  "telephone": "+351967358231",
+  "email": "geral@nunesaquaworks.pt",
+  "address": { "@type": "PostalAddress", "addressLocality": "Portimão", "addressRegion": "Algarve", "addressCountry": "PT" },
+  "openingHours": "Mo-Sa 09:00-18:00",
+  "areaServed": ["Portimão","Lagoa","Lagos","Silves","Monchique","Aljezur","Vila do Bispo","Albufeira","Loulé","Faro","São Brás de Alportel","Olhão","Tavira"]
+}
+</script>
+<style>
+  :root {
+    --marine: #0A3D5C;
+    --marine-deep: #07304A;
+    --aqua: #4EC3E0;
+    --aqua-deep: #0095B6;
+    --foam: #F3FAFC;
+    --sand: #F4B860;
+    --slate: #28333A;
+    --muted: #51626C;
+    --line: #E2EDF2;
+    --cta: #0095B6;
+    --cta-text: #FFFFFF;
+    --wa: #1FAF5E;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Inter", sans-serif; color: var(--slate); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: "Sora", sans-serif; color: var(--marine); text-wrap: balance; }
+  img { max-width: 100%; display: block; }
+  a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--aqua); outline-offset: 2px; }
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 28px; }
+
+  .btn { font-family: "Sora", sans-serif; font-weight: 600; font-size: 15.5px; padding: 14px 26px; border-radius: 12px; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: filter .15s, background .15s, color .15s; }
+  .btn:hover { filter: brightness(0.92); }
+  .btn-primary { background: var(--cta); color: var(--cta-text); }
+  .btn-wa { background: var(--wa); color: #fff; }
+  .btn-ghost { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.45); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); filter: none; }
+
+  /* ---------- header ---------- */
+  header.site {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    background: var(--marine); transition: box-shadow .2s;
+  }
+  header.site .hwrap { max-width: 1140px; margin: 0 auto; padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; gap: 20px; transition: padding .2s; }
+  header.site.scrolled { box-shadow: 0 4px 18px rgba(4,24,38,0.35); }
+  header.site.scrolled .hwrap { padding-top: 9px; padding-bottom: 9px; }
+  .logo-h { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+  .logo-h img { height: 40px; width: auto; transition: height .2s; }
+  header.site.scrolled .logo-h img { height: 33px; }
+  .logo-h .wm { font-family: "Sora", sans-serif; font-weight: 700; font-size: 19px; color: #fff; letter-spacing: .2px; }
+  header.site.scrolled .logo-h .wm { font-size: 17px; }
+  nav.main { display: flex; gap: 26px; }
+  nav.main a { font-size: 14.5px; font-weight: 500; color: rgba(255,255,255,0.85); text-decoration: none; }
+  nav.main a:hover { color: #fff; }
+  .h-actions { display: flex; align-items: center; gap: 14px; }
+  .lang { display: flex; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; overflow: hidden; }
+  .lang button { background: transparent; border: none; color: rgba(255,255,255,0.7); font-family: "Sora", sans-serif; font-weight: 600; font-size: 12px; padding: 6px 10px; cursor: pointer; }
+  .lang button.active { background: rgba(255,255,255,0.16); color: #fff; }
+  .h-cta { padding: 11px 20px; font-size: 14px; }
+  .menu-btn { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+  .menu-btn span { display: block; width: 22px; height: 2px; background: #fff; margin: 5px 0; border-radius: 2px; }
+
+  /* ---------- hero ---------- */
+  .hero { background: var(--marine); color: #fff; padding: 150px 0 0; position: relative; overflow: hidden; }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; border: 1.5px solid rgba(78,195,224,0.18); border-radius: 50%;
+  }
+  .hero::before { width: 480px; height: 480px; top: -160px; right: -120px; }
+  .hero::after { width: 300px; height: 300px; top: 40px; right: 60px; }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; position: relative; z-index: 1; padding-bottom: 72px; }
+  .hero .kicker { font-family: "Sora", sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--aqua); margin-bottom: 18px; }
+  .hero h1 { color: #fff; font-size: clamp(34px, 4.6vw, 54px); line-height: 1.12; font-weight: 700; }
+  .hero h1 .aq { color: var(--aqua); }
+  .hero .sub { margin-top: 20px; font-size: 17.5px; color: rgba(255,255,255,0.82); max-width: 50ch; }
+  .hero-ctas { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+  .badges { display: flex; gap: 10px; margin-top: 34px; flex-wrap: wrap; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; font-family: "Sora", sans-serif; font-size: 13px; font-weight: 600; padding: 8px 15px; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.92); }
+  .badge.sand { background: var(--sand); border-color: var(--sand); color: var(--marine); }
+  .badge svg { flex: none; }
+  .hero-media { position: relative; }
+  .img-frame { position: relative; border-radius: 20px; overflow: hidden; background: #0E4A6E; aspect-ratio: 4/3; box-shadow: 0 24px 60px rgba(3,20,32,0.45); }
+  .img-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .img-frame .ph { display: none; position: absolute; inset: 0; place-items: center; font-family: ui-monospace, monospace; font-size: 13px; color: rgba(255,255,255,0.75);
+    background: repeating-linear-gradient(45deg, #0E4A6E 0 14px, #0D4365 14px 28px); text-align: center; padding: 20px; }
+  .img-frame.img-missing .ph { display: grid; }
+  .hero-card { position: absolute; left: -22px; bottom: 26px; background: #fff; border-radius: 14px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(3,20,32,0.35); }
+  .hero-card .ic { width: 38px; height: 38px; border-radius: 10px; background: var(--foam); display: grid; place-items: center; color: var(--aqua-deep); }
+  .hero-card b { font-family: "Sora", sans-serif; font-size: 14px; color: var(--marine); display: block; line-height: 1.3; }
+  .hero-card small { font-size: 12px; color: var(--muted); }
+
+  .wave { display: block; width: 100%; height: 52px; }
+  .no-waves .wave { display: none; }
+
+  /* ---------- sections ---------- */
+  section.sec { padding: 84px 0; }
+  section.sec.foam { background: var(--foam); }
+  .sec-head { max-width: 640px; margin-bottom: 44px; }
+  .sec-head .kicker { font-family: "Sora", sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--aqua-deep); margin-bottom: 10px; }
+  .sec-head h2 { font-size: clamp(26px, 3.2vw, 36px); font-weight: 700; }
+  .sec-head p { margin-top: 12px; color: var(--muted); font-size: 16.5px; }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 28px; box-shadow: 0 2px 8px rgba(10,61,92,0.05); display: flex; flex-direction: column; gap: 10px; }
+  .card .ic { width: 46px; height: 46px; border-radius: 12px; background: var(--foam); display: grid; place-items: center; color: var(--aqua-deep); margin-bottom: 6px; }
+  .card h3 { font-size: 18px; font-weight: 600; }
+  .card p { font-size: 14.5px; color: var(--muted); flex: 1; }
+  .card a { font-family: "Sora", sans-serif; font-weight: 600; font-size: 14px; color: var(--aqua-deep); text-decoration: none; }
+  .card a:hover { text-decoration: underline; }
+
+  /* mid band */
+  .band { background: var(--marine); color: #fff; }
+  .band-inner { padding: 64px 0; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+  .band h2 { color: #fff; font-size: clamp(24px, 3vw, 32px); }
+  .band p { color: rgba(255,255,255,0.78); margin-top: 8px; max-width: 52ch; }
+  .band-ctas { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+
+  /* processo */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; counter-reset: step; }
+  .step { background: var(--foam); border: 1px solid var(--line); border-radius: 16px; padding: 26px 24px; position: relative; }
+  .step .n { font-family: "Sora", sans-serif; font-weight: 700; font-size: 15px; width: 36px; height: 36px; border-radius: 50%; background: var(--marine); color: var(--aqua); display: grid; place-items: center; margin-bottom: 16px; }
+  .step h3 { font-size: 16.5px; margin-bottom: 6px; }
+  .step p { font-size: 14px; color: var(--muted); }
+
+  /* marcas */
+  .brands { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+  .brand-chip { aspect-ratio: 5/2; border-radius: 12px; border: 1px dashed #B9CFDA; display: grid; place-items: center; font-family: ui-monospace, monospace; font-size: 11px; color: #7A919D;
+    background: repeating-linear-gradient(45deg, #fff 0 12px, #F3FAFC 12px 24px); }
+  .brands-note { margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic; }
+
+  /* zona */
+  .zona-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 52px; align-items: center; }
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+  .chip { font-family: "Sora", sans-serif; font-weight: 500; font-size: 13.5px; color: var(--marine); background: var(--foam); border: 1px solid var(--line); padding: 8px 15px; border-radius: 999px; }
+  .chip.hq { background: var(--marine); color: #fff; border-color: var(--marine); }
+  .zona-note { margin-top: 20px; font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+  .zona-media .img-frame { aspect-ratio: 5/4; box-shadow: 0 16px 44px rgba(10,61,92,0.18); }
+  .zona-media .ph { color: #51626C; background: repeating-linear-gradient(45deg, #EAF4F8 0 14px, #F3FAFC 14px 28px); }
+
+  /* sobre */
+  .sobre-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 52px; align-items: center; }
+  .sobre-media .img-frame { aspect-ratio: 4/3; box-shadow: 0 16px 44px rgba(10,61,92,0.16); }
+  .sobre-media .ph { color: #51626C; background: repeating-linear-gradient(45deg, #EAF4F8 0 14px, #F3FAFC 14px 28px); }
+  .ticks { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+  .ticks li { display: flex; gap: 14px; font-size: 15px; }
+  .ticks .tk { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--aqua); color: var(--marine); display: grid; place-items: center; margin-top: 2px; }
+  .ticks b { font-family: "Sora", sans-serif; color: var(--marine); }
+
+  /* testemunhos */
+  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .quote { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 28px; box-shadow: 0 2px 8px rgba(10,61,92,0.05); }
+  .quote .stars { color: var(--sand); font-size: 15px; letter-spacing: 2px; margin-bottom: 12px; }
+  .quote p { font-size: 14.5px; color: var(--slate); }
+  .quote footer { margin-top: 16px; font-family: "Sora", sans-serif; font-weight: 600; font-size: 13.5px; color: var(--marine); }
+  .quote footer small { display: block; font-family: "Inter", sans-serif; font-weight: 400; color: var(--muted); }
+  .quotes-note { margin-top: 18px; font-size: 12.5px; color: #8AA0AC; font-style: italic; }
+
+  /* faq */
+  .faq { max-width: 760px; }
+  .faq details { background: #fff; border: 1px solid var(--line); border-radius: 14px; margin-bottom: 12px; overflow: hidden; }
+  .faq summary { cursor: pointer; list-style: none; padding: 18px 22px; font-family: "Sora", sans-serif; font-weight: 600; font-size: 15.5px; color: var(--marine); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; font-size: 20px; color: var(--aqua-deep); flex: none; }
+  .faq details[open] summary::after { content: "–"; }
+  .faq .a { padding: 0 22px 18px; font-size: 14.5px; color: var(--muted); }
+
+  /* contacto */
+  .contact { background: var(--marine); color: #fff; }
+  .contact .sec-head h2, .contact h3 { color: #fff; }
+  .contact .sec-head p { color: rgba(255,255,255,0.78); }
+  .contact .sec-head .kicker { color: var(--aqua); }
+  .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 52px; align-items: start; }
+  .channels { display: flex; flex-direction: column; gap: 14px; }
+  .channel { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.13); border-radius: 14px; padding: 16px 20px; text-decoration: none; color: #fff; transition: background .15s; }
+  .channel:hover { background: rgba(255,255,255,0.12); }
+  .channel .ic { width: 40px; height: 40px; border-radius: 10px; background: rgba(78,195,224,0.18); color: var(--aqua); display: grid; place-items: center; flex: none; }
+  .channel b { font-family: "Sora", sans-serif; font-size: 15px; display: block; }
+  .channel small { font-size: 12.5px; color: rgba(255,255,255,0.65); }
+  .form-card { background: #fff; border-radius: 18px; padding: 32px; color: var(--slate); box-shadow: 0 18px 50px rgba(3,20,32,0.35); }
+  .form-card h3 { font-size: 19px; margin-bottom: 18px; color: var(--marine); }
+  .fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .fgrid .full { grid-column: 1 / -1; }
+  .form-card label { font-family: "Sora", sans-serif; font-size: 12.5px; font-weight: 600; color: var(--marine); display: block; margin-bottom: 6px; }
+  .form-card input, .form-card textarea {
+    width: 100%; font-family: "Inter", sans-serif; font-size: 14.5px; color: var(--slate);
+    border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--foam); outline: none; transition: border-color .15s;
+  }
+  .form-card input:focus, .form-card textarea:focus { border-color: var(--aqua-deep); }
+  .form-card textarea { resize: vertical; min-height: 96px; }
+  .form-note { font-size: 12.5px; color: var(--muted); margin-top: 12px; }
+
+  /* footer */
+  footer.site { background: var(--marine-deep); color: rgba(255,255,255,0.75); padding: 64px 0 32px; }
+  .f-grid { display: grid; grid-template-columns: 1.2fr 0.8fr 1fr; gap: 44px; }
+  .f-grid img { height: 92px; width: auto; }
+  .f-tag { margin-top: 18px; font-size: 14px; max-width: 36ch; }
+  footer.site h3 { color: #fff; font-size: 14.5px; margin-bottom: 16px; }
+  .f-links { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .f-links a { color: rgba(255,255,255,0.72); text-decoration: none; font-size: 14px; }
+  .f-links a:hover { color: var(--aqua); }
+  .f-contacts { list-style: none; display: flex; flex-direction: column; gap: 11px; font-size: 14px; }
+  .f-contacts li { display: flex; align-items: center; gap: 10px; }
+  .f-contacts a { color: rgba(255,255,255,0.85); text-decoration: none; }
+  .f-bottom { border-top: 1px solid rgba(255,255,255,0.12); margin-top: 44px; padding-top: 22px; font-size: 12.5px; color: rgba(255,255,255,0.5); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+  /* FAB */
+  .fab {
+    position: fixed; right: 22px; bottom: 22px; z-index: 60;
+    width: 58px; height: 58px; border-radius: 50%; background: var(--wa);
+    display: grid; place-items: center; color: #fff;
+    box-shadow: 0 8px 24px rgba(12,68,38,0.4); transition: transform .15s;
+  }
+  .fab:hover { transform: scale(1.07); }
+
+  @media (max-width: 980px) {
+    nav.main { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--marine-deep); flex-direction: column; gap: 0; padding: 10px 0; }
+    nav.main.open { display: flex; }
+    nav.main a { padding: 13px 28px; }
+    .menu-btn { display: block; }
+    .h-cta { display: none; }
+    .hero-grid, .zona-grid, .sobre-grid, .contact-grid { grid-template-columns: 1fr; }
+    .cards, .quotes { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .brands { grid-template-columns: repeat(3, 1fr); }
+    .f-grid { grid-template-columns: 1fr; }
+    .hero { padding-top: 120px; }
+    .hero-card { left: 10px; }
+    .sobre-grid .sobre-media { order: -1; }
+  }
+  @media (max-width: 560px) {
+    .logo-h .wm { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site" id="topo">
+  <div class="hwrap">
+    <a class="logo-h" href="#topo" aria-label="Nunes Aquaworks — início">
+      <img src="brand/logo-mark.png" alt="" width="40" height="40">
+      <span class="wm">Nunes Aquaworks</span>
+    </a>
+    <nav class="main" id="nav">
+      <a href="#servicos" data-en="Services">Serviços</a>
+      <a href="#processo" data-en="How we work">Como trabalhamos</a>
+      <a href="#zona" data-en="Coverage">Zona</a>
+      <a href="#sobre" data-en="About">Sobre</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="h-actions">
+      <div class="lang" role="group" aria-label="Idioma">
+        <button type="button" data-lang="pt" class="active">PT</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <a class="btn btn-primary h-cta" href="#contacto" data-en="Get a quote">Pedir orçamento</a>
+      <button type="button" class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="kicker" data-en="Pools · Algarve">Piscinas · Algarve</div>
+      <h1><span data-en="Crystal-clear water,">Água cristalina,</span> <span class="aq" data-en="even in January.">mesmo em janeiro.</span></h1>
+      <p class="sub" data-en="We install and service pumps, filters, salt chlorinators, heat pumps and pool covers. Based in Portimão, working across the Algarve.">Instalamos e mantemos bombas, filtração, cloradores salinos, bombas de calor e coberturas. Estamos em Portimão e trabalhamos em todo o Algarve.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#contacto" data-en="Get a free quote">Pedir orçamento grátis</a>
+        <a class="btn btn-ghost" href="https://wa.me/351967358231?text=Ol%C3%A1%2C%20gostava%20de%20um%20or%C3%A7amento%20para%20a%20minha%20piscina." target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.2 1.3z"></path></svg>
+          WhatsApp
+        </a>
+      </div>
+      <div class="badges">
+        <span class="badge sand" data-en="★ Free quote">★ Orçamento grátis</span>
+        <span class="badge" data-en="Reply within [CONFIRMAR: 24 h]">Resposta em [CONFIRMAR: 24 h]</span>
+        <span class="badge" data-en="All over the Algarve">Todo o Algarve</span>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=1400&auto=format&fit=crop" alt="Piscina de água cristalina com luz mediterrânica no Algarve" loading="eager" referrerpolicy="no-referrer">
+        <div class="ph">[ foto: piscina cristalina, luz mediterrânica ]</div>
+      </div>
+      <div class="hero-card">
+        <div class="ic">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.7c3.3 4 6 7.2 6 10.3a6 6 0 0 1-12 0c0-3.1 2.7-6.3 6-10.3z"></path></svg>
+        </div>
+        <div>
+          <b data-en="Weekly and fortnightly plans">Planos semanais e quinzenais</b>
+          <small data-en="maintenance from Portimão">manutenção desde Portimão</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 56" preserveAspectRatio="none" aria-hidden="true"><path fill="#F3FAFC" d="M0 28 Q60 6 120 28 T240 28 T360 28 T480 28 T600 28 T720 28 T840 28 T960 28 T1080 28 T1200 28 T1320 28 T1440 28 L1440 56 L0 56 Z"></path></svg>
+</section>
+
+<!-- ===================== SERVIÇOS ===================== -->
+<section class="sec foam" id="servicos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-en="Services">Serviços</div>
+      <h2 data-en="What we do">O que fazemos</h2>
+      <p data-en="Equipment and water, handled by the same team. One contact is enough.">O equipamento e a água, tratados pela mesma equipa. Um contacto chega.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M16 3v4M8 3v4m1 8 2 2 4-4"></path></svg></div>
+        <h3 data-en="Regular maintenance">Manutenção regular</h3>
+        <p data-en="Weekly or fortnightly visits: cleaning, equipment check and water adjustment.">Visitas semanais ou quinzenais: limpeza, verificação do equipamento e acerto da água.</p>
+        <a href="#contacto" data-en="Get a quote →">Pedir orçamento →</a>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.7c3.3 4 6 7.2 6 10.3a6 6 0 0 1-12 0c0-3.1 2.7-6.3 6-10.3z"></path></svg></div>
+        <h3 data-en="Water treatment">Tratamento de água</h3>
+        <p data-en="We measure pH, chlorine and salt, and correct them on the same visit.">Medimos pH, cloro e sal, e corrigimos na própria visita.</p>
+        <a href="#contacto" data-en="Get a quote →">Pedir orçamento →</a>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6 7v5l-4 3v-8L4 5z"></path></svg></div>
+        <h3 data-en="Pumps & filtration">Bombas e filtração</h3>
+        <p data-en="We install and repair circulation pumps and sand or glass filters.">Instalamos e reparamos bombas de circulação e filtros de areia ou vidro.</p>
+        <a href="#contacto" data-en="Get a quote →">Pedir orçamento →</a>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"></path></svg></div>
+        <h3 data-en="Heating">Aquecimento</h3>
+        <p data-en="Heat pumps and automatic covers. More pool months per year.">Bombas de calor e coberturas automáticas. Mais meses de piscina por ano.</p>
+        <a href="#contacto" data-en="Get a quote →">Pedir orçamento →</a>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"></path><path d="M3.3 8.3 12 13l8.7-4.7M12 13v9"></path></svg></div>
+        <h3 data-en="Equipment sales">Venda de equipamentos</h3>
+        <p data-en="Pumps, salt chlorinators, heat pumps and covers from [CONFIRMAR: marcas]. We tell you what is worth buying.">Bombas, cloradores salinos, bombas de calor e coberturas de [CONFIRMAR: marcas]. Dizemos-lhe o que vale a pena comprar.</p>
+        <a href="#contacto" data-en="Get a quote →">Pedir orçamento →</a>
+      </div>
+      <div class="card">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg></div>
+        <h3 data-en="Installation">Instalação</h3>
+        <p data-en="Installation with [CONFIRMAR: prazo de garantia] warranty and support after the job.">Instalação com garantia de [CONFIRMAR: prazo de garantia] e assistência depois da obra.</p>
+        <a href="#contacto" data-en="Get a quote →">Pedir orçamento →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BANDA CTA ===================== -->
+<section class="band">
+  <div class="wrap band-inner">
+    <div>
+      <h2 data-en="Need help with your pool?">Precisa de ajuda com a sua piscina?</h2>
+      <p data-en="Tell us what you need. The quote is free and we reply within [CONFIRMAR: prazo de resposta].">Diga-nos o que precisa. O orçamento é grátis e respondemos em [CONFIRMAR: prazo de resposta].</p>
+    </div>
+    <div class="band-ctas">
+      <a class="btn btn-primary" href="#contacto" data-en="Get a quote">Pedir orçamento</a>
+      <a class="btn btn-wa" href="https://wa.me/351967358231?text=Ol%C3%A1%2C%20gostava%20de%20um%20or%C3%A7amento%20para%20a%20minha%20piscina." target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROCESSO ===================== -->
+<section class="sec" id="processo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-en="How we work">Como trabalhamos</div>
+      <h2 data-en="From first contact to the job">Do primeiro contacto à obra</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <h3 data-en="Contact">Contacto</h3>
+        <p data-en="Reach us by WhatsApp, phone or the form below.">Fale connosco por WhatsApp, telefone ou pelo formulário.</p>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <h3 data-en="Assessment">Diagnóstico</h3>
+        <p data-en="We visit your pool and check the equipment.">Vamos ao local ver a piscina e o equipamento.</p>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <h3 data-en="Proposal">Proposta</h3>
+        <p data-en="A written quote with fixed prices.">Orçamento por escrito, com preços fechados.</p>
+      </div>
+      <div class="step">
+        <div class="n">4</div>
+        <h3 data-en="We get to work">Mãos à obra</h3>
+        <p data-en="We install or take over the maintenance. And we stay reachable.">Instalamos ou assumimos a manutenção. E ficamos contactáveis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MARCAS ===================== -->
+<section class="sec foam" id="marcas">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-en="Equipment">Equipamentos</div>
+      <h2 data-en="The brands we install">As marcas que instalamos</h2>
+    </div>
+    <div class="brands">
+      <div class="brand-chip">[ logo marca 1 ]</div>
+      <div class="brand-chip">[ logo marca 2 ]</div>
+      <div class="brand-chip">[ logo marca 3 ]</div>
+      <div class="brand-chip">[ logo marca 4 ]</div>
+      <div class="brand-chip">[ logo marca 5 ]</div>
+      <div class="brand-chip">[ logo marca 6 ]</div>
+    </div>
+    <p class="brands-note" data-en="[CONFIRMAR: marcas representadas e logótipos]">[CONFIRMAR: marcas representadas e logótipos]</p>
+  </div>
+</section>
+
+<!-- ===================== ZONA ===================== -->
+<section class="sec" id="zona">
+  <div class="wrap zona-grid">
+    <div>
+      <div class="sec-head" style="margin-bottom: 0;">
+        <div class="kicker" data-en="Coverage area">Zona de atuação</div>
+        <h2 data-en="We serve the whole Algarve">Servimos todo o Algarve</h2>
+        <p data-en="Based in Portimão, we travel within a 100 km radius, from Cape St. Vincent to Tavira.">Estamos em Portimão e deslocamo-nos num raio de 100 km, do Cabo de São Vicente a Tavira.</p>
+      </div>
+      <div class="chips">
+        <span class="chip hq">Portimão ★</span>
+        <span class="chip">Lagoa</span>
+        <span class="chip">Lagos</span>
+        <span class="chip">Silves</span>
+        <span class="chip">Monchique</span>
+        <span class="chip">Aljezur</span>
+        <span class="chip">Vila do Bispo</span>
+        <span class="chip">Albufeira</span>
+        <span class="chip">Loulé</span>
+        <span class="chip">Faro</span>
+        <span class="chip">São Brás de Alportel</span>
+        <span class="chip">Olhão</span>
+        <span class="chip">Tavira</span>
+      </div>
+      <p class="zona-note">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0095B6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span data-en="Outside these areas? Ask. It depends on the job.">Fora destas zonas? Pergunte. Depende do trabalho.</span>
+      </p>
+    </div>
+    <div class="zona-media">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1200&auto=format&fit=crop" alt="Costa do Algarve com mar turquesa" loading="lazy" referrerpolicy="no-referrer">
+        <div class="ph">[ foto: costa do Algarve / mapa da zona servida ]</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOBRE ===================== -->
+<section class="sec foam" id="sobre">
+  <div class="wrap sobre-grid">
+    <div class="sobre-media">
+      <div class="img-frame">
+        <img src="https://images.unsplash.com/photo-1572331165267-854da2b10ccc?q=80&w=1200&auto=format&fit=crop" alt="Piscina limpa e tratada" loading="lazy" referrerpolicy="no-referrer">
+        <div class="ph">[ foto real da equipa / trabalho concluído ]</div>
+      </div>
+    </div>
+    <div>
+      <div class="sec-head" style="margin-bottom: 0;">
+        <div class="kicker" data-en="About us">Sobre nós</div>
+        <h2 data-en="Why Nunes Aquaworks?">Porquê a Nunes Aquaworks?</h2>
+        <p data-en="We install and service pool equipment in the Algarve [CONFIRMAR: desde quando]. The person who answers the phone is the one who shows up at your gate.">Instalamos e mantemos equipamentos de piscina no Algarve [CONFIRMAR: desde quando]. Quem lhe atende o telefone é quem aparece no portão.</p>
+      </div>
+      <ul class="ticks">
+        <li>
+          <span class="tk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg></span>
+          <span><b data-en="Local: ">Proximidade: </b><span data-en="from Portimão, we are under an hour from most of the Algarve.">de Portimão, estamos a menos de uma hora da maioria do Algarve.</span></span>
+        </li>
+        <li>
+          <span class="tk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg></span>
+          <span><b data-en="Technical skill: ">Competência técnica: </b><span data-en="we size pumps and filters for your pool, not for the receipt.">dimensionamos bombas e filtros para a sua piscina, não para o talão de venda.</span></span>
+        </li>
+        <li>
+          <span class="tk"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"></path></svg></span>
+          <span><b data-en="Trust: ">Confiança: </b><span data-en="when a repair beats a replacement, that is what we tell you.">quando reparar compensa mais do que substituir, é isso que lhe dizemos.</span></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTEMUNHOS ===================== -->
+<section class="sec" id="testemunhos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-en="Testimonials">Testemunhos</div>
+      <h2 data-en="What clients say">O que dizem os clientes</h2>
+    </div>
+    <div class="quotes">
+      <div class="quote">
+        <div class="stars" aria-label="5 de 5 estrelas">★★★★★</div>
+        <p data-en="“Since the Aquaworks team took over our pool, I never have to think about it. Spotless water all year.”">«Desde que a equipa da Aquaworks trata da nossa piscina, nunca mais tive de pensar nela. Água impecável todo o ano.»</p>
+        <footer>Carla M. <small>Ferragudo</small></footer>
+      </div>
+      <div class="quote">
+        <div class="stars" aria-label="5 de 5 estrelas">★★★★★</div>
+        <p data-en="“Quick, professional and always available on WhatsApp. They installed our heat pump in two days.”">«Rápidos, profissionais e sempre disponíveis no WhatsApp. Instalaram a nossa bomba de calor em dois dias.»</p>
+        <footer>John &amp; Susan P. <small>Carvoeiro</small></footer>
+      </div>
+      <div class="quote">
+        <div class="stars" aria-label="5 de 5 estrelas">★★★★★</div>
+        <p data-en="“Clear quote, tidy work, and the pool looks brand new. Highly recommended.”">«Orçamento claro, trabalho limpo e a piscina ficou como nova. Recomendo.»</p>
+        <footer>Ricardo S. <small>Alvor</small></footer>
+      </div>
+    </div>
+    <p class="quotes-note" data-en="* Sample testimonials — to be replaced with real client reviews.">* Testemunhos de exemplo — serão substituídos por avaliações reais de clientes.</p>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section class="sec foam" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">FAQ</div>
+      <h2 data-en="Frequently asked questions">Perguntas frequentes</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary data-en="How often should my pool be serviced?">Com que frequência devo fazer manutenção à piscina?</summary>
+        <div class="a" data-en="Weekly in summer. In winter, fortnightly is usually enough. The plan depends on the size of the pool and how much it is used.">No verão, semanal. No inverno, quinzenal costuma chegar. O plano depende do tamanho da piscina e do uso que lhe dá.</div>
+      </details>
+      <details>
+        <summary data-en="How much does regular maintenance cost?">Quanto custa a manutenção regular?</summary>
+        <div class="a" data-en="It depends on the size and condition of the pool. The visit and the quote are free. A typical monthly plan costs [CONFIRMAR: intervalo de preços].">Depende do tamanho e do estado da piscina. A visita e o orçamento são grátis. Um plano mensal típico fica em [CONFIRMAR: intervalo de preços].</div>
+      </details>
+      <details>
+        <summary data-en="Do you offer annual contracts?">Fazem contratos anuais?</summary>
+        <div class="a" data-en="Yes. Monthly and annual plans, with regular visits and priority on repairs.">Sim. Planos mensais e anuais, com visitas regulares e prioridade nas reparações.</div>
+      </details>
+      <details>
+        <summary data-en="Which areas do you cover?">Que zonas servem?</summary>
+        <div class="a" data-en="The whole Algarve within about 100 km of Portimão, from Sagres to Tavira.">Todo o Algarve num raio de cerca de 100 km de Portimão, de Sagres a Tavira.</div>
+      </details>
+      <details>
+        <summary data-en="Do you speak English?">Falam inglês?</summary>
+        <div class="a" data-en="Yes. A good part of our clients are British, Dutch and German. We work in English [CONFIRMAR: outros idiomas].">Sim. Boa parte dos nossos clientes são britânicos, holandeses e alemães. Atendemos em inglês [CONFIRMAR: outros idiomas].</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACTO ===================== -->
+<section class="sec contact" id="contacto">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-en="Contact">Contacto</div>
+      <h2 data-en="Get your free quote">Peça o seu orçamento grátis</h2>
+      <p data-en="WhatsApp is the fastest channel. But use whichever you prefer.">O WhatsApp é o canal mais rápido. Mas use o que preferir.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="channels">
+        <a class="channel" href="https://wa.me/351967358231?text=Ol%C3%A1%2C%20gostava%20de%20um%20or%C3%A7amento%20para%20a%20minha%20piscina." target="_blank" rel="noopener noreferrer">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.2 1.3z"></path></svg></span>
+          <span><b>WhatsApp</b><small>+351 967 358 231 · <span data-en="pre-filled message">mensagem pré-preenchida</span></small></span>
+        </a>
+        <a class="channel" href="tel:+351967358231">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+          <span><b data-en="Call us">Ligue-nos</b><small>+351 967 358 231</small></span>
+        </a>
+        <a class="channel" href="mailto:geral@nunesaquaworks.pt">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg></span>
+          <span><b>Email</b><small>geral@nunesaquaworks.pt</small></span>
+        </a>
+        <div class="channel" style="cursor: default;">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></span>
+          <span><b data-en="Hours">Horário</b><small data-en="Mon–Sat · 9am–6pm">Seg–Sáb · 9h–18h</small></span>
+        </div>
+      </div>
+      <div class="form-card">
+        <h3 data-en="Send your request">Envie o seu pedido</h3>
+        <form id="quoteForm" class="fgrid" novalidate>
+          <div>
+            <label for="f-nome" data-en="Name">Nome</label>
+            <input id="f-nome" name="nome" required autocomplete="name" maxlength="80" placeholder="O seu nome" data-en-ph="Your name">
+          </div>
+          <div>
+            <label for="f-contacto" data-en="Phone or email">Telefone ou email</label>
+            <input id="f-contacto" name="contacto" required autocomplete="tel" maxlength="80" placeholder="Para lhe respondermos" data-en-ph="So we can reply">
+          </div>
+          <div class="full">
+            <label for="f-localidade" data-en="Town">Localidade</label>
+            <input id="f-localidade" name="localidade" maxlength="80" placeholder="Ex.: Portimão, Lagos…" data-en-ph="E.g. Portimão, Lagos…">
+          </div>
+          <div class="full">
+            <label for="f-msg" data-en="Message">Mensagem</label>
+            <textarea id="f-msg" name="mensagem" maxlength="1000" placeholder="Conte-nos o que precisa (manutenção, avaria, equipamento…)" data-en-ph="Tell us what you need (maintenance, repair, equipment…)"></textarea>
+          </div>
+          <div class="full">
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-en="Send via WhatsApp">Enviar por WhatsApp</button>
+            <p class="form-note" data-en="Sending opens WhatsApp with your message pre-filled. No data is stored.">Ao enviar, abre o WhatsApp com a mensagem pré-preenchida. Não guardamos dados.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site">
+  <div class="wrap">
+    <div class="f-grid">
+      <div>
+        <img src="brand/logo.png" alt="Nunes Aquaworks" width="100" height="91">
+        <p class="f-tag" data-en="Pool equipment installation and maintenance across the Algarve.">Instalação e manutenção de equipamentos de piscina em todo o Algarve.</p>
+      </div>
+      <div>
+        <h3 data-en="Sections">Secções</h3>
+        <ul class="f-links">
+          <li><a href="#servicos" data-en="Services">Serviços</a></li>
+          <li><a href="#processo" data-en="How we work">Como trabalhamos</a></li>
+          <li><a href="#zona" data-en="Coverage">Zona de atuação</a></li>
+          <li><a href="#sobre" data-en="About">Sobre</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contacto" data-en="Contact">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 data-en="Contacts">Contactos</h3>
+        <ul class="f-contacts">
+          <li><a href="tel:+351967358231">+351 967 358 231</a></li>
+          <li><a href="mailto:geral@nunesaquaworks.pt">geral@nunesaquaworks.pt</a></li>
+          <li><span data-en="Portimão · Algarve · Portugal">Portimão · Algarve · Portugal</span></li>
+          <li><span data-en="Mon–Sat · 9am–6pm">Seg–Sáb · 9h–18h</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© <span id="year">2026</span> Nunes Aquaworks · Portimão, Algarve</span>
+      <span data-en="VAT no. and address to be added">NIF e morada — a preencher</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FAB WhatsApp -->
+<a class="fab" href="https://wa.me/351967358231?text=Ol%C3%A1%2C%20gostava%20de%20um%20or%C3%A7amento%20para%20a%20minha%20piscina." target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14.2c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c0 .2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.5.1.7-.1l.8-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.2 1.3z"></path></svg>
+</a>
+
+<script src="app.js" defer></script>
+</body>
+</html>
